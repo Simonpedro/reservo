@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi plan · Reservo</title>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .plan-hero {
+      position: relative;
+      min-height: 186px;
+      margin: 13px 0 15px;
+      padding: 21px 148px 18px 20px;
+      border-radius: 38px;
+      background: var(--navy);
+      color: var(--white);
+      overflow: visible;
+    }
+    .plan-hero h2 { font-size: 29px; line-height: .95; font-weight: 900; letter-spacing: -.05em; }
+    .plan-hero p { margin-top: 7px; font-size: 11px; line-height: 1.25; font-weight: 700; color: rgba(255,255,255,.76); }
+    .plan-hero .cutout { width: 165px; height: 218px; right: -5px; bottom: -9px; }
+    .slots { display: flex; gap: 5px; margin-top: 17px; }
+    .slot {
+      width: 32px; height: 58px; border-radius: 999px;
+      display: grid; place-items: end center; padding-bottom: 9px;
+      background: rgba(255,255,255,.14); color: rgba(255,255,255,.75);
+      font-size: 10px; font-weight: 900;
+    }
+    .slot.used { background: var(--celeste); color: var(--navy); }
+    .slot.left { background: var(--lime); color: var(--navy); height: 69px; margin-top: -11px; }
+    .slot svg { width: 14px; height: 14px; stroke-width: 3; }
+    .week-bookings {
+      border-radius: 32px;
+      padding: 7px 15px;
+      background: var(--wash-celeste);
+    }
+    .reset-card {
+      margin-top: 11px; min-height: 59px; border-radius: 999px;
+      padding: 9px 13px 9px 10px; display: flex; align-items: center; gap: 11px;
+      background: var(--wash-green);
+    }
+    .reset-date {
+      width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%;
+      display: grid; place-items: center; align-content: center;
+      background: var(--green); color: var(--navy); line-height: .9;
+    }
+    .reset-date strong { font-size: 17px; font-weight: 900; }
+    .reset-date span { font-size: 8px; font-weight: 900; text-transform: uppercase; }
+    .extras-link {
+      border: 0; width: 100%; margin-top: 10px; padding: 0 4px;
+      background: transparent; display: flex; align-items: center; justify-content: space-between;
+      font-weight: 900; font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: El plan se entiende como tres cápsulas físicas, no como un tablero de métricas.
+  OWN-WORLD: navy envolvente, verde/celeste Kinaf, radios de 999px y fotografía recortada en fuga.
+  STORY: Sofi entiende qué compró, qué usó, qué reservó y cuándo reinicia el ciclo.
+  FIRST VIEWPORT: título limpio, tarjeta-plan protagonista, reservas semanales y reinicio antes de la navegación.
+  FORM: dirección fijada por el brief PÍLDORA; seed de89fee4.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <main class="phone">
+    <div class="statusbar">
+      <span>9:41</span>
+      <span class="status-icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><path d="M1 9.5h1.7V7.4H1v2.1Zm4.1 0h1.7V5.3H5.1v4.2Zm4.1 0h1.7V3.1H9.2v6.4Zm4.1 0H15V1h-1.7v8.5Z" fill="currentColor"/></svg>
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 4.2A8.7 8.7 0 0 1 7 2a8.7 8.7 0 0 1 6 2.2M3.2 6.5A5.6 5.6 0 0 1 7 5.1c1.4 0 2.7.5 3.8 1.4M5.5 8.7A2.3 2.3 0 0 1 7 8.2c.6 0 1.1.2 1.5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x=".5" y=".5" width="18" height="10" rx="3" stroke="currentColor"/><rect x="2.5" y="2.5" width="13" height="6" rx="1.5" fill="currentColor"/><path d="M20 4v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </span>
+    </div>
+
+    <section class="app-shell">
+      <header class="topline">
+        <div>
+          <div class="hello">Tu semana en Kinaf</div>
+          <h1 class="screen-title">Mi plan</h1>
+        </div>
+        <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=120&amp;h=120&amp;q=85" alt="Sofía">
+      </header>
+
+      <article class="plan-hero">
+        <span class="pill lime">Activo</span>
+        <h2 style="margin-top:10px">Mix<br>3× semana</h2>
+        <p>2 Gym/Pilates<br>+ 1 Yoga</p>
+        <div class="slots" aria-label="Dos clases usadas, una disponible">
+          <div class="slot used"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/></svg></div>
+          <div class="slot used"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/></svg></div>
+          <div class="slot left">1</div>
+        </div>
+        <img class="cutout runner" src="https://freepngimg.com/thumb/fitness/144498-runner-man-fitness-free-hd-image.png" alt="">
+      </article>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h2 class="section-title">Tus reservas</h2>
+        <span class="pill navy">Esta semana</span>
+      </div>
+
+      <section class="week-bookings" aria-label="Reservas de esta semana">
+        <div class="list-row">
+          <div class="icon-bubble navy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3v3M17 3v3M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="3"/></svg>
+          </div>
+          <div class="row-copy">
+            <strong>Hoy · Pilates</strong>
+            <span>18:00 con Agus · Sala 1</span>
+          </div>
+          <span class="pill white">Confirmada</span>
+        </div>
+        <div class="list-row">
+          <div class="icon-bubble green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3v3M17 3v3M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="3"/></svg>
+          </div>
+          <div class="row-copy">
+            <strong>Viernes · Yoga</strong>
+            <span>19:00 con Mica · Terraza</span>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </section>
+
+      <section class="reset-card">
+        <div class="reset-date"><strong>1</strong><span>dic</span></div>
+        <div class="row-copy">
+          <strong>Tu mes reinicia el 1 de diciembre</strong>
+          <span>Se renuevan tus 3 clases semanales.</span>
+        </div>
+      </section>
+
+      <button class="extras-link">
+        <span>Ver extras · Rutina personalizada</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </section>
+
+    <div class="nav-wrap">
+      <nav class="bottom-nav" aria-label="Navegación principal">
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="18" cy="19" r="2"/></svg>
+          Reservar
+        </button>
+        <button class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V8l8-5 8 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 21v-7h6v7"/></svg>
+          Mi plan
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M8 15h3"/></svg>
+          Pagos
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          Perfil
+        </button>
+      </nav>
+    </div>
+    <div class="home-indicator"></div>
+  </main>
+</body>
+</html>

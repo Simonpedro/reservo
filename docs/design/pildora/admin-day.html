@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoy · Admin Reservo</title>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .admin-shell { padding-left: 16px; padding-right: 16px; }
+    .admin-top { margin-bottom: 7px; }
+    .today-band {
+      position: relative; min-height: 92px; padding: 15px 132px 14px 17px;
+      border-radius: 34px; background: var(--navy); color: var(--white); overflow: visible;
+    }
+    .today-band h1 { font-size: 28px; line-height: .96; font-weight: 900; letter-spacing: -.045em; }
+    .today-band p { margin-top: 6px; font-size: 10px; font-weight: 750; color: rgba(255,255,255,.72); }
+    .today-band .cutout { width: 139px; height: 139px; right: -2px; bottom: -4px; }
+    .review-cue {
+      min-height: 46px; margin: 10px 0 12px; padding: 6px 8px 6px 12px;
+      border-radius: 999px; display: flex; align-items: center; gap: 9px; background: var(--wash-green);
+    }
+    .review-cue strong { font-size: 12px; font-weight: 900; flex: 1; }
+    .review-cue button { border: 0; min-height: 34px; padding: 7px 12px; border-radius: 999px; background: var(--lime); font-size: 10px; font-weight: 900; }
+    .schedule-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px }
+    .simul-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .admin-class {
+      border-radius: 29px; padding: 13px; min-height: 197px; background: var(--wash-celeste);
+    }
+    .admin-class.green { background: var(--wash-green); }
+    .admin-class.blue { background: var(--wash-blue); }
+    .class-head { display:flex;align-items:flex-start;justify-content:space-between;gap:5px }
+    .class-time { font-size: 10px; font-weight: 900; color: rgba(0,26,77,.64); }
+    .admin-class h3 { font-size: 18px; line-height: 1; font-weight: 900; letter-spacing: -.035em; }
+    .capacity { font-size: 9px; font-weight: 900; white-space: nowrap; padding: 5px 7px; border-radius: 99px; background: var(--white); }
+    .attendees { margin-top: 9px; }
+    .attendee {
+      min-height: 34px; display:flex;align-items:center;gap:6px;
+      border-top: 1px solid rgba(0,26,77,.09);
+    }
+    .attendee:first-child { border-top: 0; }
+    .initial {
+      width: 23px; height: 23px; flex:0 0 auto; border-radius:50%; display:grid;place-items:center;
+      background: var(--white); font-size: 8px; font-weight: 900;
+    }
+    .attendee span { flex:1;min-width:0;font-size:9px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+    .absence {
+      width: 23px; height: 23px; padding:0; flex:0 0 auto; border:0; border-radius:50%;
+      display:grid;place-items:center;background:rgba(0,26,77,.07);
+    }
+    .absence svg { width: 12px; height: 12px; }
+    .later-class {
+      min-height: 112px; margin-top: 9px; display:grid;grid-template-columns:95px 1fr; gap: 10px;
+    }
+    .later-class .later-main { display:flex;flex-direction:column;justify-content:center; }
+    .face-stack { display:flex;margin-top:9px }
+    .face-stack span {
+      width:29px;height:29px;margin-left:-6px;border:2px solid rgba(255,255,255,.8);border-radius:50%;
+      display:grid;place-items:center;background:var(--white);font-size:8px;font-weight:900;
+    }
+    .face-stack span:first-child { margin-left:0 }
+    .admin-shell .nav-wrap { left: 16px; right: 16px; }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: Operar el día se siente como ordenar cápsulas vivas, no administrar una planilla reducida.
+  OWN-WORLD: navy, celeste y verde Kinaf; densidad alta dentro de radios plush, controles táctiles y foto en desborde.
+  STORY: La dueña ve simultaneidad, cupos, asistentes, ausencias y comprobantes pendientes en una pasada.
+  FIRST VIEWPORT: pulso del día, alerta de pagos, dos clases simultáneas con listas y el siguiente turno.
+  FORM: dirección fijada por el brief PÍLDORA; seed de89fee4.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <main class="phone">
+    <div class="statusbar">
+      <span>9:41</span>
+      <span class="status-icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><path d="M1 9.5h1.7V7.4H1v2.1Zm4.1 0h1.7V5.3H5.1v4.2Zm4.1 0h1.7V3.1H9.2v6.4Zm4.1 0H15V1h-1.7v8.5Z" fill="currentColor"/></svg>
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 4.2A8.7 8.7 0 0 1 7 2a8.7 8.7 0 0 1 6 2.2M3.2 6.5A5.6 5.6 0 0 1 7 5.1c1.4 0 2.7.5 3.8 1.4M5.5 8.7A2.3 2.3 0 0 1 7 8.2c.6 0 1.1.2 1.5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x=".5" y=".5" width="18" height="10" rx="3" stroke="currentColor"/><rect x="2.5" y="2.5" width="13" height="6" rx="1.5" fill="currentColor"/><path d="M20 4v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </span>
+    </div>
+
+    <section class="app-shell admin-shell">
+      <header class="topline admin-top">
+        <div class="greeting">
+          <div class="icon-bubble navy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m4 8 8-5 8 5v8l-8 5-8-5V8Z"/><path d="m8 10 4 2 4-2M12 12v5"/></svg>
+          </div>
+          <div>
+            <div class="hello">Kinaf · Admin</div>
+            <div class="person-name">Hola, Vale</div>
+          </div>
+        </div>
+        <button class="round-action" aria-label="Abrir configuración">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6 1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+        </button>
+      </header>
+
+      <article class="today-band">
+        <span class="pill lime">Mié 11</span>
+        <h1 style="margin-top:7px">Hoy se<br>mueve así</h1>
+        <p>Av. Ovidio Lagos 1144</p>
+        <img class="cutout yoga" src="https://thumbs.wbm.im/pw/medium/c6dee0d50acf2d9fa6c7193fe419f68c.png" alt="">
+      </article>
+
+      <div class="review-cue">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M8 15h3"/></svg>
+        <strong>3 comprobantes en revisión</strong>
+        <button>Revisar</button>
+      </div>
+
+      <div class="schedule-head">
+        <h2 class="section-title">18:00 · simultáneas</h2>
+        <span class="pill celeste">Ahora</span>
+      </div>
+
+      <div class="simul-row">
+        <article class="admin-class">
+          <div class="class-head">
+            <div><div class="class-time">SALA 1</div><h3>Pilates</h3></div>
+            <span class="capacity">5/6</span>
+          </div>
+          <div class="attendees">
+            <div class="attendee"><span class="initial">LM</span><span>Lu Martínez</span><button class="absence" aria-label="Marcar ausencia de Lu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">JP</span><span>Juan Ponce</span><button class="absence" aria-label="Marcar ausencia de Juan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">SO</span><span>Sofi O.</span><button class="absence" aria-label="Marcar ausencia de Sofía"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">+2</span><span>Ver todas</span></div>
+          </div>
+        </article>
+
+        <article class="admin-class green">
+          <div class="class-head">
+            <div><div class="class-time">PATIO</div><h3>Funcional</h3></div>
+            <span class="capacity">8/8</span>
+          </div>
+          <div class="attendees">
+            <div class="attendee"><span class="initial">MR</span><span>Mati Ruiz</span><button class="absence" aria-label="Marcar ausencia de Matías"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">CV</span><span>Carla Vico</span><button class="absence" aria-label="Marcar ausencia de Carla"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">AG</span><span>Ana Gómez</span><button class="absence" aria-label="Marcar ausencia de Ana"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="m7 17 10-10"/></svg></button></div>
+            <div class="attendee"><span class="initial">+5</span><span>Ver todas</span></div>
+          </div>
+        </article>
+      </div>
+
+      <article class="admin-class blue later-class">
+        <div>
+          <div class="class-time">19:00 · TERRAZA</div>
+          <h3 style="margin-top:3px">Yoga</h3>
+          <span class="pill white" style="margin-top:9px">6/10 cupos</span>
+        </div>
+        <div class="later-main">
+          <div class="meta">Próxima clase · Mica Sosa</div>
+          <div class="face-stack" aria-label="Seis personas anotadas">
+            <span>AM</span><span>FP</span><span>JS</span><span>NA</span><span>+2</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="nav-wrap">
+      <nav class="bottom-nav" aria-label="Navegación de administración">
+        <button class="nav-item admin-active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="18" cy="19" r="2"/></svg>
+          Hoy
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 20a6 6 0 0 1 12 0M14 17a5 5 0 0 1 7 3"/></svg>
+          Personas
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M8 15h3"/></svg>
+          Pagos
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3v3M17 3v3M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="3"/></svg>
+          Agenda
+        </button>
+      </nav>
+    </div>
+    <div class="home-indicator"></div>
+  </main>
+</body>
+</html>
