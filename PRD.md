@@ -23,9 +23,12 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 - Blanco para texto sobre azul.
 - Logo: tres chevrons apilados (verde, celeste y azul).
 
+**Identidad visual:** la dirección elegida es **Píldora**. El sistema de diseño (tokens shadcn, tipografía, radios, componentes, contraste y voz) está en [`DESIGN.md`](./DESIGN.md). Los mockups de referencia están en [`docs/design/pildora/`](./docs/design/pildora/). La navegación del cliente se propone en [`docs/design/navegacion-cliente.md`](./docs/design/navegacion-cliente.md).
+
 ## 1. Planes
-- Un plan se define por **clases por semana** (1x a 5x) y puede **mezclar actividades** (ej.: "2 Gym/Pilates + 1 Yoga", "1 Gym + 1 Pilates + 1 Yoga").
-- Actividades actuales: Gimnasio, Pilates, Yoga. Algunas se agrupan como intercambiables ("Gym/Pilates").
+- Un plan se define por **clases por semana** (1x a 5x) y puede **mezclar actividades** (ej.: "1 Gym + 1 Pilates + 1 Yoga").
+- Actividades actuales: Gimnasio, Pilates, Yoga. Cada una es una actividad distinta; no hay clases intercambiables entre actividades.
+- Un plan puede permitir elegir **cualquier actividad** (ej.: 3 clases por semana de las actividades que el cliente elija) o limitarse a **actividades específicas**. Lo define el admin (los dueños del negocio). Un plan de clases libres es más caro que uno con actividades específicas.
 - Cada plan tiene su **precio** configurable por el admin. Extras aparte (ej.: Rutina personalizada Gym $10.000).
 - **Renovación automática mensual.**
 - **Un plan activo por cliente.**
