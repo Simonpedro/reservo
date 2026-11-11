@@ -167,7 +167,7 @@ Fondo en wash (verde, celeste o azul), radio ~34px, título 22/900, meta de hora
 Siete columnas. Cada día es una píldora vertical (día en mayúsculas + número). El seleccionado se rellena de celeste sólido, texto navy, con una sombra celeste corta. Los demás, texto navy al ~62% o más, sin borde innecesario.
 
 ### Navegación inferior
-Cápsula flotante navy, con margen 20px a los lados y ~18px al piso, sombra `--shadow-nav`. Ítem activo: relleno lima, texto e ícono navy. Ítems inactivos: blanco al 63% sobre navy. Siempre con label visible (no solo ícono). En el cliente van **tres** destinos (ver [`docs/design/navegacion-cliente.md`](docs/design/navegacion-cliente.md)); el mockup de referencia tenía cuatro e incluía Perfil, que en producto vive en el avatar del header.
+Cápsula flotante navy, con margen 20px a los lados y ~18px al piso, sombra `--shadow-nav`. Ítem activo: relleno lima, texto e ícono navy. Ítems inactivos: blanco al 63% sobre navy. Siempre con label visible (no solo ícono). El mockup de referencia tenía cuatro ítems; qué destinos lleva la barra del cliente y qué se abre desde el avatar está en el PRD, sección 3.
 
 ### Botones
 - Primario por defecto: ancho completo, píldora, navy / blanco.
@@ -186,10 +186,10 @@ Siempre con la palabra, nunca solo color:
 | No pagado | `.pill.blue` | `--wash-blue` | Navy |
 
 ### Banner de plan / avisos en el portal
-Cápsula en wash verde o celeste, copy corto (“Te queda 1 de 3 clases”), sin exclamaciones de más. Los avisos del producto (límite de la semana, comprobante en revisión, clase de recuperación disponible) viven en estas capsulas, no en un centro de notificaciones.
+Cápsula en wash verde o celeste, copy corto (“Te queda 1 de 3 clases”), sin exclamaciones de más. Los avisos se presentan en estas cápsulas, en la pantalla donde aplican.
 
 ### Header
-Saludo en rioplatense + nombre en 18/900 + avatar circular. El avatar abre Perfil / cuenta. A la derecha, como máximo un botón icono secundario (por ejemplo ayuda), nunca un menú hamburguesa para secciones principales.
+Saludo en rioplatense + nombre en 18/900 + avatar circular. A la derecha, como máximo un botón icono secundario (por ejemplo ayuda), nunca un menú hamburguesa para secciones principales.
 
 ## 10. Voz y tono
 
@@ -211,7 +211,6 @@ No: “Usuario”, “su reserva ha sido confirmada”, “error inesperado”, 
 - Lienzo de diseño: 390×844. Después se adapta hacia arriba; no se parte de un sidebar de escritorio.
 - La bottom nav no se esconde detrás de un hamburger.
 - Profundidad: como máximo tres niveles desde la barra (gate de complejidad).
-- Al abrir la app, el cliente cae en **Reservar** (home).
 - El admin, cuando se diseñe, usa la misma gramática en el teléfono (el mockup `admin-day` es la referencia de densidad, no una excepción de estilo).
 
 ## 12. Hacer / no hacer
