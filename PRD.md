@@ -27,7 +27,7 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 
 ## 1. Planes
 - Un plan se define por **clases por semana** (1x a 5x) y puede **mezclar actividades** (ej.: "1 Gym + 1 Pilates + 1 Yoga").
-- Actividades actuales: Gimnasio, Pilates, Yoga. Cada una es una actividad distinta; no hay clases intercambiables entre actividades.
+- Actividades de Kinaf: Gimnasio, Pilates y Yoga. Kinesiología también existe en el centro; **ABIERTO:** si se modela como otra actividad. Cada una es una actividad distinta; no hay clases intercambiables entre actividades.
 - Un plan puede permitir elegir **cualquier actividad** (ej.: 3 clases por semana de las actividades que el cliente elija) o limitarse a **actividades específicas**. Lo define el admin (los dueños del negocio). Un plan de clases libres es más caro que uno con actividades específicas.
 - Cada plan tiene su **precio** configurable por el admin. Extras aparte (ej.: Rutina personalizada Gym $10.000).
 - **Renovación automática mensual.**
@@ -79,3 +79,4 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 1. Cuándo aplica un cambio de plan (inmediato con plan nuevo desde cero, o al próximo ciclo).
 2. Qué muestra el inicio del admin.
 3. Reserva del mes completo: atajo o flujo principal.
+4. Kinesiología: si se modela como otra actividad.
