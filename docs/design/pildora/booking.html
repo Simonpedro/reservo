@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservar · Reservo</title>
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    .booking-shell { padding-bottom: 156px; }
+    .booking-shell .class-card { min-height: 112px; padding-top: 14px; padding-bottom: 12px; }
+    .booking-shell .class-card h3 { font-size: 20px; }
+    .booking-shell .class-card .details { margin-top: 6px; }
+    .booking-shell .cutout { height: 150px; width: 154px; }
+    .booking-shell .class-card.chosen { box-shadow: inset 0 0 0 2px var(--celeste); }
+    .booking-nav .primary-button { margin-bottom: 8px; }
+    .booking-nav .bottom-nav { height: 64px; }
+    .tiny-check {
+      position: absolute; right: 13px; top: 10px; z-index: 7;
+      width: 25px; height: 25px; border-radius: 50%; background: var(--lime);
+      display: grid; place-items: center;
+    }
+    .tiny-check svg { width: 14px; height: 14px; }
+  </style>
+</head>
+<body>
+  <!--
+  THESIS: Píldora vuelve la agenda una fila de cápsulas amables; rechaza la grilla clínica.
+  OWN-WORLD: blanco, navy, verde y celeste Kinaf; radios XXL, iconos redondos y personas recortadas que desbordan.
+  STORY: Sofi ve su saldo semanal, elige día, compara cupos y reserva sin perder contexto.
+  FIRST VIEWPORT: saludo y saldo arriba, semana-píldora, tres clases fotográficas y CTA fijo sobre navegación flotante.
+  FORM: dirección fijada por el brief PÍLDORA; seed de89fee4.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+  -->
+  <main class="phone">
+    <div class="statusbar">
+      <span>9:41</span>
+      <span class="status-icons">
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" aria-hidden="true"><path d="M1 9.5h1.7V7.4H1v2.1Zm4.1 0h1.7V5.3H5.1v4.2Zm4.1 0h1.7V3.1H9.2v6.4Zm4.1 0H15V1h-1.7v8.5Z" fill="currentColor"/></svg>
+        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" aria-hidden="true"><path d="M1 4.2A8.7 8.7 0 0 1 7 2a8.7 8.7 0 0 1 6 2.2M3.2 6.5A5.6 5.6 0 0 1 7 5.1c1.4 0 2.7.5 3.8 1.4M5.5 8.7A2.3 2.3 0 0 1 7 8.2c.6 0 1.1.2 1.5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="22" height="11" viewBox="0 0 22 11" fill="none" aria-hidden="true"><rect x=".5" y=".5" width="18" height="10" rx="3" stroke="currentColor"/><rect x="2.5" y="2.5" width="13" height="6" rx="1.5" fill="currentColor"/><path d="M20 4v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </span>
+    </div>
+
+    <section class="app-shell booking-shell">
+      <header class="topline">
+        <div class="greeting">
+          <img class="avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=120&amp;h=120&amp;q=85" alt="Sofía">
+          <div>
+            <div class="hello">¡Buenas, Sofi!</div>
+            <div class="person-name">¿Movemos el cuerpo?</div>
+          </div>
+        </div>
+        <button class="round-action" aria-label="Abrir avisos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+        </button>
+      </header>
+
+      <div class="plan-banner">
+        <strong>Te queda 1 de 3 clases</strong>
+        <span>Esta semana · Plan Mix Activo</span>
+      </div>
+
+      <div class="week-strip" aria-label="Días de la semana">
+        <div class="day"><span>lun</span><strong>9</strong></div>
+        <div class="day"><span>mar</span><strong>10</strong></div>
+        <div class="day selected"><span>mié</span><strong>11</strong></div>
+        <div class="day"><span>jue</span><strong>12</strong></div>
+        <div class="day"><span>vie</span><strong>13</strong></div>
+        <div class="day"><span>sáb</span><strong>14</strong></div>
+        <div class="day"><span>dom</span><strong>15</strong></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <h1 class="section-title">Clases del miércoles</h1>
+        <span class="pill celeste">3 opciones</span>
+      </div>
+
+      <div class="class-stack">
+        <article class="class-card celeste chosen">
+          <h3>Pilates</h3>
+          <div class="details">
+            <div class="detail-line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              18:00 · Agus
+            </div>
+            <div class="detail-line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              2 lugares libres
+            </div>
+          </div>
+          <img class="cutout" src="https://thumbs.wbm.im/pw/medium/71e6a7a791d662a7af315fb2eaba2094.png" alt="">
+        </article>
+
+        <article class="class-card green">
+          <span class="tiny-check" aria-label="Ya reservada">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 4 4L19 6"/></svg>
+          </span>
+          <h3>Yoga</h3>
+          <div class="details">
+            <div class="detail-line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              19:00 · Mica
+            </div>
+            <div class="detail-line">Reserva confirmada</div>
+          </div>
+          <img class="cutout yoga" src="https://thumbs.wbm.im/pw/medium/c6dee0d50acf2d9fa6c7193fe419f68c.png" alt="">
+        </article>
+
+        <article class="class-card blue">
+          <h3>Funcional</h3>
+          <div class="details">
+            <div class="detail-line">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              20:00 · Nico
+            </div>
+            <div class="detail-line">Cupo completo</div>
+          </div>
+          <span class="pill white" style="margin-top:8px;padding:5px 9px;min-height:24px">Lista de espera</span>
+          <img class="cutout runner" src="https://freepngimg.com/thumb/fitness/144498-runner-man-fitness-free-hd-image.png" alt="">
+        </article>
+      </div>
+    </section>
+
+    <div class="nav-wrap booking-nav">
+      <button class="primary-button green">Reservar Pilates · 18:00</button>
+      <nav class="bottom-nav" aria-label="Navegación principal">
+        <button class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="18" cy="19" r="2"/></svg>
+          Reservar
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V8l8-5 8 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 21v-7h6v7"/></svg>
+          Mi plan
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M8 15h3"/></svg>
+          Pagos
+        </button>
+        <button class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          Perfil
+        </button>
+      </nav>
+    </div>
+    <div class="home-indicator"></div>
+  </main>
+</body>
+</html>

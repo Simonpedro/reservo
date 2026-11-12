@@ -23,7 +23,7 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 - Blanco para texto sobre azul.
 - Logo: tres chevrons apilados (verde, celeste y azul).
 
-**Identidad visual:** la dirección elegida es **Píldora**. El sistema de diseño (tokens shadcn, tipografía, radios, componentes, contraste y voz) está en [`DESIGN.md`](./DESIGN.md). Los mockups de referencia están en [`docs/design/pildora/`](./docs/design/pildora/). La navegación del cliente se propone en [`docs/design/navegacion-cliente.md`](./docs/design/navegacion-cliente.md).
+**Identidad visual:** la dirección elegida es **Píldora**. El sistema de diseño (tokens shadcn, tipografía, radios, componentes, contraste y voz) está en [`DESIGN.md`](./DESIGN.md). Los mockups de referencia están en [`docs/design/pildora/`](./docs/design/pildora/).
 
 ## 1. Planes
 - Un plan se define por **clases por semana** (1x a 5x) y puede **mezclar actividades** (ej.: "1 Gym + 1 Pilates + 1 Yoga").
@@ -44,9 +44,16 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 ## 3. Portal del cliente
 - Reserva clases **dentro de los límites de su plan** (clases por semana, actividades permitidas) y del **mes de facturación**.
 - Mensaje cuando ya usó todas las clases de la semana.
-- Opción de **reservar el mes completo** al inicio del ciclo. **ABIERTO:** si es un atajo o el flujo principal.
+- Se puede **reservar el mes completo** al inicio del ciclo: es un atajo dentro de Reservar, no el flujo principal ni una entrada de menú.
 - **Cancelar solo con 24 h o más de anticipación**; el lugar vuelve al cupo.
 - Cancelación tardía: solo por WhatsApp y la hace el admin.
+
+### Navegación
+Tres pestañas abajo. Al abrir la app, el cliente entra a **Reservar**. Perfil no va en la barra: se abre desde el avatar del encabezado.
+- **Reservar** (home): clases del día, reserva y cancelación a tiempo; acá también está el atajo de reservar el mes completo y los avisos del portal (cupo de la semana, recuperación).
+- **Mi plan:** el plan activo, lo que queda en la semana y cuándo reinicia el mes.
+- **Pagos:** cuota del mes, estado, subir el comprobante e historial.
+- **Perfil** (avatar): datos, cerrar sesión y el contacto de WhatsApp para una cancelación tardía.
 
 ## 4. Asistencia
 - Una reserva cuenta como **presente por defecto**.
@@ -78,5 +85,5 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 ## Preguntas abiertas
 1. Cuándo aplica un cambio de plan (inmediato con plan nuevo desde cero, o al próximo ciclo).
 2. Qué muestra el inicio del admin.
-3. Reserva del mes completo: atajo o flujo principal.
-4. Kinesiología: si se modela como otra actividad.
+3. Kinesiología: si se modela como otra actividad.
+4. Si un cliente tiene un plan de actividades específicas (por ejemplo yoga y pilates), el yoga se dicta solo los lunes, y cancela con 24 h o más de anticipación su clase de yoga, ¿qué ocurre con esa clase de la semana cuando no hay otro yoga? (¿puede usarla en otra actividad, la pierde, se acumula para más adelante, u otra opción?)
