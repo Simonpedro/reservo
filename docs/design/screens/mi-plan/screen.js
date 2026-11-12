@@ -14,10 +14,8 @@ const states = {
   specific: {
     plan: { title: "3 clases por semana", scope: "2 Pilates + 1 Yoga", image: "pilates.png", imageClass: "pilates" },
     perWeek: 3,
-    quotas: [
-      { activity: "Pilates", total: 2, used: 1 },
-      { activity: "Yoga", total: 1, used: 1 },
-    ],
+    // Pilates left: the free line names the activity of the remaining class.
+    quotas: true,
     bookings: [lunPilates, hoyYoga],
   },
   "week-full": {
@@ -68,36 +66,30 @@ function header() {
     </header>`;
 }
 
-function planCard() {
-  const { title, scope, image, imageClass } = current.plan;
+function planSection() {
+  const { title, scope } = current.plan;
   return `
-    <section class="plan-card" aria-label="Tu plan">
-      <span class="plan-kicker">Tu plan</span>
-      <h2>${title}</h2>
-      <div class="plan-lines">
-        <div class="detail-line">${icons.plan}${scope}</div>
-      </div>
-      <img class="cutout ${imageClass}" src="../reservar/assets/${image}" alt="">
+    <section class="block plan-block" aria-label="Tu plan">
+      <h2 class="section-title">Tu plan</h2>
+      <p class="plan-name">${title}</p>
+      <ul class="info-lines">
+        <li class="detail-line">${icons.plan}<span>${scope}</span></li>
+      </ul>
     </section>`;
 }
 
 function month() {
   const recovery = current.recovery
-    ? `<li class="detail-line">${icons.recovery}<span><b>1 clase de recuperación</b> por una ausencia, hasta el 30 de noviembre</span></li>`
+    ? `<li class="detail-line">${icons.recovery}<span>Tenés <b>1 clase de recuperación</b> por una ausencia. Vence el 30 de noviembre.</span></li>`
     : "";
   return `
-    <section class="month" aria-label="Este mes">
+    <section class="block" aria-label="Este mes">
       <h2 class="section-title">Este mes</h2>
-      <ul class="week-lines">
+      <ul class="info-lines">
         ${recovery}
         <li class="detail-line">${icons.renew}<span>Tu plan se renueva el <b>1 de diciembre</b></span></li>
       </ul>
     </section>`;
-}
-
-function meter(total, used, label) {
-  const segs = Array.from({ length: total }, (_, i) => `<i class="${i < used ? "on" : ""}"></i>`).join("");
-  return `<div class="meter" role="img" aria-label="${label}" style="--segs:${total}">${segs}</div>`;
 }
 
 function bookingLine(b) {
@@ -113,41 +105,24 @@ function week() {
     ? `Usaste tus ${current.perWeek} clases`
     : `Te ${left === 1 ? "queda" : "quedan"} ${left} de ${current.perWeek} clases`;
 
-  const quotas = current.quotas
-    ? `<div class="quotas">${current.quotas
-        .map((q) => {
-          const qLeft = q.total - q.used;
-          const text = qLeft > 0 ? `Te queda ${qLeft} de ${q.total}` : `Usaste ${q.used} de ${q.total}`;
-          return `
-            <div class="quota">
-              <div class="quota-head"><strong>${q.activity}</strong><span>${text}</span></div>
-              ${meter(q.total, q.used, `${q.activity}: ${q.used} de ${q.total} reservadas`)}
-            </div>`;
-        })
-        .join("")}</div>`
-    : meter(current.perWeek, used, `${used} de ${current.perWeek} clases reservadas`);
-
   const freeLine = full
     ? ""
-    : `<li class="detail-line muted">${icons.free}<span>${left} ${left === 1 ? "clase libre" : "clases libres"}${current.quotas ? " de Pilates" : ""} para reservar</span></li>`;
-
-  const reset = full
-    ? `Esta semana ya la diste toda. El lunes 16 vuelven tus ${current.perWeek} clases.`
-    : `El lunes 16 vuelven tus ${current.perWeek} clases.`;
+    : `<li class="detail-line muted">${icons.free}<span>${left} ${left === 1 ? "clase" : "clases"}${current.quotas ? " de Pilates" : ""} sin reservar todavía</span></li>`;
 
   return `
-    <section class="week" aria-label="Esta semana">
-      <div class="week-head">
+    <section class="block" aria-label="Esta semana">
+      <div class="block-head">
         <h2 class="section-title">Esta semana</h2>
-        <span class="week-range">Lun 9 al dom 15</span>
+        <span class="block-meta">Lun 9 al dom 15</span>
       </div>
-      <p class="week-count">${headline}</p>
-      ${quotas}
-      <ul class="week-lines">
+      <div class="plan-banner${full ? " used" : ""}">
+        <strong>${headline}</strong>
+        <span>El lunes 16 vuelven tus ${current.perWeek} clases.</span>
+      </div>
+      <ul class="info-lines">
         ${current.bookings.map(bookingLine).join("")}
         ${freeLine}
       </ul>
-      <p class="week-reset">${reset}</p>
     </section>`;
 }
 
@@ -188,7 +163,7 @@ function navigation() {
     </div>`;
 }
 
-const content = current.noPlan ? noPlan() : `${planCard()}${week()}${month()}`;
+const content = current.noPlan ? noPlan() : `${planSection()}${week()}${month()}`;
 
 main.innerHTML = `
   ${statusBar()}
