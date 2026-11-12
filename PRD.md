@@ -49,7 +49,7 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 
 ### Navegación
 Tres pestañas abajo. Al abrir la app, el cliente entra a **Reservar**. Perfil no va en la barra: se abre desde el avatar del encabezado.
-- **Reservar** (home): clases del día, reserva y cancelación a tiempo; acá también está el atajo de reservar el mes completo y los avisos del portal (cupo de la semana, recuperación).
+- **Reservar** (home): clases del día, reserva y cancelación a tiempo; acá también está el atajo de reservar el mes completo y los avisos del portal (cupo de la semana, recuperación). La agenda muestra todas las actividades; las clases que no forman parte del plan del cliente aparecen marcadas como no incluidas y no se pueden reservar.
 - **Mi plan:** el plan activo, lo que queda en la semana y cuándo reinicia el mes.
 - **Pagos:** cuota del mes, estado, subir el comprobante e historial.
 - **Perfil** (avatar): datos, cerrar sesión y el contacto de WhatsApp para una cancelación tardía.
