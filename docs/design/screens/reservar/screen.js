@@ -66,6 +66,13 @@ const states = {
     monthShortcut: true,
     bookedDays: ["lun"],
   },
+  "not-in-plan": {
+    hasRemaining: true,
+    remaining: 1,
+    monthShortcut: true,
+    bookedDays: bookedDaysDefault,
+    excluded: ["gimnasio"],
+  },
 };
 
 const current = states[state] ?? states.list;
@@ -84,6 +91,8 @@ const icons = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
   more:
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>',
+  ban:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.2 16.8 16.8 7.2"/></svg>',
 };
 
 function statusBar() {
@@ -208,17 +217,26 @@ function kebabMenu(id, open) {
 function classCard({ id, title, time, instructor, center, wash, image, imageClass = "", status }) {
   const booked = isBooked(id);
   const full = status === "full";
-  const canBook = !booked && !full;
+  const excluded = status === "excluded" || (current.excluded || []).includes(id);
+  const canBook = !booked && !full && !excluded;
   const canCancel = booked && !current.lateNotice;
   const menuOpen = canCancel && current.openMenu === id;
-  const statusText = booked ? "Ya reservada" : full ? "Cupo completo" : "2 lugares libres";
+  const statusText = booked
+    ? "Ya reservada"
+    : excluded
+      ? "No incluida en tu plan"
+      : full
+        ? "Cupo completo"
+        : "2 lugares libres";
   const primaryAttr = canBook && !current.sheet ? " data-primary" : "";
 
   const statusLine = booked
     ? `<div class="detail-line">${icons.check}Ya reservada</div>`
-    : full
-      ? `<div class="detail-line">${icons.people}Cupo completo</div>`
-      : `<div class="detail-line">${icons.people}2 lugares libres</div>`;
+    : excluded
+      ? `<div class="detail-line">${icons.ban}No incluida en tu plan</div>`
+      : full
+        ? `<div class="detail-line">${icons.people}Cupo completo</div>`
+        : `<div class="detail-line">${icons.people}2 lugares libres</div>`;
 
   const action = canBook
     ? `<div class="card-actions"><button class="card-action book" type="button"${primaryAttr}>Reservar</button></div>`
