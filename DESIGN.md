@@ -184,6 +184,7 @@ Hay **un solo estilo de botón primario** y **un solo estilo secundario**, en to
 - **Secundario:** texto navy 16/900 subrayado, sin fondo, 44px de alto (por ejemplo “Mejor no”, “Cerrar sesión”, “Suspender esta clase”).
 - **Enlace en línea:** texto navy 14/900 subrayado, target de 44px (por ejemplo “Deshacer”).
 - Target ≥ 44px siempre.
+- **Qué acción es primaria:** la acción principal de la pantalla. Si “Escribir a Kinaf” es lo único que se puede hacer (sin plan, sin horario, clase con menos de 24 h), es el primario; si la pantalla tiene otra cosa principal (por ejemplo “Elegir clase” en Mi plan), va como secundario.
 
 ### Estados
 Un estado es **una línea con ícono y palabras**, igual a las demás líneas de información: “Tu horario fijo”, “Con tu clase pendiente”, “Cupo completo”, “Suspendida · Feriado”, “Ausente · tiene clase pendiente”. Nunca un chip ni una cápsula con fondo.
