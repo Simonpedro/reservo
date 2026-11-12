@@ -32,7 +32,7 @@ No se agregan otros matices. Solo estos hex y tintes/sombras derivados por alpha
 | Verde | `#8CC463` | Acompañamiento, éxito, estado *pagado* (siempre con texto navy) |
 | Celeste | `#5AB8F0` | Selección y organización: día elegido, tintes de tarjeta, estado *pendiente* |
 | Azul | `#3E88F0` | Información, foco (`--ring`), estado *no pagado* (en tinte, con texto navy) |
-| Lima / verde vivo | `#6EF04A` | Acento de acción y recorte activo de la nav; nunca texto largo |
+| Lima / verde vivo | `#6EF04A` | Ítem activo de la nav; nunca texto largo |
 | Blanco | `#FFFFFF` | Fondo de la app y texto sobre navy |
 
 Lavados permitidos (usados en el CSS de referencia):
@@ -41,8 +41,8 @@ Lavados permitidos (usados en el CSS de referencia):
 |---|---|---|
 | `--wash-navy` | `rgba(0, 26, 77, 0.055)` | Fondos suaves, filas, botones icono |
 | `--wash-green` | `rgba(140, 196, 99, 0.18)` | Tarjetas y banners de plan / éxito |
-| `--wash-celeste` | `rgba(90, 184, 240, 0.17)` | Tarjetas de clase, pills *pendiente* |
-| `--wash-blue` | `rgba(62, 136, 240, 0.13)` | Tarjetas y pills *no pagado* |
+| `--wash-celeste` | `rgba(90, 184, 240, 0.17)` | Tarjetas de clase, estado vacío, burbujas de filas |
+| `--wash-blue` | `rgba(62, 136, 240, 0.13)` | Tarjetas de clase |
 
 ## 4. Tokens shadcn/ui
 
@@ -90,8 +90,8 @@ Valores tomados de `docs/design/pildora/theme.css`. Los nombres en inglés son l
 Notas:
 
 - `--destructive` no es rojo: en esta paleta el “no pagado” y las alertas de producto se resuelven con azul/navy más una etiqueta en palabras. No introducir rojo, naranja ni terracota.
-- `--accent` es la lima de acción (CTA optimista, ítem activo de la nav). El texto sobre acento es siempre navy (`--accent-foreground`).
-- `--primary` es navy, no verde. El botón por defecto es navy / blanco. El botón “feliz” de reservar puede usar el acento lima / navy.
+- `--accent` es la lima del ítem activo de la nav. El texto sobre acento es siempre navy (`--accent-foreground`).
+- `--primary` es navy, no verde. El único botón primario es navy / blanco (ver Botones).
 - Alias de marca opcionales, también en el CSS de referencia: `--navy`, `--green`, `--celeste`, `--blue`, `--lime`, `--white`.
 
 ## 5. Contraste (WCAG AA)
@@ -101,7 +101,7 @@ Requisito: texto normal ≥ 4.5:1; texto grande (≥ 18px o 14px bold) y gráfic
 | Combinación | Ratio | Texto normal | Uso |
 |---|---:|---|---|
 | Navy sobre blanco (y viceversa) | 16.73 | Pasa | Texto y primario |
-| Navy sobre lima `#6EF04A` | 11.34 | Pasa | CTA de acento, nav activa |
+| Navy sobre lima `#6EF04A` | 11.34 | Pasa | Nav activa |
 | Navy sobre verde `#8CC463` | 8.12 | Pasa | Chip *pagado* |
 | Navy sobre celeste `#5AB8F0` | 7.61 | Pasa | Día seleccionado |
 | Navy sobre azul `#3E88F0` | 4.77 | Pasa | Si hace falta relleno sólido azul |
@@ -114,7 +114,7 @@ Requisito: texto normal ≥ 4.5:1; texto grande (≥ 18px o 14px bold) y gráfic
 | Azul `#3E88F0` como texto sobre blanco (o blanco sobre azul) | 3.51 | **No pasa** AA de texto chico (sí grande / UI) | No usar para cuerpo ni chips chicos |
 | Borde `--border` (navy 11%) sobre blanco | 1.25 | **No pasa** 3:1 | No basar un estado solo en ese borde; en producción, si el borde es la única señal, subirlo hasta ≥ 3:1 |
 
-Regla práctica: **el texto es navy o blanco**. Lima, verde y celeste pintan fondos, pills y acentos, con label navy.
+Regla práctica: **el texto es navy o blanco**. Lima, verde y celeste pintan fondos y acentos, con label navy.
 
 ## 6. Tipografía
 
@@ -132,7 +132,7 @@ Escala de producción (ajustada al *ux-complexity-gate*: nada bajo 12px; cuerpo 
 | Saludo / nombre | 18 / 900 | 18px |
 | Cuerpo | 16 / 700 | — |
 | Botón primario | 16 / 900, min-height 48px | 13px / 42px |
-| Chip / pill | 12 / 800, min-height 28px | 11px |
+| Línea de estado o meta en tarjeta | 12 / 800 | 11px |
 | Meta, horarios, apoyo | 12–14 / 700–800 | 10–11px |
 | Label de la bottom nav | 12 / 800 | **8px (no repetir)** |
 | Label de día (LUN, MAR…) | 12 / 800 | 9px |
@@ -160,38 +160,65 @@ Logo: tres chevrons apilados (verde, celeste, azul). Wordmark “Reservo” en N
 
 ## 9. Componentes
 
+Regla general (Simon, 12 de noviembre de 2026): **consistencia y la menor cantidad de casos especiales**. Un mismo componente se ve igual en el cliente y en el admin. Los estados informativos nunca parecen botones ni chips. La referencia viva de todos los componentes es el prototipo completo en [`docs/design/prototype/`](docs/design/prototype/).
+
 ### Tarjetas de clase
-Fondo en wash (verde, celeste o azul), radio ~34px, título 22/900, meta de horario e instructor, chip de estado o cupo, y recorte fotográfico que se sale. No agregar borde duro.
+Fondo en wash (verde, celeste o azul según la actividad), radio ~34px, título 22/900, chevron discreto, líneas de información con ícono (horario e instructor, centro, estado o cupo) y recorte fotográfico que se sale. No agregar borde duro ni botones dentro de la tarjeta: toda la tarjeta abre el detalle, con una View Transition de elemento compartido (fondo, título y foto). La misma tarjeta se usa en el admin (con la ocupación como línea). Una clase suspendida usa el wash navy y la foto en gris.
 
 ### Tira de días
-Siete columnas. Cada día es una píldora vertical (día en mayúsculas + número). El seleccionado se rellena de celeste sólido, texto navy, con una sombra celeste corta. Los demás, texto navy al ~62% o más, sin borde innecesario.
+Píldoras verticales (día en mayúsculas + número). El seleccionado se rellena de celeste sólido, texto navy, con una sombra celeste corta. Los demás, texto navy al ~62% o más, sin borde. Si hay más de siete días, la tira se desplaza en horizontal y centra el día elegido.
 
 ### Navegación inferior
-Cápsula flotante navy, con margen 20px a los lados y ~18px al piso, sombra `--shadow-nav`. Ítem activo: relleno lima, texto e ícono navy. Ítems inactivos: blanco al 63% sobre navy. Siempre con label visible (no solo ícono). El mockup de referencia tenía cuatro ítems; qué destinos lleva la barra del cliente y qué se abre desde el avatar está en el PRD, sección 3.
+Cápsula flotante navy, con margen 20px a los lados y ~18px al piso, sombra `--shadow-nav`. Ítem activo: relleno lima, texto e ícono navy (igual en todos los roles). Ítems inactivos: blanco al 63% sobre navy. Siempre con label visible.
+
+- Cliente: **Mis clases** (inicio), **Mi plan**, **Pagos**. El avatar abre Perfil.
+- Admin: **Hoy** (inicio), **Clientes**, **Agenda**, **Pagos**. El avatar abre Ajustes.
+- Instructor: una sola pantalla (Hoy), sin barra.
 
 Las páginas internas (que se abren desde una pestaña) ocultan la barra de pestañas y el avatar; muestran un botón de volver y, como máximo, una acción primaria anclada abajo.
 
 ### Botones
-- Primario por defecto: ancho completo, píldora, navy / blanco.
-- Primario de acción “feliz” (reservar): lima / navy.
-- Una sola acción primaria visible por pantalla, en la zona baja (pulgar).
-- Target ≥ 44px (48px de alto en el botón principal).
+Hay **un solo estilo de botón primario** y **un solo estilo secundario**, en todas las pantallas y roles:
 
-### Chips de estado de pago
-Siempre con la palabra, nunca solo color:
+- **Primario:** ancho completo, píldora, navy con texto blanco 16/900, 48px de alto. Se ancla abajo (sobre la barra en las pestañas). Uno por pantalla como máximo. No hay variante lima ni “feliz”: reservar, confirmar o guardar usan el mismo botón.
+- **Secundario:** texto navy 16/900 subrayado, sin fondo, 44px de alto (por ejemplo “Mejor no”, “Cerrar sesión”, “Suspender esta clase”).
+- **Enlace en línea:** texto navy 14/900 subrayado, target de 44px (por ejemplo “Deshacer”).
+- Target ≥ 44px siempre.
 
-| Estado | Clase de referencia | Fondo | Texto |
-|---|---|---|---|
-| Pendiente | `.pill.celeste` | `--wash-celeste` | Navy |
-| En revisión | `.pill.navy` | Navy | Blanco |
-| Pagado | `.pill.green` | Verde `#8CC463` | Navy |
-| No pagado | `.pill.blue` | `--wash-blue` | Navy |
+### Estados
+Un estado es **una línea con ícono y palabras**, igual a las demás líneas de información: “Tu horario fijo”, “Con tu clase pendiente”, “Cupo completo”, “Suspendida · Feriado”, “Ausente · tiene clase pendiente”. Nunca un chip ni una cápsula con fondo.
 
-### Banner de plan / avisos en el portal
-Cápsula en wash verde o celeste, copy corto (“Te queda 1 de 3 clases”), sin exclamaciones de más. Los avisos se presentan en estas cápsulas, en la pantalla donde aplican.
+Estados de pago (siempre con la palabra):
+
+| Estado | Ícono | Texto |
+|---|---|---|
+| Pendiente | reloj | “Pendiente · pagá hasta el 10” |
+| En revisión | reloj | “En revisión” |
+| Pagado | check | “Pagado el 5 de noviembre” |
+| Atrasado | alerta | “Atrasada desde el 11” |
+
+“No pagado” pasa a llamarse **Atrasado**. No bloquea nada: lo que se haga lo decide el admin.
+
+### Avisos
+Ícono + una línea en negrita + una línea de apoyo, **sin cápsula ni fondo** (por ejemplo “Tenés 1 clase pendiente · Usala hasta el domingo 29”). Si el aviso es el resultado de una acción reversible, lleva el enlace “Deshacer” a la derecha. Si el aviso invita a una acción, esa acción es el botón primario anclado abajo, no un botón dentro del aviso.
+
+### Hoja de confirmación
+Hoja inferior con título, una explicación de qué pasa y dos acciones: primario y “Mejor no”. Solo para lo que no se deshace fácil (no ir a una clase, marcar ausente, suspender, rechazar un comprobante).
+
+### Filas
+Para listas (personas, pagos, avisos del admin, ajustes): burbuja circular con iniciales o ícono, título 16/900, apoyo 14/700 y chevron si la fila se abre. Separadas por una línea fina. Una lista homogénea es un solo grupo de decisión.
+
+### Opciones y formularios
+- **Opción en fila** (radio o casilla): marca circular o cuadrada navy a la izquierda, título y apoyo. Las que no se pueden elegir se ven atenuadas y dicen por qué (“Completo”).
+- **Alternar** (elegir varias actividades): píldora con borde navy; seleccionada, navy relleno con check.
+- **Campos**: label 14/800 arriba, campo en píldora con fondo `--input`, 48px. Los selects usan el mismo campo con una flecha.
+- Un paso, una decisión. Los flujos largos van en pasos (“Paso 2 de 3”).
+
+### Estado vacío
+Tarjeta celeste centrada con ícono en círculo, título 22/900 y una frase de qué hacer. La acción, si existe, es el botón primario anclado abajo.
 
 ### Header
-Saludo en rioplatense + nombre en 18/900 + avatar circular. A la derecha, como máximo un botón icono secundario (por ejemplo ayuda), nunca un menú hamburguesa para secciones principales.
+En las pestañas: saludo en rioplatense + nombre en 18/900 + avatar circular (en el admin, iniciales). En las páginas internas: solo el botón de volver.
 
 ## 10. Voz y tono
 
@@ -221,10 +248,10 @@ No: “Usuario”, “su reserva ha sido confirmada”, “error inesperado”, 
 
 - Usar solo la paleta Kinaf y sus washes.
 - Texto navy o blanco, con contraste AA.
-- Cápsulas, fotos recortadas que desbordan, tira de días en píldora, nav flotante navy, CTA de ancho completo.
+- Cápsulas, fotos recortadas que desbordan, tira de días en píldora, nav flotante navy, un solo botón primario navy de ancho completo.
 - Nunito Sans, pesos altos, números tabulares.
 - Una acción primaria por pantalla.
-- Labels en la nav y en los estados de pago.
+- Labels en la nav y estados como línea con ícono y palabras.
 
 **No hacer**
 
@@ -236,6 +263,7 @@ No: “Usuario”, “su reserva ha sido confirmada”, “error inesperado”, 
 - Dashboard de admin con sidebar de escritorio como diseño de partida.
 - Más de cinco destinos en la bottom nav, o secciones principales escondidas en un hamburger.
 - Copiar al pie de letra los 8–11px del mockup.
+- Estados con forma de chip o cápsula, avisos con fondo, o variantes de botón según el caso.
 
 ## 13. Gates
 
