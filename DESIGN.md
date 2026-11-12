@@ -184,7 +184,7 @@ Hay **un solo estilo de botón primario** y **un solo estilo secundario**, en to
 - **Secundario:** texto navy 16/900 subrayado, sin fondo, 44px de alto (por ejemplo “Mejor no”, “Cerrar sesión”, “Suspender esta clase”).
 - **Enlace en línea:** texto navy 14/900 subrayado, target de 44px (por ejemplo “Deshacer”).
 - Target ≥ 44px siempre.
-- **Qué acción es primaria:** la que destraba la pantalla. “Escribir a Kinaf” es primario sólo cuando es la salida de un bloqueo (sin plan, sin horario, clase con menos de 24 h). Cuando todo funciona y es una acción ocasional (Mi plan con plan activo, Perfil), va como secundario.
+- **Qué acción es primaria:** la que destraba la pantalla. “Escribir a Kinaf” es primario sólo cuando es la salida de un bloqueo (sin plan, sin horario, clase con menos de 24 h). Cuando todo funciona y es una acción ocasional (Mi plan con plan activo), va como secundario. En Perfil es primario porque es la única acción de esa pantalla aparte de cerrar sesión.
 
 ### Estados
 Un estado es **una línea con ícono y palabras**, igual a las demás líneas de información: “Tu horario fijo”, “Con tu clase pendiente”, “Cupo completo”, “Suspendida · Feriado”, “Ausente · tiene clase pendiente”. Nunca un chip ni una cápsula con fondo.
