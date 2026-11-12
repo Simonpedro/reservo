@@ -30,12 +30,9 @@ button {
 
 .app-shell {
   height: calc(100% - 30px);
-  padding: 4px 20px 154px;
-  overflow: hidden;
-}
-
-.app-shell.no-primary {
-  padding-bottom: 96px;
+  padding: 4px 20px 96px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .topline {
@@ -171,13 +168,28 @@ button {
 }
 
 .day {
+  position: relative;
   width: 100%;
   min-width: 44px;
-  height: 52px;
-  padding: 0;
+  height: 56px;
+  padding: 0 0 4px;
   border: 0;
   background: transparent;
   color: rgba(0, 26, 77, 0.68);
+}
+
+.day.booked:not(.selected) {
+  background: var(--wash-green);
+  color: var(--navy);
+}
+
+.day.booked.selected::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--navy);
 }
 
 .day span {
@@ -237,20 +249,12 @@ button {
 
 .class-card {
   width: 100%;
-  min-height: 108px;
+  min-height: 132px;
   padding: 13px 142px 12px 16px;
   border: 0;
   text-align: left;
   color: var(--navy);
   isolation: isolate;
-}
-
-button.class-card {
-  display: block;
-}
-
-.class-card.chosen {
-  box-shadow: inset 0 0 0 2px var(--celeste);
 }
 
 .class-card h3 {
@@ -278,11 +282,42 @@ button.class-card {
   stroke-width: 2.2;
 }
 
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.card-action.book {
+  min-height: 48px;
+  min-width: 128px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lime);
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(110, 240, 74, 0.2);
+}
+
+.card-action.cancel {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--wash-navy);
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 900;
+}
+
 .state-label {
   display: inline-flex;
   align-items: center;
   min-height: 28px;
-  margin-top: 7px;
   padding: 5px 10px;
   border-radius: 999px;
   background: var(--white);
@@ -319,7 +354,7 @@ button.class-card {
   right: -5px;
   bottom: -5px;
   width: 154px;
-  height: 120px;
+  height: 148px;
   object-fit: contain;
   object-position: right bottom;
 }
@@ -327,29 +362,13 @@ button.class-card {
 .class-card .cutout.yoga {
   right: -7px;
   width: 158px;
-  height: 117px;
+  height: 144px;
 }
 
 .class-card .cutout.gym {
   right: 3px;
   width: 124px;
-  height: 127px;
-}
-
-.action-dock {
-  position: absolute;
-  z-index: 31;
-  left: 20px;
-  right: 20px;
-  bottom: 95px;
-}
-
-.primary-button {
-  min-height: 48px;
-  padding: 11px 18px;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 900;
+  height: 148px;
 }
 
 .nav-wrap {
@@ -508,6 +527,6 @@ button.class-card {
   }
 
   .class-card {
-    min-height: 114px;
+    min-height: 140px;
   }
 }

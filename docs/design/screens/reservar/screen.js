@@ -1,42 +1,55 @@
 const state = document.body.dataset.state;
 
+const bookedDaysDefault = ["lun", "mié"];
+
 const states = {
   list: {
-    selectedClass: "pilates",
-    primary: { tone: "green", label: "Reservar Pilates · 18:00" },
+    hasRemaining: true,
     monthShortcut: true,
+    bookedDays: bookedDaysDefault,
   },
   success: {
     bookedPilates: true,
-    usedWeek: true,
     success: true,
+    bookedDays: bookedDaysDefault,
   },
   cancel: {
-    selectedClass: "yoga",
-    primary: { tone: "", label: "Cancelar Yoga · 19:00" },
+    hasRemaining: true,
+    monthShortcut: true,
+    bookedDays: bookedDaysDefault,
   },
   "cancel-confirm": {
-    selectedClass: "yoga",
+    hasRemaining: true,
+    monthShortcut: true,
+    bookedDays: bookedDaysDefault,
     sheet: "cancel",
   },
   "late-cancel": {
-    selectedClass: "yoga",
+    hasRemaining: true,
     lateNotice: true,
+    bookedDays: bookedDaysDefault,
   },
   "month-confirm": {
-    selectedClass: "pilates",
+    hasRemaining: true,
     monthShortcut: true,
+    bookedDays: bookedDaysDefault,
     sheet: "month",
   },
   empty: {
     empty: true,
     selectedDay: "dom",
+    hasRemaining: true,
+    bookedDays: bookedDaysDefault,
   },
   recovery: {
-    selectedClass: "pilates",
+    hasRemaining: true,
     recovery: true,
     monthShortcut: true,
-    primary: { tone: "green", label: "Reservar Pilates · 18:00" },
+    bookedDays: bookedDaysDefault,
+  },
+  "week-full": {
+    bookedPilates: true,
+    bookedDays: bookedDaysDefault,
   },
 };
 
@@ -48,6 +61,8 @@ const icons = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   pin:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  person:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
   chevron:
@@ -82,12 +97,7 @@ function header() {
 }
 
 function banner() {
-  if (current.usedWeek) {
-    return `
-      <section class="plan-banner used" aria-label="Límite semanal">
-        <strong>Esta semana ya la diste toda: usaste tus 3 clases.</strong>
-      </section>`;
-  }
+  if (!current.hasRemaining) return "";
 
   if (current.recovery) {
     return `
@@ -126,50 +136,66 @@ function notices() {
 }
 
 const days = [
-  ["lun", "9"],
-  ["mar", "10"],
-  ["mié", "11"],
-  ["jue", "12"],
-  ["vie", "13"],
-  ["sáb", "14"],
-  ["dom", "15"],
+  ["lun", "9", "lunes"],
+  ["mar", "10", "martes"],
+  ["mié", "11", "miércoles"],
+  ["jue", "12", "jueves"],
+  ["vie", "13", "viernes"],
+  ["sáb", "14", "sábado"],
+  ["dom", "15", "domingo"],
 ];
 
 function weekStrip() {
   const selected = current.selectedDay ?? "mié";
+  const bookedDays = current.bookedDays ?? [];
   return `
     <div class="week-strip" data-group="days" aria-label="Días de la semana">
       ${days
-        .map(
-          ([label, number]) => `
-            <button class="day ${label === selected ? "selected" : ""}" type="button" aria-pressed="${label === selected}">
+        .map(([label, number, name]) => {
+          const isSelected = label === selected;
+          const isBooked = bookedDays.includes(label);
+          const classes = `day${isSelected ? " selected" : ""}${isBooked ? " booked" : ""}`;
+          const bookedHint = isBooked ? ", tenés una clase reservada" : "";
+          return `
+            <button class="${classes}" type="button" aria-pressed="${isSelected}" aria-label="${name} ${number}${bookedHint}">
               <span>${label}</span><strong>${number}</strong>
-            </button>`,
-        )
+            </button>`;
+        })
         .join("")}
     </div>`;
 }
 
-function classCard({ id, title, time, center, wash, image, imageClass = "", status }) {
-  const selected = current.selectedClass === id;
+function classCard({ id, title, time, instructor, center, wash, image, imageClass = "", status }) {
   const booked = id === "yoga" || (id === "pilates" && current.bookedPilates);
-  const statusText =
-    booked ? "Ya reservada" : status === "full" ? "Cupo completo" : "2 lugares libres";
-  const classNames = `class-card ${wash} ${selected ? "chosen" : ""}`;
-  const contents = `
-      ${booked ? `<span class="state-check">${icons.check}</span>` : ""}
-      <h3>${title}</h3>
-      <div class="details">
-        <div class="detail-line">${icons.clock}${time}</div>
-        <div class="detail-line">${icons.pin}${center}</div>
-      </div>
-      <span class="state-label ${booked ? "booked" : ""}">${statusText}</span>
-      <img class="cutout ${imageClass}" src="assets/${image}" alt="">`;
+  const full = status === "full";
+  const canBook = !booked && !full;
+  const canCancel = booked && !current.lateNotice;
+  const statusText = booked ? "Ya reservada" : full ? "Cupo completo" : "2 lugares libres";
+  const primaryAttr = canBook && !current.sheet ? " data-primary" : "";
+
+  let actions = "";
+  if (canBook) {
+    actions = `<button class="card-action book" type="button"${primaryAttr}>Reservar</button>`;
+  } else if (full) {
+    actions = `<span class="state-label">Cupo completo</span>`;
+  } else if (booked) {
+    actions = `<span class="state-label booked">Ya reservada</span>`;
+    if (canCancel) {
+      actions += `<button class="card-action cancel" type="button">Cancelar</button>`;
+    }
+  }
 
   return `
-    <button class="${classNames}" type="button" aria-pressed="${selected}" aria-label="${title}, ${time}, ${center}, ${statusText}">
-      ${contents}
-    </button>`;
+    <article class="class-card ${wash}" aria-label="${title}, ${time}, ${instructor}, ${center}, ${statusText}">
+      ${booked ? `<span class="state-check" aria-hidden="true">${icons.check}</span>` : ""}
+      <h3>${title}</h3>
+      <div class="details">
+        <div class="detail-line">${icons.clock}${time} · ${instructor}</div>
+        <div class="detail-line">${icons.pin}${center}</div>
+      </div>
+      <div class="card-actions">${actions}</div>
+      <img class="cutout ${imageClass}" src="assets/${image}" alt="">
+    </article>`;
 }
 
 function classes() {
@@ -179,6 +205,7 @@ function classes() {
         id: "pilates",
         title: "Pilates",
         time: "18:00",
+        instructor: "Agus",
         center: "Mendoza",
         wash: "celeste",
         image: "pilates.png",
@@ -187,6 +214,7 @@ function classes() {
         id: "yoga",
         title: "Yoga",
         time: "19:00",
+        instructor: "Mica",
         center: "Ovidio Lagos",
         wash: "green",
         image: "yoga.png",
@@ -196,6 +224,7 @@ function classes() {
         id: "gimnasio",
         title: "Gimnasio",
         time: "20:00",
+        instructor: "Nico",
         center: "Mendoza",
         wash: "blue",
         image: "gimnasio.png",
@@ -226,16 +255,6 @@ function emptyState() {
       <h1>Por ahora no hay clases todavía.</h1>
       <p>Probá otro día.</p>
     </section>`;
-}
-
-function primaryAction() {
-  if (!current.primary) return "";
-  return `
-    <div class="action-dock">
-      <button class="primary-button ${current.primary.tone}" type="button" data-primary>
-        ${current.primary.label}
-      </button>
-    </div>`;
 }
 
 function navigation() {
@@ -291,11 +310,10 @@ const content = current.empty
 
 main.innerHTML = `
   ${statusBar()}
-  <section class="app-shell ${current.primary ? "" : "no-primary"}">
+  <section class="app-shell">
     ${header()}
     ${content}
   </section>
-  ${primaryAction()}
   ${navigation()}
   <div class="home-indicator" aria-hidden="true"></div>
   ${sheet()}`;
