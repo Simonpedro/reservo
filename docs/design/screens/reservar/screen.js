@@ -6,7 +6,6 @@ const states = {
   list: {
     hasRemaining: true,
     remaining: 1,
-    monthShortcut: true,
     bookedDays: bookedDaysDefault,
   },
   success: {
@@ -17,14 +16,12 @@ const states = {
   "cancel-menu": {
     hasRemaining: true,
     remaining: 1,
-    monthShortcut: true,
     bookedDays: bookedDaysDefault,
     openMenu: "yoga",
   },
   "cancel-confirm": {
     hasRemaining: true,
     remaining: 1,
-    monthShortcut: true,
     bookedDays: bookedDaysDefault,
     sheet: "cancel",
   },
@@ -33,13 +30,6 @@ const states = {
     remaining: 1,
     lateNotice: true,
     bookedDays: bookedDaysDefault,
-  },
-  "month-confirm": {
-    hasRemaining: true,
-    remaining: 1,
-    monthShortcut: true,
-    bookedDays: bookedDaysDefault,
-    sheet: "month",
   },
   empty: {
     empty: true,
@@ -52,7 +42,6 @@ const states = {
     hasRemaining: true,
     remaining: 1,
     recovery: true,
-    monthShortcut: true,
     bookedDays: bookedDaysDefault,
   },
   "week-full": {
@@ -63,13 +52,11 @@ const states = {
     hasRemaining: true,
     remaining: 2,
     yogaAvailable: true,
-    monthShortcut: true,
     bookedDays: ["lun"],
   },
   "not-in-plan": {
     hasRemaining: true,
     remaining: 1,
-    monthShortcut: true,
     bookedDays: bookedDaysDefault,
     excluded: ["gimnasio"],
   },
@@ -87,8 +74,6 @@ const icons = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
-  chevron:
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
   more:
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>',
   ban:
@@ -298,11 +283,6 @@ function listHeading() {
   return `
     <div class="list-heading">
       <h1 class="section-title">Clases del miércoles</h1>
-      ${
-        current.monthShortcut
-          ? `<button class="month-button" type="button">Reservar el mes completo ${icons.chevron}</button>`
-          : ""
-      }
     </div>`;
 }
 
@@ -338,26 +318,15 @@ function navigation() {
 }
 
 function sheet() {
-  if (!current.sheet) return "";
-  const isCancel = current.sheet === "cancel";
+  if (current.sheet !== "cancel") return "";
   return `
     <div class="sheet-backdrop">
       <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-copy">
         <div class="sheet-handle" aria-hidden="true"></div>
-        <h1 id="sheet-title">${
-          isCancel
-            ? "¿Cancelamos tu Yoga de las 19:00?"
-            : "¿Reservamos tu mes, dentro de los límites de tu plan?"
-        }</h1>
-        <p id="sheet-copy">${
-          isCancel
-            ? "El lugar vuelve al cupo para que otra persona pueda reservar."
-            : "Vamos a respetar tus 3 clases por semana y las actividades permitidas."
-        }</p>
+        <h1 id="sheet-title">¿Cancelamos tu Yoga de las 19:00?</h1>
+        <p id="sheet-copy">El lugar vuelve al cupo para que otra persona pueda reservar.</p>
         <div class="sheet-actions">
-          <button class="sheet-action ${isCancel ? "" : "happy"}" type="button" data-primary>
-            ${isCancel ? "Sí, cancelar" : "Sí, reservar el mes"}
-          </button>
+          <button class="sheet-action" type="button" data-primary>Sí, cancelar</button>
           <button class="sheet-action secondary" type="button">Mejor no</button>
         </div>
       </section>
