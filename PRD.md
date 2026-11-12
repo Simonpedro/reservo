@@ -38,7 +38,7 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 ## 2. Clases y horarios
 - Horarios **semanales recurrentes** que **varían según el día** de la semana.
 - **Cupo por clase.**
-- **Centros:** Kinaf tiene dos centros físicos, el centro de Mendoza y el centro de Ovidio Lagos. Cada clase pertenece a un centro (la clase tiene la propiedad `centro`). Sirve para dos cosas: al mostrar una clase se indica en qué centro está, y en los reportes se puede ver la proporción de ingresos de cada centro.
+- **Centros:** Kinaf tiene dos centros físicos, el centro de Mendoza y el centro de Ovidio Lagos. Cada clase pertenece a un centro (la clase tiene la propiedad `centro`). Sirve para dos cosas: al mostrar una clase se indica en qué centro está y quién la dicta (el instructor), y en los reportes se puede ver la proporción de ingresos de cada centro.
 - Se permiten **varias clases en simultáneo** si el espacio físico lo permite.
 
 ## 3. Portal del cliente
