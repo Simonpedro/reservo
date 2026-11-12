@@ -255,12 +255,81 @@ button {
   text-align: left;
   color: var(--navy);
   isolation: isolate;
+  overflow: visible;
+}
+
+.card-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .class-card h3 {
   font-size: 22px;
   line-height: 0.98;
   font-weight: 900;
+  min-width: 0;
+}
+
+.card-menu-wrap {
+  position: relative;
+  z-index: 8;
+  flex: 0 0 auto;
+}
+
+.card-menu-button {
+  width: 44px;
+  height: 44px;
+  margin: -6px -4px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 26, 77, 0.12);
+}
+
+.card-menu-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.card-menu-button[aria-expanded="true"] {
+  background: var(--wash-navy);
+  box-shadow: none;
+}
+
+.card-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: auto;
+  min-width: 188px;
+  padding: 6px;
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.card-menu-item {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 900;
+  text-align: left;
+}
+
+.class-card.has-menu {
+  z-index: 9;
+  overflow: visible;
 }
 
 .class-card .details {
@@ -283,10 +352,6 @@ button {
 }
 
 .card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
   margin-top: 8px;
 }
 
@@ -301,53 +366,6 @@ button {
   font-size: 16px;
   font-weight: 900;
   box-shadow: 0 8px 16px rgba(110, 240, 74, 0.2);
-}
-
-.card-action.cancel {
-  min-height: 44px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--wash-navy);
-  color: var(--navy);
-  font-size: 14px;
-  font-weight: 900;
-}
-
-.state-label {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--white);
-  color: var(--navy);
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 900;
-}
-
-.state-label.booked {
-  background: var(--lime);
-}
-
-.state-check {
-  position: absolute;
-  z-index: 5;
-  top: 10px;
-  right: 12px;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--lime);
-}
-
-.state-check svg {
-  width: 16px;
-  height: 16px;
-  stroke-width: 3;
 }
 
 .cutout {

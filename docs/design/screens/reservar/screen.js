@@ -5,6 +5,7 @@ const bookedDaysDefault = ["lun", "mié"];
 const states = {
   list: {
     hasRemaining: true,
+    remaining: 1,
     monthShortcut: true,
     bookedDays: bookedDaysDefault,
   },
@@ -13,24 +14,29 @@ const states = {
     success: true,
     bookedDays: bookedDaysDefault,
   },
-  cancel: {
+  "cancel-menu": {
     hasRemaining: true,
+    remaining: 1,
     monthShortcut: true,
     bookedDays: bookedDaysDefault,
+    openMenu: "yoga",
   },
   "cancel-confirm": {
     hasRemaining: true,
+    remaining: 1,
     monthShortcut: true,
     bookedDays: bookedDaysDefault,
     sheet: "cancel",
   },
   "late-cancel": {
     hasRemaining: true,
+    remaining: 1,
     lateNotice: true,
     bookedDays: bookedDaysDefault,
   },
   "month-confirm": {
     hasRemaining: true,
+    remaining: 1,
     monthShortcut: true,
     bookedDays: bookedDaysDefault,
     sheet: "month",
@@ -39,10 +45,12 @@ const states = {
     empty: true,
     selectedDay: "dom",
     hasRemaining: true,
+    remaining: 1,
     bookedDays: bookedDaysDefault,
   },
   recovery: {
     hasRemaining: true,
+    remaining: 1,
     recovery: true,
     monthShortcut: true,
     bookedDays: bookedDaysDefault,
@@ -50,6 +58,13 @@ const states = {
   "week-full": {
     bookedPilates: true,
     bookedDays: bookedDaysDefault,
+  },
+  "two-available": {
+    hasRemaining: true,
+    remaining: 2,
+    yogaAvailable: true,
+    monthShortcut: true,
+    bookedDays: ["lun"],
   },
 };
 
@@ -61,12 +76,14 @@ const icons = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   pin:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-  person:
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
+  people:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
   chevron:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
+  more:
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>',
 };
 
 function statusBar() {
@@ -98,11 +115,12 @@ function header() {
 
 function banner() {
   if (!current.hasRemaining) return "";
+  const left = current.remaining ?? 1;
 
   if (current.recovery) {
     return `
       <section class="plan-banner recovery" aria-label="Resumen del plan">
-        <strong>Te queda 1 de 3 clases</strong>
+        <strong>Te queda ${left} de 3 clases</strong>
         <span>Esta semana · 3 clases por semana</span>
         <span class="recovery-line">Tenés 1 clase de recuperación este mes.</span>
       </section>`;
@@ -110,7 +128,7 @@ function banner() {
 
   return `
     <section class="plan-banner" aria-label="Resumen del plan">
-      <strong>Te queda 1 de 3 clases</strong>
+      <strong>Te queda ${left} de 3 clases</strong>
       <span>Esta semana · 3 clases por semana</span>
     </section>`;
 }
@@ -165,35 +183,59 @@ function weekStrip() {
     </div>`;
 }
 
+function isBooked(id) {
+  if (id === "pilates") return !!current.bookedPilates;
+  if (id === "yoga") return !current.yogaAvailable;
+  return false;
+}
+
+function kebabMenu(id, open) {
+  return `
+    <div class="card-menu-wrap">
+      <button class="card-menu-button" type="button" aria-label="Más acciones" aria-haspopup="menu" aria-expanded="${open}">
+        ${icons.more}
+      </button>
+      ${
+        open
+          ? `<div class="card-menu" role="menu">
+              <button class="card-menu-item" type="button" role="menuitem">Cancelar reserva</button>
+            </div>`
+          : ""
+      }
+    </div>`;
+}
+
 function classCard({ id, title, time, instructor, center, wash, image, imageClass = "", status }) {
-  const booked = id === "yoga" || (id === "pilates" && current.bookedPilates);
+  const booked = isBooked(id);
   const full = status === "full";
   const canBook = !booked && !full;
   const canCancel = booked && !current.lateNotice;
+  const menuOpen = canCancel && current.openMenu === id;
   const statusText = booked ? "Ya reservada" : full ? "Cupo completo" : "2 lugares libres";
   const primaryAttr = canBook && !current.sheet ? " data-primary" : "";
 
-  let actions = "";
-  if (canBook) {
-    actions = `<button class="card-action book" type="button"${primaryAttr}>Reservar</button>`;
-  } else if (full) {
-    actions = `<span class="state-label">Cupo completo</span>`;
-  } else if (booked) {
-    actions = `<span class="state-label booked">Ya reservada</span>`;
-    if (canCancel) {
-      actions += `<button class="card-action cancel" type="button">Cancelar</button>`;
-    }
-  }
+  const statusLine = booked
+    ? `<div class="detail-line">${icons.check}Ya reservada</div>`
+    : full
+      ? `<div class="detail-line">${icons.people}Cupo completo</div>`
+      : `<div class="detail-line">${icons.people}2 lugares libres</div>`;
+
+  const action = canBook
+    ? `<div class="card-actions"><button class="card-action book" type="button"${primaryAttr}>Reservar</button></div>`
+    : "";
 
   return `
-    <article class="class-card ${wash}" aria-label="${title}, ${time}, ${instructor}, ${center}, ${statusText}">
-      ${booked ? `<span class="state-check" aria-hidden="true">${icons.check}</span>` : ""}
-      <h3>${title}</h3>
+    <article class="class-card ${wash}${menuOpen ? " has-menu" : ""}" aria-label="${title}, ${time}, ${instructor}, ${center}, ${statusText}">
+      <div class="card-topline">
+        <h3>${title}</h3>
+        ${canCancel ? kebabMenu(id, menuOpen) : ""}
+      </div>
       <div class="details">
         <div class="detail-line">${icons.clock}${time} · ${instructor}</div>
         <div class="detail-line">${icons.pin}${center}</div>
+        ${statusLine}
       </div>
-      <div class="card-actions">${actions}</div>
+      ${action}
       <img class="cutout ${imageClass}" src="assets/${image}" alt="">
     </article>`;
 }
