@@ -2,7 +2,7 @@
 
 Mockups mobile-first de la pantalla que se abre al tocar una tarjeta en Reservar. Es una página nueva (no una hoja): muestra la actividad, el día y horario, el instructor, el centro (solo el nombre), el cupo o estado, y como máximo una acción según el caso.
 
-El encabezado hereda la forma, la foto y el título de la tarjeta, con una View Transition de elemento compartido. Volver deshace la transición.
+El encabezado hereda la forma, la foto y el título de la tarjeta, con una View Transition de elemento compartido. Volver deshace la transición. Como página interna, no muestra la barra de pestañas ni el avatar: solo el botón de volver y, si corresponde, una acción anclada abajo.
 
 ## Inventario de estados
 
