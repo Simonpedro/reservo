@@ -169,6 +169,8 @@ Siete columnas. Cada día es una píldora vertical (día en mayúsculas + númer
 ### Navegación inferior
 Cápsula flotante navy, con margen 20px a los lados y ~18px al piso, sombra `--shadow-nav`. Ítem activo: relleno lima, texto e ícono navy. Ítems inactivos: blanco al 63% sobre navy. Siempre con label visible (no solo ícono). El mockup de referencia tenía cuatro ítems; qué destinos lleva la barra del cliente y qué se abre desde el avatar está en el PRD, sección 3.
 
+Las páginas internas (que se abren desde una pestaña) ocultan la barra de pestañas y el avatar; muestran un botón de volver y, como máximo, una acción primaria anclada abajo.
+
 ### Botones
 - Primario por defecto: ancho completo, píldora, navy / blanco.
 - Primario de acción “feliz” (reservar): lima / navy.

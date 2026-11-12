@@ -1,0 +1,487 @@
+/* Production overrides for Reservar. The shared Píldora theme remains untouched. */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--white);
+}
+
+body {
+  display: grid;
+  place-items: start center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.phone {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+}
+
+.statusbar {
+  height: 30px;
+  padding: 8px 22px 0;
+  font-size: 12px;
+}
+
+.app-shell {
+  height: calc(100% - 30px);
+  padding: 4px 20px 96px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.topline {
+  min-height: 48px;
+  margin-bottom: 8px;
+}
+
+.greeting {
+  gap: 0;
+}
+
+.hello {
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 800;
+  color: rgba(0, 26, 77, 0.72);
+}
+
+.person-name {
+  margin-top: 2px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.avatar-button {
+  width: 48px;
+  height: 48px;
+  padding: 2px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 7px 18px rgba(0, 26, 77, 0.14);
+}
+
+.avatar-button .avatar {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  box-shadow: none;
+}
+
+.plan-banner,
+.notice {
+  min-height: 56px;
+  padding: 9px 16px;
+  border-radius: 28px;
+  background: var(--wash-green);
+}
+
+.plan-banner {
+  overflow: hidden;
+}
+
+.plan-banner::after {
+  display: none;
+}
+
+.plan-banner strong,
+.notice strong {
+  display: block;
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  line-height: 1.12;
+  font-weight: 900;
+}
+
+.plan-banner span,
+.notice span {
+  display: block;
+  position: relative;
+  z-index: 1;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: rgba(0, 26, 77, 0.72);
+}
+
+.plan-banner.used {
+  background: var(--wash-celeste);
+}
+
+.plan-banner.used::after {
+  background: var(--celeste);
+}
+
+.plan-banner.recovery {
+  min-height: 68px;
+}
+
+.plan-banner.recovery .recovery-line {
+  margin-top: 5px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.notice {
+  background: var(--wash-blue);
+}
+
+.notice.success {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--wash-green);
+}
+
+.notice.success strong {
+  font-size: 14px;
+}
+
+.undo-button {
+  min-width: 72px;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.week-strip {
+  gap: 2px;
+  margin: 8px 0;
+}
+
+.day {
+  position: relative;
+  width: 100%;
+  min-width: 44px;
+  height: 56px;
+  padding: 0 0 4px;
+  border: 0;
+  background: transparent;
+  color: rgba(0, 26, 77, 0.68);
+}
+
+.day.booked:not(.selected) {
+  background: var(--wash-green);
+  color: var(--navy);
+}
+
+.day.booked.selected::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--navy);
+}
+
+.day span {
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.day strong {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.day.selected {
+  color: var(--navy);
+  box-shadow: 0 7px 14px rgba(90, 184, 240, 0.28);
+}
+
+.list-heading {
+  min-height: 36px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 18px;
+  line-height: 1.05;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.class-stack {
+  gap: 8px;
+}
+
+.class-card {
+  width: 100%;
+  min-height: 132px;
+  padding: 13px 142px 12px 16px;
+  border: 0;
+  text-align: left;
+  color: var(--navy);
+  isolation: isolate;
+  overflow: visible;
+}
+
+a.class-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+a.class-card:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+a.class-card.pressed,
+a.class-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 8px 22px rgba(0, 26, 77, 0.16);
+}
+
+.card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.class-card h3 {
+  font-size: 22px;
+  line-height: 0.98;
+  font-weight: 900;
+  min-width: 0;
+}
+
+.card-open {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: var(--navy);
+  opacity: 0.55;
+  display: grid;
+  place-items: center;
+}
+
+.card-open svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+}
+
+.class-card .details {
+  margin-top: 7px;
+  gap: 4px;
+}
+
+.detail-line {
+  min-height: 16px;
+  font-size: 12px;
+  line-height: 1.15;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.detail-line svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+}
+
+.cutout {
+  right: -5px;
+  bottom: -5px;
+  width: 154px;
+  height: 148px;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+.class-card .cutout.yoga {
+  right: -7px;
+  width: 158px;
+  height: 144px;
+}
+
+.class-card .cutout.gym {
+  right: 3px;
+  width: 124px;
+  height: 148px;
+}
+
+.nav-wrap {
+  bottom: 18px;
+}
+
+.bottom-nav {
+  height: 68px;
+  padding: 7px 8px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.nav-item {
+  min-height: 54px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 800;
+  gap: 3px;
+}
+
+.nav-item svg {
+  width: 20px;
+  height: 20px;
+}
+
+.empty-state {
+  min-height: 300px;
+  margin-top: 8px;
+  padding: 34px 24px;
+  border-radius: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--wash-celeste);
+}
+
+.empty-mark {
+  width: 68px;
+  height: 68px;
+  margin-bottom: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--celeste);
+}
+
+.empty-mark svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 2.2;
+}
+
+.empty-state h1 {
+  max-width: 280px;
+  font-size: 22px;
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.empty-state p {
+  max-width: 280px;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.sheet-backdrop {
+  position: absolute;
+  z-index: 50;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(0, 26, 77, 0.34);
+}
+
+.bottom-sheet {
+  width: 100%;
+  min-height: 250px;
+  padding: 24px 20px 30px;
+  border-radius: 34px 34px 0 0;
+  background: var(--white);
+  box-shadow: 0 -14px 34px rgba(0, 26, 77, 0.14);
+}
+
+.sheet-handle {
+  width: 48px;
+  height: 5px;
+  margin: -10px auto 18px;
+  border-radius: 999px;
+  background: rgba(0, 26, 77, 0.2);
+}
+
+.bottom-sheet h1 {
+  max-width: 330px;
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.bottom-sheet p {
+  margin-top: 9px;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.sheet-actions {
+  margin-top: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.sheet-action {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.sheet-action.happy {
+  background: var(--lime);
+  color: var(--navy);
+}
+
+.sheet-action.secondary {
+  min-height: 44px;
+  background: transparent;
+  color: var(--navy);
+}
+
+@media (min-height: 880px) {
+  .app-shell {
+    padding-top: 10px;
+  }
+
+  .topline {
+    margin-bottom: 12px;
+  }
+
+  .week-strip {
+    margin: 10px 0;
+  }
+
+  .class-stack {
+    gap: 10px;
+  }
+
+  .class-card {
+    min-height: 140px;
+  }
+}

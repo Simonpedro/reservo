@@ -38,19 +38,18 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 ## 2. Clases y horarios
 - Horarios **semanales recurrentes** que **varían según el día** de la semana.
 - **Cupo por clase.**
-- **Centros:** Kinaf tiene dos centros físicos, el centro de Mendoza y el centro de Ovidio Lagos. Cada clase pertenece a un centro (la clase tiene la propiedad `centro`). Sirve para dos cosas: al mostrar una clase se indica en qué centro está, y en los reportes se puede ver la proporción de ingresos de cada centro.
+- **Centros:** Kinaf tiene dos centros físicos, el centro de Mendoza y el centro de Ovidio Lagos. Cada clase pertenece a un centro (la clase tiene la propiedad `centro`). Sirve para dos cosas: al mostrar una clase se indica en qué centro está y quién la dicta (el instructor), y en los reportes se puede ver la proporción de ingresos de cada centro.
 - Se permiten **varias clases en simultáneo** si el espacio físico lo permite.
 
 ## 3. Portal del cliente
 - Reserva clases **dentro de los límites de su plan** (clases por semana, actividades permitidas) y del **mes de facturación**.
-- Mensaje cuando ya usó todas las clases de la semana.
-- Se puede **reservar el mes completo** al inicio del ciclo: es un atajo dentro de Reservar, no el flujo principal ni una entrada de menú.
 - **Cancelar solo con 24 h o más de anticipación**; el lugar vuelve al cupo.
 - Cancelación tardía: solo por WhatsApp y la hace el admin.
 
 ### Navegación
 Tres pestañas abajo. Al abrir la app, el cliente entra a **Reservar**. Perfil no va en la barra: se abre desde el avatar del encabezado.
-- **Reservar** (home): clases del día, reserva y cancelación a tiempo; acá también está el atajo de reservar el mes completo y los avisos del portal (cupo de la semana, recuperación).
+- **Reservar** (home): clases del día y avisos del portal (cupo de la semana, recuperación). Cada tarjeta abre una pantalla de detalle de clase, donde se reserva o se cancela a tiempo. La agenda muestra todas las actividades; las clases que no forman parte del plan del cliente aparecen marcadas como no incluidas y no se pueden reservar.
+- **Detalle de clase** (desde una tarjeta de Reservar): actividad, día y horario, instructor, centro, cupo o estado, y la acción de reservar o cancelar cuando corresponde.
 - **Mi plan:** el plan activo, lo que queda en la semana y cuándo reinicia el mes.
 - **Pagos:** cuota del mes, estado, subir el comprobante e historial.
 - **Perfil** (avatar): datos, cerrar sesión y el contacto de WhatsApp para una cancelación tardía.
