@@ -43,7 +43,6 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 
 ## 3. Portal del cliente
 - Reserva clases **dentro de los límites de su plan** (clases por semana, actividades permitidas) y del **mes de facturación**.
-- Mensaje cuando ya usó todas las clases de la semana.
 - Se puede **reservar el mes completo** al inicio del ciclo: es un atajo dentro de Reservar, no el flujo principal ni una entrada de menú.
 - **Cancelar solo con 24 h o más de anticipación**; el lugar vuelve al cupo.
 - Cancelación tardía: solo por WhatsApp y la hace el admin.
