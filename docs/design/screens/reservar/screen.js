@@ -8,28 +8,11 @@ const states = {
     remaining: 1,
     bookedDays: bookedDaysDefault,
   },
-  success: {
-    bookedPilates: true,
-    success: true,
-    bookedDays: bookedDaysDefault,
-  },
-  "cancel-menu": {
+  tapped: {
     hasRemaining: true,
     remaining: 1,
     bookedDays: bookedDaysDefault,
-    openMenu: "yoga",
-  },
-  "cancel-confirm": {
-    hasRemaining: true,
-    remaining: 1,
-    bookedDays: bookedDaysDefault,
-    sheet: "cancel",
-  },
-  "late-cancel": {
-    hasRemaining: true,
-    remaining: 1,
-    lateNotice: true,
-    bookedDays: bookedDaysDefault,
+    pressed: "pilates",
   },
   empty: {
     empty: true,
@@ -47,12 +30,6 @@ const states = {
   "week-full": {
     bookedPilates: true,
     bookedDays: bookedDaysDefault,
-  },
-  "two-available": {
-    hasRemaining: true,
-    remaining: 2,
-    yogaAvailable: true,
-    bookedDays: ["lun"],
   },
   "not-in-plan": {
     hasRemaining: true,
@@ -74,10 +51,10 @@ const icons = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
-  more:
-    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="19" r="1.7"/></svg>',
   ban:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.2 16.8 16.8 7.2"/></svg>',
+  chevron:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
 };
 
 function statusBar() {
@@ -127,26 +104,6 @@ function banner() {
     </section>`;
 }
 
-function notices() {
-  if (current.success) {
-    return `
-      <section class="notice success" role="status">
-        <strong>Listo, ya tenés tu lugar.</strong>
-        <button class="undo-button" type="button">Deshacer</button>
-      </section>`;
-  }
-
-  if (current.lateNotice) {
-    return `
-      <section class="notice" role="status">
-        <strong>Faltan menos de 24 h.</strong>
-        <span>Para cancelar, escribinos por WhatsApp desde tu perfil.</span>
-      </section>`;
-  }
-
-  return "";
-}
-
 const days = [
   ["lun", "9", "lunes"],
   ["mar", "10", "martes"],
@@ -179,68 +136,37 @@ function weekStrip() {
 
 function isBooked(id) {
   if (id === "pilates") return !!current.bookedPilates;
-  if (id === "yoga") return !current.yogaAvailable;
+  if (id === "yoga") return true;
   return false;
 }
 
-function kebabMenu(id, open) {
-  return `
-    <div class="card-menu-wrap">
-      <button class="card-menu-button" type="button" aria-label="Más acciones" aria-haspopup="menu" aria-expanded="${open}">
-        ${icons.more}
-      </button>
-      ${
-        open
-          ? `<div class="card-menu" role="menu">
-              <button class="card-menu-item" type="button" role="menuitem">Cancelar reserva</button>
-            </div>`
-          : ""
-      }
-    </div>`;
-}
-
-function classCard({ id, title, time, instructor, center, wash, image, imageClass = "", status }) {
+function statusLineFor(id, status) {
   const booked = isBooked(id);
   const full = status === "full";
   const excluded = status === "excluded" || (current.excluded || []).includes(id);
-  const canBook = !booked && !full && !excluded;
-  const canCancel = booked && !current.lateNotice;
-  const menuOpen = canCancel && current.openMenu === id;
-  const statusText = booked
-    ? "Ya reservada"
-    : excluded
-      ? "No incluida en tu plan"
-      : full
-        ? "Cupo completo"
-        : "2 lugares libres";
-  const primaryAttr = canBook && !current.sheet ? " data-primary" : "";
+  if (booked) return { text: "Ya reservada", line: `<div class="detail-line">${icons.check}Ya reservada</div>` };
+  if (excluded) return { text: "No incluida en tu plan", line: `<div class="detail-line">${icons.ban}No incluida en tu plan</div>` };
+  if (full) return { text: "Cupo completo", line: `<div class="detail-line">${icons.people}Cupo completo</div>` };
+  return { text: "2 lugares libres", line: `<div class="detail-line">${icons.people}2 lugares libres</div>` };
+}
 
-  const statusLine = booked
-    ? `<div class="detail-line">${icons.check}Ya reservada</div>`
-    : excluded
-      ? `<div class="detail-line">${icons.ban}No incluida en tu plan</div>`
-      : full
-        ? `<div class="detail-line">${icons.people}Cupo completo</div>`
-        : `<div class="detail-line">${icons.people}2 lugares libres</div>`;
-
-  const action = canBook
-    ? `<div class="card-actions"><button class="card-action book" type="button"${primaryAttr}>Reservar</button></div>`
-    : "";
+function classCard({ id, title, time, instructor, center, wash, image, imageClass = "", status }) {
+  const { text: statusText, line: statusLine } = statusLineFor(id, status);
+  const pressed = current.pressed === id;
 
   return `
-    <article class="class-card ${wash}${menuOpen ? " has-menu" : ""}" aria-label="${title}, ${time}, ${instructor}, ${center}, ${statusText}">
+    <a class="class-card ${wash}${pressed ? " pressed" : ""}" href="#clase-${id}" aria-label="${title}, ${time}, ${instructor}, ${center}, ${statusText}">
       <div class="card-topline">
         <h3>${title}</h3>
-        ${canCancel ? kebabMenu(id, menuOpen) : ""}
+        <span class="card-open" aria-hidden="true">${icons.chevron}</span>
       </div>
       <div class="details">
         <div class="detail-line">${icons.clock}${time} · ${instructor}</div>
         <div class="detail-line">${icons.pin}${center}</div>
         ${statusLine}
       </div>
-      ${action}
       <img class="cutout ${imageClass}" src="assets/${image}" alt="">
-    </article>`;
+    </a>`;
 }
 
 function classes() {
@@ -317,25 +243,9 @@ function navigation() {
     </div>`;
 }
 
-function sheet() {
-  if (current.sheet !== "cancel") return "";
-  return `
-    <div class="sheet-backdrop">
-      <section class="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-copy">
-        <div class="sheet-handle" aria-hidden="true"></div>
-        <h1 id="sheet-title">¿Cancelamos tu Yoga de las 19:00?</h1>
-        <p id="sheet-copy">El lugar vuelve al cupo para que otra persona pueda reservar.</p>
-        <div class="sheet-actions">
-          <button class="sheet-action" type="button" data-primary>Sí, cancelar</button>
-          <button class="sheet-action secondary" type="button">Mejor no</button>
-        </div>
-      </section>
-    </div>`;
-}
-
 const content = current.empty
   ? `${banner()}${weekStrip()}${emptyState()}`
-  : `${banner()}${notices()}${weekStrip()}${listHeading()}${classes()}`;
+  : `${banner()}${weekStrip()}${listHeading()}${classes()}`;
 
 main.innerHTML = `
   ${statusBar()}
@@ -344,5 +254,4 @@ main.innerHTML = `
     ${content}
   </section>
   ${navigation()}
-  <div class="home-indicator" aria-hidden="true"></div>
-  ${sheet()}`;
+  <div class="home-indicator" aria-hidden="true"></div>`;

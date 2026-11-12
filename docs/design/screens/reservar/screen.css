@@ -237,11 +237,30 @@ button {
   overflow: visible;
 }
 
+a.class-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+a.class-card:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+a.class-card.pressed,
+a.class-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 8px 22px rgba(0, 26, 77, 0.16);
+}
+
 .card-topline {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
 }
 
 .class-card h3 {
@@ -251,66 +270,20 @@ button {
   min-width: 0;
 }
 
-.card-menu-wrap {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 8;
+.card-open {
   flex: 0 0 auto;
-}
-
-.card-menu-button {
-  width: 44px;
-  height: 44px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--white);
+  width: 18px;
+  height: 18px;
   color: var(--navy);
+  opacity: 0.55;
   display: grid;
   place-items: center;
-  box-shadow: 0 4px 12px rgba(0, 26, 77, 0.12);
 }
 
-.card-menu-button svg {
-  width: 20px;
-  height: 20px;
-}
-
-.card-menu-button[aria-expanded="true"] {
-  background: var(--wash-navy);
-  box-shadow: none;
-}
-
-.card-menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
-  left: auto;
-  min-width: 188px;
-  padding: 6px;
-  border-radius: 20px;
-  background: var(--white);
-  box-shadow: var(--shadow-soft);
-}
-
-.card-menu-item {
-  width: 100%;
-  min-height: 44px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 14px;
-  background: transparent;
-  color: var(--navy);
-  font-size: 14px;
-  font-weight: 900;
-  text-align: left;
-}
-
-.class-card.has-menu {
-  z-index: 9;
-  overflow: visible;
+.card-open svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
 }
 
 .class-card .details {
@@ -330,23 +303,6 @@ button {
   width: 14px;
   height: 14px;
   stroke-width: 2.2;
-}
-
-.card-actions {
-  margin-top: 8px;
-}
-
-.card-action.book {
-  min-height: 48px;
-  min-width: 128px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--lime);
-  color: var(--navy);
-  font-size: 16px;
-  font-weight: 900;
-  box-shadow: 0 8px 16px rgba(110, 240, 74, 0.2);
 }
 
 .cutout {
