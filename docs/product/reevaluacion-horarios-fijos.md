@@ -1,6 +1,6 @@
 # Propuesta: horarios fijos
 
-**Estado:** propuesta para revisar con Simon, 12 de noviembre de 2026. Todavía no cambia `PRD.md` ni `DESIGN.md`: se actualizan cuando esta propuesta quede cerrada.
+**Estado:** propuesta revisada con Simon el 12 de noviembre de 2026. Sus respuestas están en la sección 1b y ya se volcaron a `PRD.md` en este mismo PR. `DESIGN.md` se actualiza con el prototipo conjunto.
 
 ## 1. El cambio de perspectiva
 
@@ -15,6 +15,17 @@ Consecuencias:
 
 Principios que se mantienen: consistencia y pocos casos especiales, mobile first, las páginas internas ocultan la barra y el avatar, y los estados nunca parecen botones.
 
+## 1b. Decisiones de Simon (12 de noviembre)
+
+1. **Dónde se usa una clase pendiente:** en las clases de su plan. Si el plan es de clases libres, en cualquier actividad. Con el modelo de cupos del punto 4, la pendiente hereda las actividades del cupo de la clase perdida: perdió una clase del cupo "1 Yoga", recupera Yoga; del cupo "2 de Yoga o Pilates", recupera Yoga o Pilates; del cupo "2 libres", cualquier actividad.
+2. **Horario fijo y plan:** solo los asigna y los cambia el admin.
+3. **No existe la cancelación tardía del lado del alumno.** Con menos de 24 h no hay acción en la app: el detalle explica que hable con Kinaf. El admin, después de hablar con el alumno, lo marca **ausente** en esa clase, y eso le da una clase pendiente que el alumno reserva en la app. No hay pendientes automáticas por ausencia.
+4. **Planes configurables.** El admin arma cualquier combinación: "1 Yoga + 1 Pilates", "2 de Yoga o Pilates", "2 libres", etc. Un plan es una lista de **cupos**; cada cupo es una cantidad por semana más un conjunto de actividades permitidas (una, varias o cualquiera).
+5. **Cuota sin pagar:** nada automático. Solo se muestra el pago como **atrasado**. Todo lo demás lo decide el admin.
+6. **Vencimiento:** una clase pendiente se puede usar como máximo hasta el fin de la semana siguiente a la clase perdida (no se acumulan). Vacaciones: el alumno cancela clase por clase. "Pausar plan" o "modo vacaciones" queda como **pregunta abierta** en el PRD; no se diseña.
+
+Donde el resto de este documento contradiga estas decisiones, mandan estas.
+
 ## 2. Modelo de datos
 
 Decisiones técnicas (ya tomadas; no hace falta que Simon las decida):
@@ -23,9 +34,10 @@ Decisiones técnicas (ya tomadas; no hace falta que Simon las decida):
 |---|---|---|
 | **Horario de clase** (`class_slots`) | La clase recurrente: actividad, centro, día de la semana, hora, duración, instructor, cupo. | Es lo que hoy el PRD llama "horarios semanales recurrentes". Se queda. |
 | **Clase del día** (`class_sessions`) | Una ocurrencia concreta de un horario en una fecha. Puede estar **suspendida** (feriado, cierre, instructor enfermo). | Se genera sola por adelantado. |
-| **Horario fijo** (`standing_bookings`) | Persona + horario de clase + desde cuándo (y hasta cuándo, si se cambia). | **Nuevo.** Es la "preferencia por defecto". |
-| **Reserva** (`bookings`) | Persona + clase del día, con origen `fija` o `pendiente` y estado `reservada`, `cancelada`, `cancelada tarde`, `suspendida`. | El modelo de reserva no cambia: el horario fijo solo las crea solo. |
-| **Clase pendiente** (`makeup_credits`) | Un crédito para reservar una clase a mano: motivo (cancelación a tiempo, feriado, ausencia), actividad de origen, vencimiento, y la reserva en la que se usó. | **Nuevo.** Reemplaza "recuperación" y el saldo semanal. |
+| **Plan y cupos** (`plans`, `plan_quotas`) | Un plan es precio + lista de cupos. Cada cupo: cantidad por semana + actividades permitidas (una, varias o cualquiera). | **Cambia.** Reemplaza "clases por semana + actividades". |
+| **Horario fijo** (`standing_bookings`) | Persona + horario de clase + cupo del plan que cubre + desde cuándo (y hasta cuándo, si se cambia). | **Nuevo.** Es la "preferencia por defecto". |
+| **Reserva** (`bookings`) | Persona + clase del día, con origen `fija` o `pendiente` y estado `reservada`, `cancelada`, `ausente`, `suspendida`. | El modelo de reserva no cambia: el horario fijo solo las crea solo. |
+| **Clase pendiente** (`makeup_credits`) | Un crédito para reservar una clase a mano: motivo (cancelación a tiempo, feriado, ausencia), actividades permitidas (las del cupo de origen), vencimiento, y la reserva en la que se usó. | **Nuevo.** Reemplaza "recuperación" y el saldo semanal. |
 | **Cierre** (`closures`) | Fecha (o rango), centro o todos, motivo ("Feriado", "Cierre por mantenimiento"). | **Nuevo.** Suspende todas las clases del día en ese centro. |
 
 ### Reservas automáticas
@@ -37,9 +49,9 @@ Decisiones técnicas (ya tomadas; no hace falta que Simon las decida):
 ### Faltar una vez (cancelar una fecha)
 
 - **Con 24 h o más:** la persona cancela esa fecha desde el detalle. La reserva pasa a `cancelada`, el lugar vuelve al cupo de esa fecha y se crea **una clase pendiente**. El horario fijo no se toca.
-- **Con menos de 24 h:** igual que hoy, solo por WhatsApp y la carga el admin (`cancelada tarde`). Si da o no clase pendiente es una pregunta abierta (ver P3).
-- **Ausencia sin avisar:** igual que hoy, la reserva cuenta como presente por defecto y el admin marca la ausencia.
-- Si se cancela a tiempo una reserva hecha con una pendiente, la pendiente vuelve (con su vencimiento original). Si se cancela tarde, se pierde.
+- **Con menos de 24 h:** no hay acción en la app. El detalle explica que hable con Kinaf por WhatsApp. Si el admin, después de hablar, lo marca **ausente**, se crea una clase pendiente y el lugar se libera (si la clase todavía no pasó).
+- **Asistencia:** la reserva cuenta como presente por defecto. Marcar ausente es la única forma en que el admin da una pendiente; no hay un botón aparte.
+- Si se cancela a tiempo una reserva hecha con una pendiente, la pendiente vuelve con su vencimiento original.
 
 ### Feriados y cierres
 
@@ -50,10 +62,10 @@ Decisiones técnicas (ya tomadas; no hace falta que Simon las decida):
 
 ### Clases pendientes
 
-- Se usan desde Reservar, en cualquier clase del día con lugar libre, dentro de las actividades permitidas y antes del vencimiento.
+- Se usan desde "Elegir clase", en cualquier clase con lugar libre, dentro de las actividades del cupo de origen y antes del vencimiento.
 - Son **extra** a la semana: no hay saldo semanal que controlar, solo la cantidad de pendientes.
-- Vencen (regla a definir, ver P1). Si el plan termina, vencen con él.
-- Las genera el sistema (cancelación a tiempo, cierre) o el admin a mano ("Dar clase pendiente").
+- Vencen el domingo de la semana siguiente a la clase perdida (lunes 16 perdido → vence el domingo 29). Si el plan termina, vencen con él.
+- Las genera el sistema (cancelación a tiempo, cierre) o el admin al marcar ausente.
 
 ### Cupo
 
@@ -66,8 +78,8 @@ Decisiones técnicas (ya tomadas; no hace falta que Simon las decida):
 
 - Cambiar el horario fijo = cerrar el horario fijo actual en una fecha y abrir uno nuevo desde ahí. Las reservas automáticas futuras se regeneran; las pasadas no se tocan. Por defecto aplica desde el lunes siguiente.
 - Cambiar de plan = asignar el plan nuevo y su horario fijo en el mismo paso. Las clases pendientes que ya tenía se mantienen hasta su vencimiento.
-- Regla de consistencia: **la cantidad de horarios fijos es igual a las clases por semana del plan** (plan 3x = 3 horarios). El sistema no deja guardar menos ni más. Si en el horario que quiere la persona no hay lugar, el admin elige otro; no hay horarios "a medio asignar".
-- Quién puede hacer estos cambios es una pregunta abierta (ver P2).
+- Regla de consistencia: **cada cupo del plan se cubre con exactamente tantos horarios fijos como su cantidad**, de actividades permitidas por ese cupo (plan "1 Yoga + 2 libres" = 1 horario de Yoga + 2 de cualquier actividad). El sistema no deja guardar menos ni más. Si en el horario que quiere la persona no hay lugar, el admin elige otro; no hay horarios "a medio asignar".
+- Solo el admin hace estos cambios.
 
 ### Lo que se va del modelo actual
 
@@ -113,7 +125,7 @@ Se mantienen tres pestañas y el avatar, pero cambian los destinos:
 | Estado | Acción |
 |---|---|
 | Tu clase fija, con 24 h o más | "No voy a ir" (cancela solo esa fecha; la confirmación dice "Te queda una clase pendiente hasta el 30/11") |
-| Tu clase fija, con menos de 24 h | Sin botón; línea con el WhatsApp desde Perfil (como hoy) |
+| Tu clase, con menos de 24 h | Sin botón; explicación: "Faltan menos de 24 h. Si no podés venir, avisale a Kinaf por WhatsApp." |
 | Recién cancelada | Aviso "Listo, no vas el lunes 16. Tenés 1 clase pendiente" con Deshacer, y botón "Elegir otra clase" |
 | Abierta desde Elegir clase, con lugar | "Usar clase pendiente" |
 | Cupo completo | Sin botón, explicación |
@@ -128,11 +140,11 @@ Se mantienen tres pestañas y el avatar, pero cambian los destinos:
 - **Cambia:** el centro es **Tu horario**: una línea por horario fijo ("Lunes 18:00 · Pilates · Mendoza"). Después: Tu plan (nombre, clases por semana, actividades, renovación mensual) y Clases pendientes (cantidad y vencimiento), solo si hay.
 - **Se va:** "Esta semana" con el saldo, y la cápsula "Te queda 1 de 3 clases".
 - **Sin plan:** explicación y un único botón "Escribir a Kinaf por WhatsApp" (el mismo canal que la cancelación tardía en Perfil).
-- **Sin precio ni cambio de plan:** el monto se ve en Pagos y el cambio de plan lo hace el admin (salvo que Simon decida otra cosa en P2).
+- **Sin precio ni cambio de plan:** el monto se ve en Pagos y el cambio de plan lo hace el admin.
 
 ### Pagos y Perfil
 
-- Sin cambios de fondo. Pagos depende de la respuesta a P5 (qué pasa si no paga).
+- Sin cambios de fondo. "No pagado" pasa a llamarse **Atrasado** (desde el día 11) y no bloquea nada.
 
 ## 4. Admin
 
@@ -142,13 +154,13 @@ El admin sigue siendo un teléfono con la gramática Píldora (DESIGN.md §11). 
 |---|---|
 | **Hoy** (home) | Clases de hoy con asistentes; marcar ausencia. Avisos: comprobantes en revisión, conflictos de cupo, personas sin horario asignado. Responde en parte la pregunta abierta "qué muestra el inicio del admin". |
 | **Clientes** | Lista con buscador. |
-| **Ficha de cliente** (interna) | Plan, horario fijo, próximas clases, clases pendientes, pagos. Una acción principal según el caso ("Asignar plan" si no tiene). Acciones secundarias: cambiar horario, dar clase pendiente, cancelar una fecha tarde. |
-| **Asignar plan y horario** (interna, en pasos) | 1) Elegir plan. 2) Elegir tantos horarios como clases por semana, filtrados por las actividades del plan, con lugar libre por horario; los completos no se pueden elegir. 3) Desde qué fecha. 4) Confirmar. El mismo flujo sirve para alta, cambio de horario y cambio de plan. |
+| **Ficha de cliente** (interna) | Plan, horario fijo, próximas clases, clases pendientes, pagos. Una acción principal según el caso ("Asignar plan" si no tiene). Acción secundaria: cambiar plan y horario. Las ausencias se marcan en la clase del día. |
+| **Asignar plan y horario** (interna, en pasos) | 1) Elegir plan. 2) Por cada cupo del plan, elegir sus horarios, filtrados por las actividades del cupo, con lugar libre por horario; los completos no se pueden elegir. 3) Desde qué fecha. 4) Confirmar. El mismo flujo sirve para alta, cambio de horario y cambio de plan. |
 | **Agenda** | Grilla semanal de horarios de clase con ocupación fija ("8 de 10 fijos"). Crear o editar un horario. Acción "Cerrar un día" para feriados. |
-| **Clase del día** (interna) | Asistentes de esa fecha, quién usa pendiente, "Suspender esta clase". |
+| **Clase del día** (interna) | Asistentes de esa fecha, quién usa pendiente, marcar ausente (da una clase pendiente) y "Suspender esta clase". |
 | **Feriado o cierre** (interna) | Fecha, centros, motivo, impacto antes de confirmar. Lista de cierres próximos. |
 | **Pagos** | Como en el PRD: en revisión, registrar pago, forzar pagado, historial. |
-| **Planes** (Ajustes) | Crear y editar planes: clases por semana, actividades permitidas, precio. |
+| **Planes** (Ajustes) | Crear y editar planes: nombre, precio y lista de cupos (cantidad + actividades: una, varias o cualquiera). |
 
 **Instructor:** la misma pantalla Hoy, solo lectura.
 
@@ -170,11 +182,11 @@ Después de esta propuesta, todas las pantallas que faltan (cliente y admin) se 
 | Pantalla | Tipo | Estados |
 |---|---|---|
 | Ingresar | Pública | Normal, error |
-| Mis clases | Pestaña (home) | Normal; con clase pendiente; con clase suspendida por feriado; sin plan; plan sin horario asignado todavía; (según P5) cuota vencida |
-| Detalle de clase | Interna | Fija ≥ 24 h; fija < 24 h; confirmación de "No voy a ir"; recién cancelada; para usar pendiente; recién reservada con pendiente; cupo completo; suspendida; pasada (fuiste / ausente) |
+| Mis clases | Pestaña (home) | Normal; con clase pendiente; con clase suspendida por feriado; sin plan; plan sin horario asignado todavía |
+| Detalle de clase | Interna | Fija ≥ 24 h; < 24 h; confirmación de "No voy a ir"; recién cancelada; para usar pendiente; recién reservada con pendiente; cupo completo; suspendida; pasada (fuiste / ausente) |
 | Elegir clase | Interna | Lista del día; día sin clases; un horario completo |
 | Mi plan | Pestaña | Plan libre; plan de actividades específicas; con clases pendientes; sin plan |
-| Pagos | Pestaña | Pendiente; en revisión; pagado; no pagado |
+| Pagos | Pestaña | Pendiente; en revisión; pagado; atrasado |
 | Subir comprobante | Interna | Elegir archivo; enviado |
 | Perfil | Interna (avatar) | Datos, WhatsApp, cerrar sesión |
 
@@ -188,10 +200,10 @@ Después de esta propuesta, todas las pantallas que faltan (cliente y admin) se 
 | Asignar plan y horario | Interna (pasos) | Elegir plan; elegir horarios (con uno completo); fecha; confirmar |
 | Agenda | Pestaña | Semana; con un cierre |
 | Editar horario de clase | Interna | Nuevo; editar; bajar cupo por debajo de los fijos (bloqueado) |
-| Clase del día | Interna | Normal; suspender (confirmación) |
+| Clase del día | Interna | Normal; marcar ausente; suspender (confirmación) |
 | Feriado o cierre | Interna | Formulario; impacto antes de confirmar |
 | Pagos | Pestaña | En revisión; registrar pago |
-| Planes | Interna (Ajustes) | Lista; editar |
+| Planes | Interna (Ajustes) | Lista; editar cupos |
 
 **Instructor:** Hoy en solo lectura.
 
@@ -236,16 +248,18 @@ Las líneas `---` unen pestañas del mismo nivel; las flechas abren páginas int
 | Pregunta | Estado |
 |---|---|
 | Cápsula o texto para "Te queda X clases" | **Resuelta:** el saldo semanal desaparece. Lo que queda es el aviso de clase pendiente, como texto sin fondo. |
-| Planes de actividades específicas con cantidades fijas (2 Pilates + 1 Yoga) | **Cambia:** con horario fijo, la mezcla la define el horario elegido. Queda como P4. |
-| Reglas de recuperación | **Se unifica** en clase pendiente. Queda como P1 y P3. |
+| Planes de actividades específicas con cantidades fijas (2 Pilates + 1 Yoga) | **Resuelta:** planes configurables por cupos (decisión 4). |
+| Reglas de recuperación | **Resuelta:** clase pendiente (decisiones 1, 3 y 6). |
 | Canal cuando no hay plan | **Resuelta:** WhatsApp, el mismo canal que la cancelación tardía. |
-| Cuota sin pagar | **Sigue abierta y pesa más**, porque el sistema reserva solo. Queda como P5. |
-| Precio y cambio de plan en Mi plan | **Resuelta:** el precio se ve en Pagos y el cambio lo hace el admin (salvo P2). |
+| Cuota sin pagar | **Resuelta:** solo se muestra Atrasado (decisión 5). |
+| Precio y cambio de plan en Mi plan | **Resuelta:** el precio se ve en Pagos y el cambio lo hace el admin. |
 | Tocar las clases reservadas abre el detalle | **Resuelta:** sí, todas las tarjetas de clase abren el detalle. |
 
 Del PRD: "cuándo aplica un cambio de plan" pasa a P2; "qué muestra el inicio del admin" queda con una primera propuesta (§4); "Kinesiología como actividad" sigue abierta, no la cambia este pivot; la pregunta 4 (yoga solo los lunes) se responde con P1.
 
 ## 8. Preguntas para Simon (por prioridad)
+
+> **Respondidas el 12 de noviembre.** Las respuestas están en la sección 1b. Queda abierta solo "Pausar plan / modo vacaciones", anotada en el PRD. Se dejan las preguntas originales como registro.
 
 **P1. Clase pendiente: dónde se puede usar y cuándo vence.**
 Cuando alguien cancela a tiempo o hay un feriado, recibe una clase pendiente. Hay que decidir: a) si se puede usar en cualquier actividad de su plan o solo en la misma que perdió (por ejemplo, perdió Yoga del lunes: ¿puede recuperar en Pilates?), y b) cuándo vence: a fin del mes de facturación (lo que dice hoy el PRD para recuperaciones; pero si el feriado es el 30, le queda un día), a los 30 días, o al fin del mes siguiente.
