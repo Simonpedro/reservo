@@ -30,7 +30,7 @@ button {
 
 .app-shell {
   height: calc(100% - 30px);
-  padding: 4px 20px 96px;
+  padding: 4px 20px 28px;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
@@ -57,12 +57,11 @@ button {
   z-index: 5;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-height: 48px;
 }
 
-.back-button,
-.avatar-button {
+.back-button {
   width: 48px;
   height: 48px;
   padding: 0;
@@ -79,17 +78,6 @@ button {
   width: 22px;
   height: 22px;
   stroke-width: 2.4;
-}
-
-.avatar-button {
-  padding: 2px;
-}
-
-.avatar-button .avatar {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  box-shadow: none;
 }
 
 .clase-title {
@@ -209,7 +197,7 @@ button {
 .clase-action {
   margin-top: auto;
   padding-top: 22px;
-  padding-bottom: 4px;
+  padding-bottom: 8px;
 }
 
 .action-button {
@@ -231,29 +219,6 @@ button {
 .action-button.cancel {
   background: var(--navy);
   color: var(--white);
-}
-
-.nav-wrap {
-  bottom: 18px;
-}
-
-.bottom-nav {
-  height: 68px;
-  padding: 7px 8px;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.nav-item {
-  min-height: 54px;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 800;
-  gap: 3px;
-}
-
-.nav-item svg {
-  width: 20px;
-  height: 20px;
 }
 
 .sheet-backdrop {

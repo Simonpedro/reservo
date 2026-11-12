@@ -3,7 +3,7 @@
 .statusbar { view-transition-name: chrome-status; }
 .nav-wrap { view-transition-name: chrome-nav; }
 .home-indicator { view-transition-name: chrome-home; }
-.avatar-button { view-transition-name: chrome-avatar; }
+/* The avatar must never participate in the transition. */
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -35,6 +35,24 @@
   overflow: clip;
   object-fit: contain;
   object-position: right bottom;
+}
+
+/* Tab bar: fade in place. Do not morph its geometry. */
+::view-transition-group(chrome-nav) {
+  animation: none;
+}
+
+::view-transition-old(chrome-nav) {
+  animation: nav-fade 0.36s ease both;
+}
+
+::view-transition-new(chrome-nav) {
+  animation: nav-fade 0.36s ease both reverse;
+}
+
+@keyframes nav-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

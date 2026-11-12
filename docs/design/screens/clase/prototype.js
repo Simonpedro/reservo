@@ -282,9 +282,6 @@ function renderDetail() {
       <article class="clase-hero ${cls.wash}" data-hero="${cls.id}" aria-label="${cls.title}">
         <div class="hero-bar" data-bar="top">
           <button class="back-button" type="button" data-action="back" aria-label="Volver">${icons.back}</button>
-          <button class="avatar-button" type="button" aria-label="Abrir perfil">
-            <img class="avatar" src="${ASSETS}/avatar.jpg" alt="">
-          </button>
         </div>
         <h1 class="clase-title">${cls.title}</h1>
         <img class="cutout ${cls.imageClass}" src="${ASSETS}/${cls.image}" alt="">
@@ -299,7 +296,6 @@ function renderDetail() {
       </div>
       ${action}
     </section>
-    ${navigation()}
     <div class="home-indicator" aria-hidden="true"></div>
     ${sheet}`;
 }
@@ -335,11 +331,13 @@ function tagHero() {
   if (photo) photo.style.viewTransitionName = "clase-foto";
 }
 
-async function withTransition(prepare, update) {
+async function withTransition(prepare, afterPaint) {
   prepare();
   const go = () => {
-    update();
+    afterPaint();
     paint();
+    if (model.view === "detail") tagHero();
+    else tagCard(model.classId);
   };
   if (typeof document.startViewTransition === "function") {
     try {
@@ -364,8 +362,6 @@ async function openClass(id) {
       model.view = "detail";
     },
   );
-  tagHero();
-  clearTransitionNames();
 }
 
 async function goBack() {
@@ -383,8 +379,6 @@ async function goBack() {
       model.sheet = null;
     },
   );
-  tagCard(id);
-  clearTransitionNames();
 }
 
 function bind() {

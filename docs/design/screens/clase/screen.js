@@ -156,26 +156,6 @@ function sheet() {
     </div>`;
 }
 
-function navigation() {
-  return `
-    <div class="nav-wrap">
-      <nav class="bottom-nav" data-bar="nav" aria-label="Navegación principal">
-        <button class="nav-item active" type="button" aria-current="page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="18" cy="19" r="2"/></svg>
-          <span>Reservar</span>
-        </button>
-        <button class="nav-item" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 19V8l8-5 8 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 21v-7h6v7"/></svg>
-          <span>Mi plan</span>
-        </button>
-        <button class="nav-item" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M8 15h3"/></svg>
-          <span>Pagos</span>
-        </button>
-      </nav>
-    </div>`;
-}
-
 const status = statusMeta();
 
 main.innerHTML = `
@@ -185,9 +165,6 @@ main.innerHTML = `
       <div class="hero-bar" data-bar="top">
         <button class="back-button" type="button" aria-label="Volver">
           ${icons.back}
-        </button>
-        <button class="avatar-button" type="button" aria-label="Abrir perfil">
-          <img class="avatar" src="../reservar/assets/avatar.jpg" alt="">
         </button>
       </div>
       <h1 class="clase-title">${cls.title}</h1>
@@ -203,6 +180,5 @@ main.innerHTML = `
     </div>
     ${action()}
   </section>
-  ${navigation()}
   <div class="home-indicator" aria-hidden="true"></div>
   ${sheet()}`;
