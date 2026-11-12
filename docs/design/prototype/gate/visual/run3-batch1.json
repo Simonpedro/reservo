@@ -1,0 +1,385 @@
+{
+  "screens": [
+    {
+      "id": "login",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": false
+      },
+      "findings": []
+    },
+    {
+      "id": "login-error",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "mis-clases",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark [1] is photo-only (Abrir perfil); allowed icon-only controls are back, close, search, more, add."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-pendiente",
+      "scores": {
+        "R1": 1,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 1,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R1",
+          "severity": 2,
+          "marks": [5, 6],
+          "note": "Navy pill [5] Elegir clase and lime pill tab [6] Mis clases both read as top-level primaries on the same viewport."
+        },
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+        },
+        {
+          "rule": "R10",
+          "severity": 2,
+          "marks": [5, 6],
+          "note": "Primary flows use navy pills ([5]) but the active tab uses a contrasting lime pill ([6]), unlike inner pages in this batch."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-feriado",
+      "scores": {
+        "R1": 1,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 1,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R1",
+          "severity": 2,
+          "marks": [5, 6],
+          "note": "Elegir clase [5] and active Mis clases tab [6] are both pill-shaped focal actions with similar visual weight."
+        },
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+        },
+        {
+          "rule": "R10",
+          "severity": 2,
+          "marks": [5, 6],
+          "note": "Navy primary CTA [5] coexists with lime active-tab pill [6], splitting the one primary-button language used on detail screens."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-sin-horario",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-sin-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+        }
+      ]
+    },
+    {
+      "id": "clase-fija",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-confirmar",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-cancelada",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-menos-24h",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-suspendida",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-usar-pendiente",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-reservada",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    }
+  ]
+}

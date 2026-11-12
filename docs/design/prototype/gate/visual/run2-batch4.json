@@ -1,0 +1,367 @@
+{
+  "screens": [
+    {
+      "id": "admin-asignar-ultimo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-agenda",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "El acceso a ajustes es solo la inicial «V» en círculo, sin etiqueta; no encaja en back/close/search/more/add."
+        }
+      ]
+    },
+    {
+      "id": "admin-agenda-cerrado",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mismo control de perfil solo con inicial «V», sin texto visible."
+        }
+      ]
+    },
+    {
+      "id": "admin-horario-nuevo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-horario-cupo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 1,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R9",
+          "severity": 2,
+          "marks": [8],
+          "note": "El aviso bloquea bajar cupo pero [8] «Guardar» sigue leyéndose como acción principal habilitada; no se ve estado deshabilitado."
+        }
+      ]
+    },
+    {
+      "id": "admin-cierre",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-pagos",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Ajustes accesible solo con inicial «V» en el encabezado, sin etiqueta."
+        }
+      ]
+    },
+    {
+      "id": "admin-comprobante",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-registrar",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-ajustes",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-planes",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 1,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 1
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R5",
+          "severity": 2,
+          "marks": [15],
+          "note": "El botón fijo [15] tapa parcialmente el enlace «Quitar cupo 2» debajo del segundo bloque; dificulta leer la jerarquía del cupo 2."
+        },
+        {
+          "rule": "R10",
+          "severity": 2,
+          "marks": [5, 6, 7, 8, 11, 12, 13, 14],
+          "note": "Actividades como píldoras con check en este plan; en horarios ([2]–[6] de admin-horario-nuevo) los campos equivalentes son selects celestes, patrón distinto en el lote admin."
+        }
+      ]
+    },
+    {
+      "id": "instructor-hoy",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Perfil solo con iniciales «AB», sin etiqueta de texto."
+        }
+      ]
+    },
+    {
+      "id": "instructor-clase",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 1,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R3",
+          "severity": 2,
+          "marks": [],
+          "note": "Las filas de «Anotados» (avatar, nombre, estado) parecen ítems de lista pulsables pero no tienen marca ni chevron; solo [1] es interactivo visible."
+        }
+      ]
+    }
+  ]
+}

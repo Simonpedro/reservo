@@ -1,0 +1,1 @@
+Written `gate/visual/run2-batch1.json` (14 screens). Findings only on `mis-clases`, `mis-clases-pendiente`, `mis-clases-feriado`, `mis-clases-sin-horario`, and `mis-clases-sin-plan` (mostly R4 avatar on mark 1, R5 overlay on pendiente/feriado, R3 empty-state icons on sin-horario/sin-plan).

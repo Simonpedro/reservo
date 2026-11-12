@@ -1,0 +1,102 @@
+[
+  {
+    "id": "ver-proxima-clase",
+    "freq": "daily",
+    "budget": 3,
+    "taps": 1,
+    "navTaps": 1,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "avisar-que-no-voy",
+    "freq": "weekly",
+    "budget": 5,
+    "taps": 3,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "usar-clase-pendiente",
+    "freq": "weekly",
+    "budget": 5,
+    "taps": 3,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "subir-comprobante",
+    "freq": "occasional",
+    "budget": 7,
+    "taps": 4,
+    "navTaps": 4,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "ver-mi-horario",
+    "freq": "weekly",
+    "budget": 5,
+    "taps": 1,
+    "navTaps": 1,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "marcar-ausente",
+    "freq": "daily",
+    "budget": 3,
+    "taps": 3,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "revisar-comprobante",
+    "freq": "daily",
+    "budget": 3,
+    "taps": 3,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "cargar-horario-fijo",
+    "freq": "weekly",
+    "budget": 5,
+    "taps": 5,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "cerrar-feriado",
+    "freq": "occasional",
+    "budget": 7,
+    "taps": 3,
+    "navTaps": 3,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  },
+  {
+    "id": "editar-plan",
+    "freq": "occasional",
+    "budget": 7,
+    "taps": 5,
+    "navTaps": 4,
+    "pass": true,
+    "reached": true,
+    "err": ""
+  }
+]

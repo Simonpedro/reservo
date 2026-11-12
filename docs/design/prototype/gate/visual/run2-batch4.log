@@ -1,0 +1,3 @@
+Visual layer evaluation for batch 4 is in `gate/visual/run2-batch4.json` (14 screens, marks from `gate/report.json` and `gate/marks/412x915/*.png`).
+
+**Findings summary:** R4 on admin tab headers and instructor profile (icon-only initials); R9 on `admin-horario-cupo` (Guardar looks enabled despite the block message); R5 and R10 on `admin-plan` (footer overlap, activity pills vs horario selects); R3 on `instructor-clase` (Anotados rows look tappable but aren’t marked).
