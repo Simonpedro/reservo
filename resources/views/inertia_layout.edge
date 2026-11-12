@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-inertia>Reservo</title>
+
+    @if(page.props.tenant?.themeCss)
+      <style id="tenant-theme">
+        :root { {{ page.props.tenant.themeCss }} }
+      </style>
+    @endif
+
+    @viteReactRefresh()
+    @vite(['inertia/app.tsx'])
+    @inertiaHead()
+    @stack('dumper')
+  </head>
+
+  <body>
+    @inertia()
+  </body>
+
+</html>
