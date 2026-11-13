@@ -81,7 +81,7 @@ function normalizeQuery(query: string | undefined) {
   return query?.trim() ?? ''
 }
 
-function fullNameInitials(fullName: string) {
+export function fullNameInitials(fullName: string) {
   return fullName
     .split(/\s+/)
     .filter(Boolean)
