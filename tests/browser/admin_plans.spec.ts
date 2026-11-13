@@ -7,7 +7,7 @@ const baseUrl = `http://kinaf.localhost:${env.get('PORT')}`
 test.group('Admin plans', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
-  test('admin creates a plan with two quotas from Ajustes', async ({ visit }) => {
+  test('admin creates a plan with two quotas from Ajustes', async ({ assert, visit }) => {
     const page = await visit(`${baseUrl}/login`)
 
     await page.getByLabel('Email').fill('admin@kinaf.test')
@@ -22,7 +22,12 @@ test.group('Admin plans', (group) => {
     await page.getByRole('link', { name: 'Nuevo plan' }).click()
     await page.waitForURL(`${baseUrl}/admin/ajustes/planes/nuevo`)
 
-    await page.getByLabel('Nombre').fill('Yoga más libre')
+    await page.getByRole('button', { name: 'Guardar' }).click()
+    const name = page.getByLabel('Nombre')
+    await page.assertVisible(page.locator('#name-error'))
+    assert.equal(await name.getAttribute('aria-describedby'), 'name-error')
+
+    await name.fill('Yoga más libre')
     await page.getByLabel('Precio por mes').fill('36500')
     await page.assertInputValue(page.getByLabel('Precio por mes'), '36.500')
 

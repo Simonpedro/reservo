@@ -39,10 +39,17 @@ function formatPrice(digits: string) {
   return digits ? Number(digits).toLocaleString('es-AR') : ''
 }
 
-function FieldError({ message }: { message?: string }) {
+function describedBy(id: string, message: unknown) {
+  return message ? id : undefined
+}
+
+/**
+ * The field points at this message with aria-describedby (see describedBy).
+ */
+function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
   return (
-    <p role="status" className="text-sm font-extrabold text-foreground">
+    <p id={id} role="status" className="text-sm font-extrabold text-foreground">
       {message}
     </p>
   )
@@ -175,10 +182,11 @@ export default function AdminPlanForm({
               value={form.data.name}
               onChange={(event) => form.setData('name', event.target.value)}
               aria-invalid={Boolean(errors.name)}
+              aria-describedby={describedBy('name-error', errors.name)}
               required
               className={fieldClass}
             />
-            <FieldError message={errors.name} />
+            <FieldError id="name-error" message={errors.name} />
           </div>
           <div className="grid content-start gap-1.5">
             <label htmlFor="price" className="text-sm font-extrabold">
@@ -194,14 +202,19 @@ export default function AdminPlanForm({
                 form.setData('price', event.target.value.replace(/\D/g, '').slice(0, 8))
               }
               aria-invalid={Boolean(errors.price)}
+              aria-describedby={describedBy('price-error', errors.price)}
               required
               className={fieldClass}
             />
-            <FieldError message={errors.price} />
+            <FieldError id="price-error" message={errors.price} />
           </div>
         </div>
 
-        <section className="mt-6" aria-labelledby="quotas-title">
+        <section
+          className="mt-6"
+          aria-labelledby="quotas-title"
+          aria-describedby={describedBy('quotas-error', errors.quotas)}
+        >
           <h2 id="quotas-title" className="text-lg leading-none font-black tracking-[-0.035em]">
             Cupos semanales
           </h2>
@@ -242,6 +255,10 @@ export default function AdminPlanForm({
                           updateQuota(index, { weeklyCount: Number(event.target.value) })
                         }
                         aria-invalid={Boolean(errors[`quotas.${index}.weeklyCount`])}
+                        aria-describedby={describedBy(
+                          `quota-${quota.key}-count-error`,
+                          errors[`quotas.${index}.weeklyCount`]
+                        )}
                         className={cn(fieldClass, 'appearance-none pr-12')}
                       >
                         {COUNTS.map((count) => (
@@ -256,7 +273,10 @@ export default function AdminPlanForm({
                         aria-hidden="true"
                       />
                     </div>
-                    <FieldError message={errors[`quotas.${index}.weeklyCount`]} />
+                    <FieldError
+                      id={`quota-${quota.key}-count-error`}
+                      message={errors[`quotas.${index}.weeklyCount`]}
+                    />
                   </div>
                   <div className="grid gap-1.5">
                     <span className="text-sm font-extrabold" id={`quota-${quota.key}-activities`}>
@@ -265,6 +285,10 @@ export default function AdminPlanForm({
                     <div
                       role="group"
                       aria-labelledby={`quota-${quota.key}-activities`}
+                      aria-describedby={describedBy(
+                        `quota-${quota.key}-activities-error`,
+                        errors[`quotas.${index}.activityIds`]
+                      )}
                       className="flex flex-wrap gap-2"
                     >
                       <Toggle
@@ -283,7 +307,10 @@ export default function AdminPlanForm({
                         />
                       ))}
                     </div>
-                    <FieldError message={errors[`quotas.${index}.activityIds`]} />
+                    <FieldError
+                      id={`quota-${quota.key}-activities-error`}
+                      message={errors[`quotas.${index}.activityIds`]}
+                    />
                   </div>
                   {form.data.quotas.length > 1 && (
                     <Button
@@ -326,7 +353,7 @@ export default function AdminPlanForm({
             </>
           )}
           <div className="mt-3">
-            <FieldError message={errors.quotas} />
+            <FieldError id="quotas-error" message={errors.quotas} />
           </div>
         </section>
       </form>

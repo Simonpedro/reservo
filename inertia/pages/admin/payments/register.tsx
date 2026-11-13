@@ -21,10 +21,17 @@ function formatAmount(digits: string) {
   return digits ? Number(digits).toLocaleString('es-AR') : ''
 }
 
-function FieldError({ message }: { message?: string }) {
+function describedBy(id: string, message: unknown) {
+  return message ? id : undefined
+}
+
+/**
+ * The field points at this message with aria-describedby (see describedBy).
+ */
+function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
   return (
-    <p role="status" className="text-sm font-extrabold text-foreground">
+    <p id={id} role="status" className="text-sm font-extrabold text-foreground">
       {message}
     </p>
   )
@@ -35,12 +42,14 @@ function Select({
   value,
   onChange,
   invalid,
+  describedBy: description,
   children,
 }: {
   id: string
   value: string
   onChange: (value: string) => void
   invalid?: boolean
+  describedBy?: string
   children: ReactNode
 }) {
   return (
@@ -50,6 +59,7 @@ function Select({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         aria-invalid={invalid}
+        aria-describedby={description}
         className={cn(fieldClass, 'appearance-none pr-12')}
       >
         {children}
@@ -129,6 +139,7 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
             value={form.data.userId}
             onChange={(value) => pick('userId', value)}
             invalid={Boolean(errors.userId)}
+            describedBy={describedBy('userId-error', errors.userId)}
           >
             <option value="" disabled>
               Elegí a la persona
@@ -139,7 +150,7 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
               </option>
             ))}
           </Select>
-          <FieldError message={errors.userId} />
+          <FieldError id="userId-error" message={errors.userId} />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -152,6 +163,7 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
               value={form.data.period}
               onChange={(value) => pick('period', value)}
               invalid={Boolean(errors.period) || alreadyPaid || noPlan}
+              describedBy={describedBy('period-error', errors.period || alreadyPaid || noPlan)}
             >
               {months.map((month) => (
                 <option key={month.value} value={month.value}>
@@ -174,12 +186,14 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
                 form.setData('amount', event.target.value.replace(/\D/g, '').slice(0, 8))
               }
               aria-invalid={Boolean(errors.amount)}
+              aria-describedby={describedBy('period-error', errors.amount)}
               required
               className={fieldClass}
             />
           </div>
         </div>
         <FieldError
+          id="period-error"
           message={
             alreadyPaid
               ? 'Esa cuota ya está pagada.'
@@ -198,6 +212,7 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
             value={form.data.method}
             onChange={(value) => form.setData('method', value as Method)}
             invalid={Boolean(errors.method)}
+            describedBy={describedBy('method-error', errors.method)}
           >
             {METHODS.map((method) => (
               <option key={method.value} value={method.value}>
@@ -210,7 +225,7 @@ export default function RegisterPayment({ form: options }: { form: RegisterForm 
               Queda pagada aunque no hayas cobrado.
             </p>
           )}
-          <FieldError message={errors.method} />
+          <FieldError id="method-error" message={errors.method} />
         </div>
       </form>
     </AdminInnerLayout>
