@@ -14,6 +14,8 @@ test.group('Admin clients', (group) => {
     await page.getByLabel('Contraseña').fill('KinafDev2026!')
     await page.getByRole('button', { name: 'Ingresar' }).click()
 
+    await page.waitForURL(`${baseUrl}/admin/hoy`)
+    await page.getByRole('link', { name: 'Clientes' }).click()
     await page.waitForURL(`${baseUrl}/admin/clientes`)
     await page.assertVisible(page.getByRole('heading', { level: 1, name: 'Clientes' }))
 
