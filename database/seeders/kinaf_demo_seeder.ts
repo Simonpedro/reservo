@@ -59,15 +59,10 @@ export default class extends BaseSeeder {
       await tenant.save()
     }
 
-    const centers = new Map(
-      (await Center.query().where('tenantId', tenantId)).map((center) => [center.slug, center])
-    )
-    const activities = new Map(
-      (await Activity.query().where('tenantId', tenantId)).map((activity) => [
-        activity.slug,
-        activity,
-      ])
-    )
+    const centerRows = await Center.query().where('tenantId', tenantId)
+    const centers = new Map(centerRows.map((center) => [center.slug, center]))
+    const activityRows = await Activity.query().where('tenantId', tenantId)
+    const activities = new Map(activityRows.map((activity) => [activity.slug, activity]))
 
     const schedules = new Map<string, ClassSchedule>()
     for (const [weekday, startTime, activity, center, instructorName, capacity] of SCHEDULES) {
