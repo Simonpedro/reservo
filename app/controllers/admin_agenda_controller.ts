@@ -26,11 +26,11 @@ export default class AdminAgendaController {
   }
 
   /**
-   * Semana: the typical week with the people of each class.
+   * Semana: one dated week with the people of each class.
    */
   async week({ inertia, request, tenant }: HttpContext) {
     return inertia.render('admin/agenda_week', {
-      week: await adminWeek(tenant!.id, request.input('centro')),
+      week: await adminWeek(tenant!.id, request.input('centro'), request.input('semana')),
     })
   }
 

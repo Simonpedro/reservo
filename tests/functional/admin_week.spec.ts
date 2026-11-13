@@ -1,12 +1,17 @@
+import { FixedSlotFactory } from '#database/factories/plan_factories'
 import { UserFactory } from '#database/factories/user_factory'
+import { BUSINESS_ZONE, businessDate, businessNow, startOfWeek } from '#services/business_calendar'
 import { createCatalog, createSchedule, createStudent, type Catalog } from '#tests/support/scenario'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { test } from '@japa/runner'
+import { DateTime } from 'luxon'
 
 const hostOf = (catalog: Catalog) => `${catalog.tenant.slug}.localhost`
 
 type Props = {
   week: {
+    start: string
+    title: string
     centers: { slug: string; name: string }[]
     center: { slug: string; name: string } | null
     days: Array<{
@@ -61,8 +66,9 @@ test.group('Admin · Agenda › Semana', (group) => {
     response.assertStatus(200)
     response.assertInertiaComponent('admin/agenda_week')
     const props = response.inertiaProps as Props
+    assert.equal(props.week.start, startOfWeek(businessDate(businessNow())))
     assert.deepEqual(
-      props.week.days.map((day) => day.name),
+      props.week.days.map((day) => day.name.split(' ')[0]),
       ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
     )
     assert.deepEqual(
@@ -90,6 +96,69 @@ test.group('Admin · Agenda › Semana', (group) => {
     const props = response.inertiaProps as Props
     assert.deepEqual(props.week.center, { slug: w.catalog.ovidio.slug, name: 'Ovidio Lagos' })
     assert.deepEqual(names(props), ['Sofi Ortiz'])
+  })
+
+  test('?semana= shows that week, with the people of each class on its date', async ({
+    client,
+    assert,
+  }) => {
+    const w = await world()
+    const day = (iso: string) => DateTime.fromISO(iso, { zone: BUSINESS_ZONE })
+    // Mara moves from Monday Pilates to Thursday Yoga on Monday 23 November.
+    const mara = await createStudent(w.catalog, {
+      schedules: [w.pilates],
+      fullName: 'Mara Gómez',
+      slot: { startsOn: day('2026-09-01'), endsOn: day('2026-11-22') },
+    })
+    await FixedSlotFactory.merge({
+      tenantId: w.catalog.tenant.id,
+      subscriptionId: mara.subscription.id,
+      userId: mara.user.id,
+      planQuotaId: mara.quota.id,
+      classScheduleId: w.yoga.id,
+      startsOn: day('2026-11-23'),
+      endsOn: null,
+    }).create()
+    const visit = (qs: Record<string, string>) =>
+      client
+        .get('/admin/agenda/semana')
+        .qs(qs)
+        .header('host', hostOf(w.catalog))
+        .loginAs(w.admin)
+        .withInertia()
+    const classOf = (props: Props, scheduleId: number) =>
+      props.week.days
+        .flatMap((weekDay) => weekDay.classes)
+        .find((item) => item.scheduleId === scheduleId)
+
+    const before = await visit({ semana: '2026-11-19' })
+    before.assertStatus(200)
+    const beforeProps = before.inertiaProps as Props
+    assert.include(beforeProps.week, {
+      start: '2026-11-16',
+      title: 'Semana del 16 al 21 de noviembre',
+    })
+    assert.include(
+      classOf(beforeProps, w.pilates.id)!.people.map((person) => person.fullName),
+      'Mara Gómez'
+    )
+    assert.notInclude(
+      classOf(beforeProps, w.yoga.id)!.people.map((person) => person.fullName),
+      'Mara Gómez'
+    )
+
+    const after = await visit({ semana: '2026-11-23', centro: w.catalog.ovidio.slug })
+    const afterProps = after.inertiaProps as Props
+    assert.equal(afterProps.week.start, '2026-11-23')
+    assert.deepEqual(afterProps.week.center, {
+      slug: w.catalog.ovidio.slug,
+      name: 'Ovidio Lagos',
+    })
+    assert.isUndefined(classOf(afterProps, w.pilates.id))
+    assert.include(
+      classOf(afterProps, w.yoga.id)!.people.map((person) => person.fullName),
+      'Mara Gómez'
+    )
   })
 
   test('only admins see the week', async ({ client }) => {

@@ -1,5 +1,5 @@
 import { Link } from '@adonisjs/inertia/react'
-import { CalendarDays, ChevronRight, MapPin, Plus, Users } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight, MapPin, Plus, Users } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { WeekClass, WeekView } from '#services/admin_week'
 import { occupancyText } from '#services/places_text'
@@ -14,6 +14,31 @@ const WASH = {
   celeste: 'bg-wash-celeste',
   blue: 'bg-wash-blue',
 } as const
+
+/**
+ * The week URL, keeping the center filter.
+ */
+function weekHref(week: string, center: string | null) {
+  const query = new URLSearchParams({ semana: week })
+  if (center) query.set('centro', center)
+  return `/admin/agenda/semana?${query}`
+}
+
+/**
+ * The round arrow to the week before or after.
+ */
+function WeekArrow({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) {
+  return (
+    <Link
+      href={href}
+      preserveScroll
+      aria-label={label}
+      className="grid size-11 shrink-0 place-items-center rounded-full bg-muted text-navy"
+    >
+      <Icon className="size-[22px]" strokeWidth={2.4} aria-hidden="true" />
+    </Link>
+  )
+}
 
 function classesText(count: number) {
   if (count === 0) return 'Sin horarios'
@@ -47,9 +72,9 @@ function WeekClassCard({ item }: { item: WeekClass }) {
     >
       <div className="flex items-center gap-2">
         <span className="text-lg leading-none font-black tabular-nums">{item.startTime}</span>
-        <h3 className="min-w-0 flex-1 text-lg leading-tight font-black tracking-[-0.035em]">
+        <h4 className="min-w-0 flex-1 text-lg leading-tight font-black tracking-[-0.035em]">
           {item.activity.name}
-        </h3>
+        </h4>
         <ChevronRight className="size-[18px] opacity-55" strokeWidth={2.5} aria-hidden="true" />
       </div>
       <div className="mt-1.5 grid gap-1">
@@ -59,15 +84,12 @@ function WeekClassCard({ item }: { item: WeekClass }) {
       {item.people.length > 0 ? (
         <ul className="mt-2.5 grid gap-1 border-t border-navy/12 pt-2.5 text-sm leading-tight font-bold">
           {item.people.map((person) => (
-            <li key={person.userId}>
-              {person.fullName}
-              {person.note && <span className="text-muted-foreground">{` · ${person.note}`}</span>}
-            </li>
+            <li key={person.userId}>{person.fullName}</li>
           ))}
         </ul>
       ) : (
         <p className="mt-2.5 border-t border-navy/12 pt-2.5 text-sm leading-tight font-bold text-muted-foreground">
-          Nadie con horario fijo todavía.
+          Nadie con horario fijo esta semana.
         </p>
       )}
     </Link>
@@ -75,9 +97,9 @@ function WeekClassCard({ item }: { item: WeekClass }) {
 }
 
 /**
- * Agenda › Semana: the typical week (the Excel the center used to keep).
- * On the phone, one section per day with jump chips; on wide screens, one
- * column per day.
+ * Agenda › Semana: one dated week (the Excel the center used to keep), with
+ * arrows to the weeks before and after. On the phone, one section per day
+ * with jump chips; on wide screens, one column per day.
  */
 export default function AdminAgendaWeek({ week }: { week: WeekView }) {
   return (
@@ -96,6 +118,22 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
     >
       <AgendaSwitch current="week" />
 
+      <div className="mt-4 flex items-center gap-2">
+        <WeekArrow
+          href={weekHref(week.previous, week.center?.slug ?? null)}
+          label="Semana anterior"
+          icon={ChevronLeft}
+        />
+        <h2 className="min-w-0 flex-1 text-center text-lg leading-tight font-black tracking-[-0.035em]">
+          {week.title}
+        </h2>
+        <WeekArrow
+          href={weekHref(week.next, week.center?.slug ?? null)}
+          label="Semana siguiente"
+          icon={ChevronRight}
+        />
+      </div>
+
       {week.centers.length > 0 && (
         <nav aria-label="Centros" className="mt-4 flex flex-wrap gap-2">
           {[{ slug: null, name: 'Todas' }, ...week.centers].map((center) => {
@@ -103,11 +141,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
             return (
               <Link
                 key={center.slug ?? '*'}
-                href={
-                  center.slug
-                    ? `/admin/agenda/semana?centro=${encodeURIComponent(center.slug)}`
-                    : '/admin/agenda/semana'
-                }
+                href={weekHref(week.start, center.slug)}
                 preserveScroll
                 replace
                 aria-current={selected ? 'page' : undefined}
@@ -145,7 +179,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
                   day.classes.length > 0 ? 'bg-wash-celeste text-navy' : 'text-navy/62'
                 )}
               >
-                {day.short}
+                {`${day.short} ${day.day}`}
               </a>
             ))}
           </nav>
@@ -159,12 +193,12 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
                 className="mt-5 scroll-mt-16 md:mt-0"
               >
                 <div className="mb-2.5 flex items-baseline justify-between gap-2">
-                  <h2
+                  <h3
                     id={`dia-${day.weekday}-titulo`}
                     className="text-lg leading-none font-black tracking-[-0.035em]"
                   >
                     {day.name}
-                  </h2>
+                  </h3>
                   <span className="text-sm font-bold text-muted-foreground">
                     {classesText(day.classes.length)}
                   </span>

@@ -1,10 +1,19 @@
 import Activity from '#models/activity'
 import Center from '#models/center'
 import Tenant from '#models/tenant'
+import { FixedSlotFactory } from '#database/factories/plan_factories'
+import {
+  addDays,
+  BUSINESS_ZONE,
+  businessDate,
+  businessNow,
+  startOfWeek,
+} from '#services/business_calendar'
 import env from '#start/env'
 import { createSchedule, createStudent, type Catalog } from '#tests/support/scenario'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { test } from '@japa/runner'
+import { DateTime } from 'luxon'
 
 const baseUrl = `http://kinaf.localhost:${env.get('PORT')}`
 
@@ -30,11 +39,14 @@ async function kinaf(): Promise<Catalog> {
 test.group('Admin · Agenda › Semana', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
-  test('admin switches the agenda to the week, sees the names and opens a class', async ({
+  test('admin opens the week, sees who comes and the change of schedule next week', async ({
     visit,
   }) => {
     const catalog = await kinaf()
-    const schedule = await createSchedule(catalog, {
+    const monday = startOfWeek(businessDate(businessNow()))
+    const nextMonday = addDays(monday, 7)
+    const day = (iso: string) => DateTime.fromISO(iso, { zone: BUSINESS_ZONE })
+    const yoga = await createSchedule(catalog, {
       activity: catalog.yoga,
       center: catalog.ovidio,
       weekday: 3,
@@ -42,8 +54,34 @@ test.group('Admin · Agenda › Semana', (group) => {
       instructorName: 'Mica',
       capacity: 6,
     })
-    await createStudent(catalog, { schedules: [schedule], fullName: 'Rita Pérez' })
-    await createStudent(catalog, { schedules: [schedule], fullName: 'Tomás Gil' })
+    const pilates = await createSchedule(catalog, {
+      activity: catalog.pilates,
+      center: catalog.ovidio,
+      weekday: 5,
+      startTime: '06:45',
+      instructorName: 'Mica',
+      capacity: 6,
+    })
+    await createStudent(catalog, {
+      schedules: [yoga],
+      fullName: 'Rita Pérez',
+      slot: { startsOn: day(addDays(monday, -30)), endsOn: null },
+    })
+    // Tomás leaves Wednesday Yoga this Sunday and starts Friday Pilates next Monday.
+    const tomas = await createStudent(catalog, {
+      schedules: [yoga],
+      fullName: 'Tomás Gil',
+      slot: { startsOn: day(addDays(monday, -30)), endsOn: day(addDays(monday, 6)) },
+    })
+    await FixedSlotFactory.merge({
+      tenantId: catalog.tenant.id,
+      subscriptionId: tomas.subscription.id,
+      userId: tomas.user.id,
+      planQuotaId: tomas.quota.id,
+      classScheduleId: pilates.id,
+      startsOn: day(nextMonday),
+      endsOn: null,
+    }).create()
 
     const page = await visit(`${baseUrl}/login`)
     await page.setViewportSize({ width: 390, height: 844 })
@@ -56,20 +94,34 @@ test.group('Admin · Agenda › Semana', (group) => {
     await page.waitForURL(`${baseUrl}/admin/agenda`)
     await page.getByRole('link', { name: 'Semana' }).click()
     await page.waitForURL(`${baseUrl}/admin/agenda/semana`)
-    await page.assertVisible(page.getByRole('link', { name: 'Semana', exact: true }))
+    await page.assertVisible(page.getByRole('heading', { name: /^Semana del/ }))
 
+    const yogaCard = page.getByRole('link', { name: /06:30.*Yoga/ })
+    const pilatesCard = page.getByRole('link', { name: /06:45.*Pilates/ })
     await page.getByRole('link', { name: /^Miércoles/ }).click()
-    const card = page.getByRole('link', { name: /06:30.*Yoga.*Rita Pérez.*Tomás Gil/ })
-    await page.assertVisible(card)
-    await page.assertTextContains(card, 'Ovidio Lagos · Mica')
-    await page.assertTextContains(card, '2 anotados · 4 lugares libres')
+    await page.assertVisible(yogaCard)
+    await page.assertTextContains(yogaCard, 'Ovidio Lagos · Mica')
+    await page.assertTextContains(yogaCard, 'Rita Pérez')
+    await page.assertTextContains(yogaCard, 'Tomás Gil')
+    await page.assertTextContains(yogaCard, '2 anotados · 4 lugares libres')
+    await page.assertTextContains(pilatesCard, 'Nadie con horario fijo esta semana.')
 
     await page.getByRole('link', { name: 'Ovidio Lagos', exact: true }).click()
     await page.waitForURL(/centro=ovidio-lagos/)
-    await page.assertVisible(card)
+    await page.getByRole('link', { name: 'Semana siguiente' }).click()
+    await page.waitForURL(new RegExp(`semana=${nextMonday}&centro=ovidio-lagos`))
+    await page.assertVisible(
+      page
+        .getByRole('link', { name: 'Ovidio Lagos', exact: true })
+        .and(page.locator('[aria-current="page"]'))
+    )
+    await page.assertTextContains(yogaCard, '1 anotado · 5 lugares libres')
+    await page.assertTextContains(pilatesCard, 'Tomás Gil')
+    await page.assertTextContains(pilatesCard, '1 anotado · 5 lugares libres')
+    await page.assertNotExists(yogaCard.getByText('Tomás Gil'))
 
-    await card.click()
-    await page.waitForURL(`${baseUrl}/admin/horarios/${schedule.id}?desde=semana`)
+    await yogaCard.click()
+    await page.waitForURL(`${baseUrl}/admin/horarios/${yoga.id}?desde=semana`)
     await page.assertTextContains('main', 'Editar horario')
     await page.getByRole('link', { name: 'Volver' }).click()
     await page.waitForURL(`${baseUrl}/admin/agenda/semana`)

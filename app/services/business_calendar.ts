@@ -48,6 +48,22 @@ export function dateRange(from: IsoDate, days: number): IsoDate[] {
   return Array.from({ length: days }, (_, index) => addDays(from, index))
 }
 
+/**
+ * The Monday of the date's week.
+ */
+export function startOfWeek(date: IsoDate): IsoDate {
+  return addDays(date, 1 - isoWeekday(date))
+}
+
+/**
+ * The value as a business date when it is a real 'yyyy-MM-dd' date
+ * ('2026-02-30' is not), null otherwise.
+ */
+export function validDate(value: unknown): IsoDate | null {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null
+  return parse(value).isValid ? value : null
+}
+
 export function endOfWeek(date: IsoDate): IsoDate {
   return addDays(date, 7 - isoWeekday(date))
 }

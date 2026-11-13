@@ -93,7 +93,7 @@ Sin `DAILY_RUN_TOKEN` configurado, el endpoint responde 404.
 ## Ajustes y agenda del admin
 
 - **Ajustes** (desde el avatar): Planes, Actividades y Centros. Las actividades tienen nombre y color de tarjeta (celeste, verde o azul); los centros (Mendoza, Ovidio Lagos), nombre. El slug sale del nombre y no cambia al renombrar; un nombre repetido (sin importar mayúsculas ni tildes) se rechaza. No se desactivan ni se borran (`app/services/admin_catalog.ts`).
-- **Agenda › Semana** (`/admin/agenda/semana`): la semana tipo, como el Excel de Kinaf. Cada horario activo con su ocupación y los nombres de quienes lo tienen como horario fijo; filtro por centro (`?centro=<slug>`) si hay más de uno. En el teléfono va un día abajo del otro; en pantallas anchas, una columna por día (`app/services/admin_week.ts`).
+- **Agenda › Semana** (`/admin/agenda/semana`): una semana con fechas (de lunes a sábado, y domingo si hay clases), como el Excel de Kinaf. Arranca en la semana actual y se mueve con las flechas (`?semana=<fecha>`: cualquier fecha lleva al lunes de su semana; también se ven semanas pasadas). Cada horario activo con los nombres de quienes lo tienen como horario fijo ese mismo día, y la ocupación que suman: si Tomás pasa del miércoles al viernes desde el lunes 23, aparece en el miércoles hasta la semana del 16 y en el viernes desde la del 23. Es solo lectura. Filtro por centro (`?centro=<slug>`) si hay más de uno. En el teléfono va un día abajo del otro; en pantallas anchas, una columna por día (`app/services/admin_week.ts`).
 
 ## Scripts
 

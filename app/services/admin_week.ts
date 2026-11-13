@@ -3,19 +3,22 @@ import Center from '#models/center'
 import ClassSchedule from '#models/class_schedule'
 import FixedSlot from '#models/fixed_slot'
 import {
+  addDays,
+  BUSINESS_ZONE,
   businessDate,
   businessNow,
-  dayName,
+  longDayLabel,
+  startOfWeek,
+  validDate,
   weekdayNames,
   type IsoDate,
 } from '#services/business_calendar'
-import type { DateTime } from 'luxon'
+import { DateTime } from 'luxon'
 
 /**
- * A person with this class as fixed schedule. `note` says when it starts or
- * ends if that is not "always": "desde el lunes 16", "hasta el domingo 15".
+ * A person with this class as fixed schedule on the class date.
  */
-export type WeekPerson = { userId: number; fullName: string; note: string | null }
+export type WeekPerson = { userId: number; fullName: string }
 
 export type WeekClass = {
   scheduleId: number
@@ -24,7 +27,7 @@ export type WeekClass = {
   centerName: string
   instructorName: string
   /**
-   * People with a fixed schedule here (what the capacity can't go below).
+   * People with a fixed schedule here on the class date.
    */
   taken: number
   capacity: number
@@ -33,15 +36,30 @@ export type WeekClass = {
 
 export type WeekDay = {
   weekday: number
+  date: IsoDate
   /**
-   * "Lunes" and "Lun".
+   * "Lunes 16" and "Lun".
    */
   name: string
   short: string
+  /**
+   * Day of the month: 16.
+   */
+  day: number
   classes: WeekClass[]
 }
 
 export type WeekView = {
+  /**
+   * The Monday of the week shown, and of the weeks before and after it.
+   */
+  start: IsoDate
+  previous: IsoDate
+  next: IsoDate
+  /**
+   * "Semana del 16 al 21 de noviembre".
+   */
+  title: string
   /**
    * The centers to filter by; empty when there is only one.
    */
@@ -60,25 +78,55 @@ export type WeekView = {
   total: number
 }
 
-function noteOf(slot: FixedSlot, today: IsoDate): string | null {
-  const startsOn = slot.startsOn.toISODate()!
-  if (startsOn > today) return `desde el ${dayName(startsOn)}`
-  if (slot.endsOn) return `hasta el ${dayName(slot.endsOn.toISODate()!)}`
-  return null
+/**
+ * The Monday of the requested date's week, or of the current week when the
+ * request is not a date.
+ */
+export function weekStart(requested: unknown, today: IsoDate): IsoDate {
+  return startOfWeek(validDate(requested) ?? today)
+}
+
+function dayAndMonth(date: IsoDate, withYear: boolean) {
+  return DateTime.fromISO(date, { zone: BUSINESS_ZONE })
+    .setLocale('es-AR')
+    .toFormat(withYear ? "d 'de' LLLL 'de' yyyy" : "d 'de' LLLL")
 }
 
 /**
- * Agenda › Semana: the typical week, as the Excel the center used to keep.
- * Every active weekly class by day and time, with its occupation and the
- * people who have it as fixed schedule today or later (the same people the
- * capacity can't go below). `requestedCenter` is a center slug.
+ * "Semana del 16 al 21 de noviembre", "Semana del 30 de noviembre al 5 de
+ * diciembre" or, across years, with both years.
+ */
+export function weekTitle(first: IsoDate, last: IsoDate) {
+  if (first.slice(0, 7) === last.slice(0, 7)) {
+    return `Semana del ${Number(first.slice(8))} al ${dayAndMonth(last, false)}`
+  }
+  const withYear = first.slice(0, 4) !== last.slice(0, 4)
+  return `Semana del ${dayAndMonth(first, withYear)} al ${dayAndMonth(last, withYear)}`
+}
+
+/**
+ * Whether the fixed slot holds on the date.
+ */
+function validOn(slot: FixedSlot, date: IsoDate) {
+  const endsOn = slot.endsOn?.toISODate() ?? null
+  return slot.startsOn.toISODate()! <= date && (endsOn === null || endsOn >= date)
+}
+
+/**
+ * Agenda › Semana: one dated week, as the Excel the center used to keep.
+ * Every active weekly class by day and time, with the people who have it as
+ * fixed schedule on that very date and the occupation they make. Someone
+ * changing schedule shows up in the old class until the change and in the
+ * new one after it, never in both. Read only. `requestedCenter` is a center
+ * slug and `requestedWeek` any date of the week.
  */
 export async function adminWeek(
   tenantId: number,
   requestedCenter: unknown,
+  requestedWeek: unknown,
   now: DateTime = businessNow()
 ): Promise<WeekView> {
-  const today = businessDate(now)
+  const start = weekStart(requestedWeek, businessDate(now))
   const centers = await Center.query().where('tenantId', tenantId).orderBy('name')
   const center =
     centers.length > 1 ? (centers.find((row) => row.slug === requestedCenter) ?? null) : null
@@ -94,6 +142,11 @@ export async function adminWeek(
   if (center) query.where('centerId', center.id)
   const schedules = await query
 
+  const weekdays = [1, 2, 3, 4, 5, 6]
+  if (schedules.some((schedule) => schedule.weekday === 7)) weekdays.push(7)
+  const dateOf = (weekday: number) => addDays(start, weekday - 1)
+  const last = dateOf(weekdays.at(-1)!)
+
   const slots = schedules.length
     ? await FixedSlot.query()
         .where('tenantId', tenantId)
@@ -101,43 +154,46 @@ export async function adminWeek(
           'classScheduleId',
           schedules.map((schedule) => schedule.id)
         )
-        .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
+        .where('startsOn', '<=', addDays(start, 6))
+        .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', start))
         .preload('user', (user) => user.where('tenantId', tenantId))
     : []
-  const people = new Map<number, WeekPerson[]>()
-  for (const slot of slots) {
-    const list = people.get(slot.classScheduleId) ?? []
-    list.push({ userId: slot.userId, fullName: slot.user.fullName, note: noteOf(slot, today) })
-    people.set(slot.classScheduleId, list)
-  }
-
-  const weekdays = [1, 2, 3, 4, 5, 6]
-  if (schedules.some((schedule) => schedule.weekday === 7)) weekdays.push(7)
 
   return {
+    start,
+    previous: addDays(start, -7),
+    next: addDays(start, 7),
+    title: weekTitle(start, last),
     centers: centers.length > 1 ? centers.map(({ slug, name }) => ({ slug, name })) : [],
     center: center && { slug: center.slug, name: center.name },
-    days: weekdays.map((weekday) => ({
-      weekday,
-      ...weekdayNames(weekday),
-      classes: schedules
-        .filter((schedule) => schedule.weekday === weekday)
-        .map((schedule) => {
-          const list = (people.get(schedule.id) ?? []).sort((left, right) =>
-            left.fullName.localeCompare(right.fullName, 'es')
-          )
-          return {
-            scheduleId: schedule.id,
-            startTime: schedule.startTime,
-            activity: { name: schedule.activity.name, wash: schedule.activity.wash },
-            centerName: schedule.center.name,
-            instructorName: schedule.instructorName,
-            taken: list.length,
-            capacity: schedule.capacity,
-            people: list,
-          }
-        }),
-    })),
+    days: weekdays.map((weekday) => {
+      const date = dateOf(weekday)
+      return {
+        weekday,
+        date,
+        name: longDayLabel(date),
+        short: weekdayNames(weekday).short,
+        day: Number(date.slice(8)),
+        classes: schedules
+          .filter((schedule) => schedule.weekday === weekday)
+          .map((schedule) => {
+            const people = slots
+              .filter((slot) => slot.classScheduleId === schedule.id && validOn(slot, date))
+              .map((slot) => ({ userId: slot.userId, fullName: slot.user.fullName }))
+              .sort((left, right) => left.fullName.localeCompare(right.fullName, 'es'))
+            return {
+              scheduleId: schedule.id,
+              startTime: schedule.startTime,
+              activity: { name: schedule.activity.name, wash: schedule.activity.wash },
+              centerName: schedule.center.name,
+              instructorName: schedule.instructorName,
+              taken: people.length,
+              capacity: schedule.capacity,
+              people,
+            }
+          }),
+      }
+    }),
     total: schedules.length,
   }
 }
