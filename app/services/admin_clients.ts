@@ -36,6 +36,10 @@ export type AdminClientsList = {
 
 export type AdminClientPlan = {
   name: string
+  /**
+   * Set while the plan has not started yet.
+   */
+  startsOn: string | null
   quotas: string[]
 }
 
@@ -163,7 +167,6 @@ export async function listAdminClients(
   const subscriptions = await Subscription.query()
     .where('tenantId', tenantId)
     .whereIn('userId', userIds)
-    .where('startsOn', '<=', today)
     .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
     .orderBy('startsOn', 'desc')
     .preload('plan')
@@ -178,7 +181,6 @@ export async function listAdminClients(
   const slots = await FixedSlot.query()
     .where('tenantId', tenantId)
     .whereIn('userId', userIds)
-    .where('startsOn', '<=', today)
     .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
     .select('userId')
 
@@ -291,10 +293,12 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
     .first()
   if (!client) return null
 
+  /**
+   * The latest plan not ended yet: after a change it is the one starting next.
+   */
   const subscription = await Subscription.query()
     .where('tenantId', tenantId)
     .where('userId', clientId)
-    .where('startsOn', '<=', today)
     .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
     .orderBy('startsOn', 'desc')
     .preload('plan', (plan) =>
@@ -305,7 +309,7 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
   const fixedSlots = await FixedSlot.query()
     .where('tenantId', tenantId)
     .where('userId', clientId)
-    .where('startsOn', '<=', today)
+    .where('subscriptionId', subscription?.id ?? 0)
     .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
     .preload('classSchedule', (schedule) => schedule.preload('activity').preload('center'))
 
@@ -385,6 +389,8 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
   const plan = subscription
     ? {
         name: subscription.plan.name,
+        startsOn:
+          subscription.startsOn.toISODate()! > today ? subscription.startsOn.toISODate()! : null,
         quotas: subscription.plan.quotas
           .sort((left, right) => left.position - right.position)
           .map((quota) => quotaSummaryLine(quota)),
