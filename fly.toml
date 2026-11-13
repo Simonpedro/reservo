@@ -5,6 +5,7 @@ primary_region = "gru"
   dockerfile = "Dockerfile"
 
 [deploy]
+  # Production seed runs by hand: fly ssh console -C "sh -c 'cd /app && npm run seed:prod'"
   release_command = "node ace migration:run --force"
 
 [env]
@@ -14,6 +15,8 @@ primary_region = "gru"
   LOG_LEVEL = "info"
   SESSION_DRIVER = "cookie"
   APP_BASE_DOMAIN = "reservo.fit"
+  # reservo.fly.dev (no DNS yet) resolves to Kinaf
+  FALLBACK_TENANT_SLUG = "kinaf"
 
 [http_service]
   internal_port = 8080
