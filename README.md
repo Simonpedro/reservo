@@ -90,6 +90,11 @@ Sin `DAILY_RUN_TOKEN` configurado, el endpoint responde 404.
 - El comprobante (imagen o PDF, máx. 5 MB) se guarda en Postgres (`receipts.data`). `GET /pagos/comprobantes/:id` lo sirve solo al alumno dueño o al admin del tenant.
 - Los alias de transferencia son datos del tenant (`tenants.transfer_aliases`).
 
+## Ajustes y agenda del admin
+
+- **Ajustes** (desde el avatar): Planes, Actividades y Sedes. Las actividades tienen nombre y color de tarjeta (celeste, verde o azul); las sedes, nombre. El slug sale del nombre y no cambia al renombrar; un nombre repetido (sin importar mayúsculas ni tildes) se rechaza. Desactivar no borra: deja de ofrecerse en horarios y planes nuevos, y se bloquea mientras la usen horarios activos (o, para actividades, planes activos) (`app/services/catalog_usage.ts`).
+- **Agenda › Semana** (`/admin/agenda/semana`): la semana tipo, como el Excel de Kinaf. Cada horario activo con su ocupación y los nombres de quienes lo tienen como horario fijo; filtro por sede (`?sede=<slug>`) si hay más de una. En el teléfono va un día abajo del otro; en pantallas anchas, una columna por día (`app/services/admin_week.ts`).
+
 ## Scripts
 
 ```bash
