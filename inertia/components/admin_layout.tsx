@@ -10,11 +10,13 @@ import type { PageProps } from '~/types'
 export function AdminLayout({
   tab,
   title,
+  subtitle,
   dock,
   children,
 }: {
   tab: AdminTab
   title: string
+  subtitle?: string
   dock?: ReactNode
   children: ReactNode
 }) {
@@ -53,6 +55,11 @@ export function AdminLayout({
         </header>
         <main>
           <h1 className="text-[32px] leading-none font-black tracking-[-0.045em]">{title}</h1>
+          {subtitle && (
+            <p className="mt-2 text-base leading-tight font-bold text-muted-foreground">
+              {subtitle}
+            </p>
+          )}
           {children}
         </main>
       </div>

@@ -22,6 +22,7 @@ const InternalDailyController = () => import('#controllers/internal_daily_contro
 const AdminClientsController = () => import('#controllers/admin_clients_controller')
 const AdminSettingsController = () => import('#controllers/admin_settings_controller')
 const AdminPlansController = () => import('#controllers/admin_plans_controller')
+const AdminPaymentsController = () => import('#controllers/admin_payments_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
@@ -61,10 +62,25 @@ router
               .on('/admin/agenda')
               .renderInertia('admin/coming_soon', { tab: 'agenda' })
               .as('admin.agenda')
+            router.get('/admin/pagos', [AdminPaymentsController, 'index']).as('admin.payments')
             router
-              .on('/admin/pagos')
-              .renderInertia('admin/coming_soon', { tab: 'payments' })
-              .as('admin.payments')
+              .get('/admin/pagos/registrar', [AdminPaymentsController, 'create'])
+              .as('admin.payments.create')
+            router
+              .post('/admin/pagos', [AdminPaymentsController, 'store'])
+              .as('admin.payments.store')
+            router
+              .get('/admin/pagos/:id', [AdminPaymentsController, 'show'])
+              .where('id', router.matchers.number())
+              .as('admin.payments.show')
+            router
+              .post('/admin/pagos/:id/aprobar', [AdminPaymentsController, 'approve'])
+              .where('id', router.matchers.number())
+              .as('admin.payments.approve')
+            router
+              .post('/admin/pagos/:id/rechazar', [AdminPaymentsController, 'reject'])
+              .where('id', router.matchers.number())
+              .as('admin.payments.reject')
             router.get('/admin/ajustes', [AdminSettingsController, 'show']).as('admin.settings')
             router
               .get('/admin/ajustes/planes', [AdminPlansController, 'index'])

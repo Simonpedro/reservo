@@ -3,13 +3,12 @@ import { AdminLayout } from '~/components/admin_layout'
 import type { AdminTab } from '~/components/admin_bottom_nav'
 import { EmptyState } from '~/components/empty_state'
 
-const TITLES: Record<Exclude<AdminTab, 'clients'>, string> = {
+const TITLES: Record<Exclude<AdminTab, 'clients' | 'payments'>, string> = {
   today: 'Hoy',
   agenda: 'Agenda',
-  payments: 'Pagos',
 }
 
-export default function AdminComingSoon({ tab }: { tab: 'today' | 'agenda' | 'payments' }) {
+export default function AdminComingSoon({ tab }: { tab: 'today' | 'agenda' }) {
   return (
     <AdminLayout tab={tab} title={TITLES[tab]}>
       <EmptyState icon={CalendarClock} title="Muy pronto.">

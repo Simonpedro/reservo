@@ -159,9 +159,74 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['index']>>>
+    }
+  }
+  'admin.payments.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/pagos/registrar'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['create']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['create']>>>
+    }
+  }
+  'admin.payments.store': {
+    methods: ["POST"]
+    pattern: '/admin/pagos'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/payment').paymentValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/payment').paymentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.payments.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/pagos/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['show']>>>
+    }
+  }
+  'admin.payments.approve': {
+    methods: ["POST"]
+    pattern: '/admin/pagos/:id/aprobar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['approve']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['approve']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['approve']>>>
+    }
+  }
+  'admin.payments.reject': {
+    methods: ["POST"]
+    pattern: '/admin/pagos/:id/rechazar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['reject']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['reject']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_payments_controller').default['reject']>>>
     }
   }
   'admin.settings': {
@@ -172,9 +237,100 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_settings_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_settings_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_settings_controller').default['show']>>>
+    }
+  }
+  'admin.plans.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/ajustes/planes'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['index']>>>
+    }
+  }
+  'admin.plans.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/ajustes/planes/nuevo'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['create']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['create']>>>
+    }
+  }
+  'admin.plans.store': {
+    methods: ["POST"]
+    pattern: '/admin/ajustes/planes'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['store']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['store']>>>
+    }
+  }
+  'admin.plans.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/ajustes/planes/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['edit']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['edit']>>>
+    }
+  }
+  'admin.plans.update': {
+    methods: ["PUT"]
+    pattern: '/admin/ajustes/planes/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['update']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['update']>>>
+    }
+  }
+  'admin.plans.deactivate': {
+    methods: ["POST"]
+    pattern: '/admin/ajustes/planes/:id/desactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['deactivate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['deactivate']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['deactivate']>>>
+    }
+  }
+  'admin.plans.activate': {
+    methods: ["POST"]
+    pattern: '/admin/ajustes/planes/:id/activar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['activate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['activate']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_plans_controller').default['activate']>>>
     }
   }
   'admin.clients.index': {

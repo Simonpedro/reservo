@@ -16,7 +16,19 @@ export type ScannedRoutes = {
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
     'admin.payments': { paramsTuple?: []; params?: {} }
+    'admin.payments.create': { paramsTuple?: []; params?: {} }
+    'admin.payments.store': { paramsTuple?: []; params?: {} }
+    'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.payments.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.payments.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.settings': { paramsTuple?: []; params?: {} }
+    'admin.plans.index': { paramsTuple?: []; params?: {} }
+    'admin.plans.create': { paramsTuple?: []; params?: {} }
+    'admin.plans.store': { paramsTuple?: []; params?: {} }
+    'admin.plans.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.plans.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.plans.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.plans.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
@@ -48,7 +60,12 @@ export type ScannedRoutes = {
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
     'admin.payments': { paramsTuple?: []; params?: {} }
+    'admin.payments.create': { paramsTuple?: []; params?: {} }
+    'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.settings': { paramsTuple?: []; params?: {} }
+    'admin.plans.index': { paramsTuple?: []; params?: {} }
+    'admin.plans.create': { paramsTuple?: []; params?: {} }
+    'admin.plans.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -73,7 +90,12 @@ export type ScannedRoutes = {
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
     'admin.payments': { paramsTuple?: []; params?: {} }
+    'admin.payments.create': { paramsTuple?: []; params?: {} }
+    'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.settings': { paramsTuple?: []; params?: {} }
+    'admin.plans.index': { paramsTuple?: []; params?: {} }
+    'admin.plans.create': { paramsTuple?: []; params?: {} }
+    'admin.plans.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -92,6 +114,12 @@ export type ScannedRoutes = {
     'internal.dailyRun': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'logout': { paramsTuple?: []; params?: {} }
+    'admin.payments.store': { paramsTuple?: []; params?: {} }
+    'admin.payments.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.payments.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.plans.store': { paramsTuple?: []; params?: {} }
+    'admin.plans.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.plans.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
     'admin.clients.issueAccessLink': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.assign.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -99,6 +127,9 @@ export type ScannedRoutes = {
     'client.classes.undo': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.choose.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.payments.receipt.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  PUT: {
+    'admin.plans.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

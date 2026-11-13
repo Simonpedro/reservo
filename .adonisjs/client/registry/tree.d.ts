@@ -20,8 +20,23 @@ export interface ApiDefinition {
     home: typeof routes['admin.home']
     today: typeof routes['admin.today']
     agenda: typeof routes['admin.agenda']
-    payments: typeof routes['admin.payments']
+    payments: typeof routes['admin.payments'] & {
+      create: typeof routes['admin.payments.create']
+      store: typeof routes['admin.payments.store']
+      show: typeof routes['admin.payments.show']
+      approve: typeof routes['admin.payments.approve']
+      reject: typeof routes['admin.payments.reject']
+    }
     settings: typeof routes['admin.settings']
+    plans: {
+      index: typeof routes['admin.plans.index']
+      create: typeof routes['admin.plans.create']
+      store: typeof routes['admin.plans.store']
+      edit: typeof routes['admin.plans.edit']
+      update: typeof routes['admin.plans.update']
+      deactivate: typeof routes['admin.plans.deactivate']
+      activate: typeof routes['admin.plans.activate']
+    }
     clients: {
       index: typeof routes['admin.clients.index']
       create: typeof routes['admin.clients.create']
