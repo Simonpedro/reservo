@@ -18,6 +18,7 @@ import { InfoLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
 import { Button } from '~/components/ui/button'
 import type { PageProps } from '~/types'
+import { occupancyText } from '#services/places_text'
 
 function peopleText(count: number) {
   return count === 1
@@ -141,7 +142,7 @@ export default function AdminClassSession({ view }: { view: AdminSessionView }) 
               {`Suspendida · ${card.suspensionReason ?? 'Sin clase'}`}
             </InfoLine>
           ) : (
-            <InfoLine icon={Users}>{`${card.taken} de ${card.capacity} lugares`}</InfoLine>
+            <InfoLine icon={Users}>{occupancyText(card.taken, card.capacity)}</InfoLine>
           )}
         </div>
 

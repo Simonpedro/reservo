@@ -2,6 +2,7 @@ import { CalendarOff, Clock, MapPin, Users } from 'lucide-react'
 import type { AdminSessionCard as AdminSessionCardData } from '#services/admin_classes'
 import { ClassCard } from '~/components/class_card'
 import { DetailLine } from '~/components/info_line'
+import { occupancyText } from '#services/places_text'
 
 /**
  * The shared ClassCard with the admin's lines: time and instructor, center
@@ -22,7 +23,7 @@ export function AdminSessionCard({ card }: { card: AdminSessionCardData }) {
               {`Suspendida · ${card.suspensionReason ?? 'Sin clase'}`}
             </DetailLine>
           ) : (
-            <DetailLine icon={Users}>{`${card.taken} de ${card.capacity} lugares`}</DetailLine>
+            <DetailLine icon={Users}>{occupancyText(card.taken, card.capacity)}</DetailLine>
           )}
         </>
       }

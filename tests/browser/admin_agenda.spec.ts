@@ -78,7 +78,7 @@ test.group('Admin · Agenda', (group) => {
     await page.waitForURL(`${baseUrl}/admin/agenda?fecha=${date}`)
     await page.assertVisible(page.getByRole('heading', { level: 2, name: longDayLabel(date) }))
     const card = page.getByRole('link', { name: /Agus Browser/ })
-    await page.assertVisible(card.getByText('1 de 10 lugares'))
+    await page.assertVisible(card.getByText('1 anotado · 9 lugares libres'))
 
     await page.getByRole('link', { name: `Cerrar el ${dayName(date)} (feriado o cierre)` }).click()
     await page.waitForURL(`${baseUrl}/admin/agenda/cerrar?fecha=${date}`)

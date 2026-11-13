@@ -43,7 +43,7 @@ test.group('Admin · Hoy y Clase del día', (group) => {
     await page.waitForURL(`${baseUrl}/admin/hoy`)
     await page.assertVisible(page.getByRole('heading', { level: 1, name: 'Hoy' }))
     const card = page.getByRole('link', { name: /Mica Browser/ })
-    await page.assertVisible(card.getByText('2 de 10 lugares'))
+    await page.assertVisible(card.getByText('2 anotados · 8 lugares libres'))
     await card.click()
 
     await page.waitForURL(/\/admin\/clases\/\d+$/)
@@ -55,7 +55,7 @@ test.group('Admin · Hoy y Clase del día', (group) => {
 
     await page.assertVisible(page.getByText('Marcamos ausente a Juan Ponce.'))
     await page.assertVisible(page.getByText('Ausente · tiene clase pendiente'))
-    await page.assertVisible(page.getByText('1 de 10 lugares'))
+    await page.assertVisible(page.getByText('1 anotado · 9 lugares libres'))
     await page.assertVisible(page.getByRole('button', { name: 'Deshacer' }))
 
     await booking.refresh()

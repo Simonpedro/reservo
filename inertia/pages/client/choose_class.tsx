@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import type { ChooseClassView } from '#services/choose_class'
 import type { PendingNotice } from '#services/my_classes'
 import { pendingCountText, pendingLines } from '#services/pending_text'
+import { spotsText } from '#services/places_text'
 import { BackButton } from '~/components/back_button'
 import { ClassCard } from '~/components/class_card'
 import { EmptyState } from '~/components/empty_state'
@@ -11,11 +12,6 @@ import { DetailLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
 import { cn } from '~/lib/utils'
 import type { PageProps } from '~/types'
-
-export function spotsText(free: number) {
-  if (free === 0) return 'Cupo completo'
-  return free === 1 ? '1 lugar libre' : `${free} lugares libres`
-}
 
 function Title() {
   return (
