@@ -189,3 +189,37 @@ export async function createPendingClass(
     expiresOn: options.expiresOn,
   }).create()
 }
+
+/**
+ * A plan with its quotas in order: `{ count: 2 }` is "2 clases libres",
+ * `{ count: 1, activities: [yoga] }` is "1 clase de Yoga".
+ */
+export async function createPlan(
+  catalog: Catalog,
+  quotas: Array<{ count: number; activities?: Activity[] }>,
+  name = 'Plan de prueba'
+) {
+  const tenantId = catalog.tenant.id
+  const plan = await PlanFactory.merge({ tenantId, name }).create()
+  const created: PlanQuota[] = []
+  for (const [position, spec] of quotas.entries()) {
+    const quota = await PlanQuotaFactory.merge({
+      tenantId,
+      planId: plan.id,
+      weeklyCount: spec.count,
+      anyActivity: !spec.activities,
+      position,
+    }).create()
+    if (spec.activities) {
+      await quota
+        .related('activities')
+        .attach(
+          Object.fromEntries(
+            spec.activities.map((activity) => [activity.id, { tenant_id: tenantId }])
+          )
+        )
+    }
+    created.push(quota)
+  }
+  return { plan, quotas: created }
+}
