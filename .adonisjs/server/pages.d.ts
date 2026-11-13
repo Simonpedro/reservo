@@ -13,6 +13,7 @@ type ExtractProps<T> =
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
     'access/invalid': ExtractProps<(typeof import('../../inertia/pages/access/invalid.tsx'))['default']>
+    'admin/class_session': ExtractProps<(typeof import('../../inertia/pages/admin/class_session.tsx'))['default']>
     'admin/clients/assign': ExtractProps<(typeof import('../../inertia/pages/admin/clients/assign.tsx'))['default']>
     'admin/clients/index': ExtractProps<(typeof import('../../inertia/pages/admin/clients/index.tsx'))['default']>
     'admin/clients/new': ExtractProps<(typeof import('../../inertia/pages/admin/clients/new.tsx'))['default']>
@@ -24,6 +25,8 @@ declare module '@adonisjs/inertia/types' {
     'admin/plans/form': ExtractProps<(typeof import('../../inertia/pages/admin/plans/form.tsx'))['default']>
     'admin/plans/index': ExtractProps<(typeof import('../../inertia/pages/admin/plans/index.tsx'))['default']>
     'admin/settings': ExtractProps<(typeof import('../../inertia/pages/admin/settings.tsx'))['default']>
+    'admin/settings_placeholder': ExtractProps<(typeof import('../../inertia/pages/admin/settings_placeholder.tsx'))['default']>
+    'admin/today': ExtractProps<(typeof import('../../inertia/pages/admin/today.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'client/choose_class': ExtractProps<(typeof import('../../inertia/pages/client/choose_class.tsx'))['default']>
     'client/class_detail': ExtractProps<(typeof import('../../inertia/pages/client/class_detail.tsx'))['default']>

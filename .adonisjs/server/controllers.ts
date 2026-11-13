@@ -5,6 +5,7 @@
 
 export const controllers = {
   Access: () => import('#controllers/access_controller'),
+  AdminClasses: () => import('#controllers/admin_classes_controller'),
   AdminClients: () => import('#controllers/admin_clients_controller'),
   AdminPayments: () => import('#controllers/admin_payments_controller'),
   AdminPlans: () => import('#controllers/admin_plans_controller'),

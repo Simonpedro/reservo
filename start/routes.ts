@@ -23,6 +23,7 @@ const AdminClientsController = () => import('#controllers/admin_clients_controll
 const AdminSettingsController = () => import('#controllers/admin_settings_controller')
 const AdminPlansController = () => import('#controllers/admin_plans_controller')
 const AdminPaymentsController = () => import('#controllers/admin_payments_controller')
+const AdminClassesController = () => import('#controllers/admin_classes_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
@@ -51,13 +52,32 @@ router
 
         router
           .group(() => {
+            router.get('/admin', ({ response }) => response.redirect('/admin/hoy')).as('admin.home')
+            router.get('/admin/hoy', [AdminClassesController, 'today']).as('admin.today')
             router
-              .get('/admin', ({ response }) => response.redirect('/admin/clientes'))
-              .as('admin.home')
+              .get('/admin/clases/:sessionId', [AdminClassesController, 'show'])
+              .where('sessionId', router.matchers.number())
+              .as('admin.classes.show')
             router
-              .on('/admin/hoy')
-              .renderInertia('admin/coming_soon', { tab: 'today' })
-              .as('admin.today')
+              .post('/admin/clases/:sessionId/suspender', [AdminClassesController, 'suspend'])
+              .where('sessionId', router.matchers.number())
+              .as('admin.classes.suspend')
+            router
+              .post('/admin/clases/:sessionId/reservas/:bookingId/ausente', [
+                AdminClassesController,
+                'absent',
+              ])
+              .where('sessionId', router.matchers.number())
+              .where('bookingId', router.matchers.number())
+              .as('admin.classes.absent')
+            router
+              .post('/admin/clases/:sessionId/reservas/:bookingId/deshacer', [
+                AdminClassesController,
+                'undoAbsent',
+              ])
+              .where('sessionId', router.matchers.number())
+              .where('bookingId', router.matchers.number())
+              .as('admin.classes.undoAbsent')
             router
               .on('/admin/agenda')
               .renderInertia('admin/coming_soon', { tab: 'agenda' })
