@@ -127,7 +127,7 @@ export default function AdminClassSession({ view }: { view: AdminSessionView }) 
         <ClassHero
           ref={heading}
           activity={card.activity}
-          backHref="/admin/hoy"
+          backHref={card.dayLabel === 'Hoy' ? '/admin/hoy' : `/admin/agenda?fecha=${card.date}`}
           returnKey={`admin-session-${card.sessionId}`}
           muted={card.suspended}
         />
@@ -173,13 +173,16 @@ export default function AdminClassSession({ view }: { view: AdminSessionView }) 
           )}
         </section>
 
-        {!card.suspended && (
-          <div className="mt-6 grid">
+        <div className="mt-6 grid gap-1">
+          {!card.suspended && (
             <Button type="button" variant="link" onClick={() => setSuspending(true)}>
               Suspender esta clase
             </Button>
-          </div>
-        )}
+          )}
+          <Button asChild variant="link">
+            <Link href={`/admin/horarios/${card.scheduleId}`}>Editar el horario de esta clase</Link>
+          </Button>
+        </div>
       </main>
 
       {!card.suspended && (
