@@ -1,4 +1,5 @@
 import MonthlyFee from '#models/monthly_fee'
+import Receipt from '#models/receipt'
 import { BUSINESS_ZONE, businessDate, businessNow, type IsoDate } from '#services/business_calendar'
 import {
   currentSubscriptionOf,
@@ -46,6 +47,11 @@ export type MyPaymentsView = {
    * How to pay, shown while the current fee is unpaid.
    */
   howToPay: string
+  /**
+   * The last receipt sent for the current fee was rejected and the student
+   * has to upload another one.
+   */
+  receiptRejected: boolean
 }
 
 const HISTORY_LIMIT = 12
@@ -133,11 +139,24 @@ export async function myPayments(
   const currentFee = fees.find((fee) => fee.period.toISODate() === period) ?? null
   const previous = fees.filter((fee) => fee !== currentFee).slice(0, HISTORY_LIMIT)
 
+  const current = currentFee ? feeLine(currentFee, today) : null
+
   return {
-    current: currentFee ? feeLine(currentFee, today) : null,
+    current,
     history: previous.map((fee) => feeLine(fee, today)),
     howToPay: howToPay(transferAliases),
+    receiptRejected: Boolean(current?.canUpload) && (await lastReceiptRejected(currentFee!)),
   }
+}
+
+async function lastReceiptRejected(fee: MonthlyFee): Promise<boolean> {
+  const last = await Receipt.query()
+    .where('tenantId', fee.tenantId)
+    .where('monthlyFeeId', fee.id)
+    .orderBy('createdAt', 'desc')
+    .orderBy('id', 'desc')
+    .first()
+  return last?.status === 'rejected'
 }
 
 /**

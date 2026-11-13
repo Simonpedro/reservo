@@ -59,15 +59,26 @@ export default function Payments({ view, justSent }: { view: MyPaymentsView; jus
   }
 
   const dock = current.canUpload ? (
-    <Button asChild>
-      <Link route="client.payments.receipt" routeParams={{ id: current.id }}>
-        Subir comprobante
-      </Link>
-    </Button>
+    <>
+      {view.receiptRejected && (
+        <Notice
+          icon={CircleAlert}
+          title={`${center} no pudo validar tu comprobante.`}
+          className="mb-2.5"
+        >
+          Subí otro.
+        </Notice>
+      )}
+      <Button asChild>
+        <Link route="client.payments.receipt" routeParams={{ id: current.id }}>
+          Subir comprobante
+        </Link>
+      </Button>
+    </>
   ) : undefined
 
   return (
-    <ClientLayout tab="payments" title="Pagos" dock={dock}>
+    <ClientLayout tab="payments" title="Pagos" dock={dock} tallDock={view.receiptRejected}>
       {justSent && (
         <Notice icon={Check} title="Lo recibimos." className="mt-[18px]">
           Apenas lo revisemos, lo vas a ver acá.

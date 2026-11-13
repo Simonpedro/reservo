@@ -13,7 +13,6 @@ export const controllers = {
   AdminSchedules: () => import('#controllers/admin_schedules_controller'),
   AdminSettings: () => import('#controllers/admin_settings_controller'),
   ChooseClass: () => import('#controllers/choose_class_controller'),
-  Dashboard: () => import('#controllers/dashboard_controller'),
   Home: () => import('#controllers/home_controller'),
   InternalDaily: () => import('#controllers/internal_daily_controller'),
   MyClasses: () => import('#controllers/my_classes_controller'),

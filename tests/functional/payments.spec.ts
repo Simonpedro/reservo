@@ -154,6 +154,41 @@ test.group('Subir comprobante', (group) => {
     })
   })
 
+  test('after a rejected receipt, Pagos asks for another one until it is sent', async ({
+    client,
+    assert,
+  }) => {
+    const { catalog, sofi, fee } = await world()
+    const asSofi = () =>
+      client.get('/pagos').header('host', kinafHost).loginAs(sofi.user).withInertia()
+
+    const before = await asSofi()
+    assert.isFalse(before.inertiaProps.view.receiptRejected)
+
+    await ReceiptFactory.merge({
+      tenantId: catalog.tenant.id,
+      userId: sofi.user.id,
+      monthlyFeeId: fee.id,
+      status: 'rejected',
+    }).create()
+
+    const rejected = await asSofi()
+    assert.isTrue(rejected.inertiaProps.view.receiptRejected)
+    assert.isTrue(rejected.inertiaProps.view.current.canUpload)
+
+    await client
+      .post(`/pagos/${fee.id}/comprobante`)
+      .header('host', kinafHost)
+      .loginAs(sofi.user)
+      .withCsrfToken()
+      .file('receipt', PNG_BYTES, { filename: 'otra.png' })
+      .redirects(0)
+
+    const resent = await asSofi()
+    assert.isFalse(resent.inertiaProps.view.receiptRejected)
+    assert.equal(resent.inertiaProps.view.current.status, 'in_review')
+  })
+
   test('a file that is not an image or a PDF is refused', async ({ client, assert }) => {
     const { sofi, fee } = await world()
 
