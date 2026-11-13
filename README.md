@@ -37,9 +37,30 @@ Usuarios demo creados por los seeders:
 - Las reservas de los horarios fijos se generan 4 semanas adelante (`app/services/booking_generator.ts`), en la zona `America/Argentina/Buenos_Aires`, salteando cierres y clases suspendidas. El mismo comando es el proceso diario: también crea la cuota del mes de cada suscripción vigente (`app/services/daily_process.ts`). Es idempotente:
 
 ```bash
-node ace bookings:generate              # todos los tenants
-node ace bookings:generate --tenant=kinaf
+node ace daily:run                      # todos los tenants
+node ace daily:run --tenant=kinaf
+node ace bookings:generate              # alias de daily:run
 ```
+
+El proceso también vence las clases pendientes cuyo `expiresOn` ya pasó (`status → expired`).
+
+**Producción:** el orquestador puede dispararlo de tres maneras (complementarias):
+
+1. Al arrancar el servidor web (`providers/daily_boot_provider.ts`, solo con `NODE_ENV=production` y `DAILY_RUN_ON_BOOT` distinto de `false`): corre una vez en background; no bloquea el arranque.
+2. Máquina programada en Fly (diaria):
+
+```bash
+fly machine run . --schedule daily --command "node ace daily:run"
+```
+
+3. Cron externo contra el endpoint (requiere `DAILY_RUN_TOKEN` en secretos de Fly):
+
+```bash
+curl -X POST "https://reservo.fly.dev/internal/daily-run" \
+  -H "Authorization: Bearer $DAILY_RUN_TOKEN"
+```
+
+Sin `DAILY_RUN_TOKEN` configurado, el endpoint responde 404.
 
 ## Pagos
 
@@ -107,7 +128,7 @@ La misma URL se usa para la app y el `release_command`, por lo que debe permitir
 
 - URL: <https://reservo.fly.dev> (app `reservo` en Fly, región `gru`). Muestra Kinaf vía `FALLBACK_TENANT_SLUG = "kinaf"` en `fly.toml`.
 - Base: Supabase, proyecto `reservo` en `sa-east-1`, conectado por el session pooler (Supavisor, puerto 5432).
-- Secretos en Fly (`fly secrets set`): `DATABASE_URL`, `APP_KEY`, `APP_URL` y `DB_SSL=true`. El resto de las variables está en `[env]` de `fly.toml`.
+- Secretos en Fly (`fly secrets set`): `DATABASE_URL`, `APP_KEY`, `APP_URL`, `DB_SSL=true` y opcionalmente `DAILY_RUN_TOKEN` para el cron del proceso diario. El resto de las variables está en `[env]` de `fly.toml`.
 - Cada release corre `node ace migration:run --force` (`release_command`).
 - El seed de producción (solo el tenant Kinaf, sin usuarios de desarrollo) corre a mano:
 
