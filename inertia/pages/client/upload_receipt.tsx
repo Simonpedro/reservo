@@ -114,18 +114,18 @@ export default function UploadReceipt({ fee }: { fee: FeeLine }) {
             Sacale una foto al comprobante de la transferencia o subí el PDF que te dio el banco.
           </p>
         )}
+        <Dock withNav={false}>
+          {file ? (
+            <Button type="button" onClick={send} disabled={form.processing}>
+              {form.processing ? 'Enviando…' : 'Enviar comprobante'}
+            </Button>
+          ) : (
+            <Button type="button" onClick={pick}>
+              Elegir foto o PDF
+            </Button>
+          )}
+        </Dock>
       </main>
-      <Dock withNav={false}>
-        {file ? (
-          <Button type="button" onClick={send} disabled={form.processing}>
-            {form.processing ? 'Enviando…' : 'Enviar comprobante'}
-          </Button>
-        ) : (
-          <Button type="button" onClick={pick}>
-            Elegir foto o PDF
-          </Button>
-        )}
-      </Dock>
     </>
   )
 }

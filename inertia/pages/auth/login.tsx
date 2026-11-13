@@ -113,12 +113,12 @@ export default function Login() {
         <p className="mt-5 text-sm leading-[1.35] font-bold text-muted-foreground">
           ¿Sos alumno? Entrá con el link que te mandó {tenant?.name}.
         </p>
+        <Dock withNav={false}>
+          <Button form="login-form" type="submit" disabled={form.processing}>
+            {form.processing ? 'Ingresando…' : 'Ingresar'}
+          </Button>
+        </Dock>
       </main>
-      <Dock withNav={false}>
-        <Button form="login-form" type="submit" disabled={form.processing}>
-          {form.processing ? 'Ingresando…' : 'Ingresar'}
-        </Button>
-      </Dock>
     </>
   )
 }

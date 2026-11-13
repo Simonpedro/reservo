@@ -21,10 +21,10 @@ export default function InvalidAccess({ reason }: { reason: keyof typeof TITLES 
         <EmptyState icon={Link2Off} title={TITLES[reason]} titleAs="h1">
           {`Pedile a ${center} un link nuevo y entrá desde ahí.`}
         </EmptyState>
+        <Dock withNav={false}>
+          <WhatsappButton />
+        </Dock>
       </main>
-      <Dock withNav={false}>
-        <WhatsappButton />
-      </Dock>
     </>
   )
 }

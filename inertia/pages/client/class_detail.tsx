@@ -171,8 +171,8 @@ export default function ClassDetail({
           {stateLine}
           {copy && <p className="text-base leading-[1.35] font-bold text-navy/78">{copy}</p>}
         </div>
+        {dock && <Dock withNav={false}>{dock}</Dock>}
       </main>
-      {dock && <Dock withNav={false}>{dock}</Dock>}
       {state === 'cancellable' && (
         <BottomSheet
           open={confirming}

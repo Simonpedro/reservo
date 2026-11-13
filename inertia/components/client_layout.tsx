@@ -88,9 +88,9 @@ export function ClientLayout({
         <main>
           <h1 className="text-[32px] leading-none font-black tracking-[-0.045em]">{title}</h1>
           {children}
+          {dock && <Dock>{dock}</Dock>}
         </main>
       </div>
-      {dock && <Dock>{dock}</Dock>}
       <BottomNav active={tab} />
     </>
   )

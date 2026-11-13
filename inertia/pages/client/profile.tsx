@@ -33,15 +33,15 @@ export default function Profile() {
         <p className="mt-[18px] text-base leading-snug font-bold text-muted-foreground">
           {`¿Necesitás cambiar algo de tu plan o avisar que no venís con menos de 24 h? Escribile a ${center}.`}
         </p>
+        <Dock withNav={false}>
+          <WhatsappButton />
+          <Button asChild variant="link">
+            <Link href="/logout" method="post" as="button">
+              Cerrar sesión
+            </Link>
+          </Button>
+        </Dock>
       </main>
-      <Dock withNav={false}>
-        <WhatsappButton />
-        <Button asChild variant="link">
-          <Link href="/logout" method="post" as="button">
-            Cerrar sesión
-          </Link>
-        </Button>
-      </Dock>
     </>
   )
 }

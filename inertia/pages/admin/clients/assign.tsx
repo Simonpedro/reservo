@@ -258,8 +258,8 @@ export default function AssignPlanAndSchedule({
         <h1 className="text-[32px] leading-none font-black tracking-[-0.045em]">{title}</h1>
         <p className="mt-2 text-base leading-tight font-bold text-muted-foreground">{subtitle}</p>
         {body}
+        <Dock withNav={false}>{dock}</Dock>
       </main>
-      <Dock withNav={false}>{dock}</Dock>
     </>
   )
 }

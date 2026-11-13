@@ -58,22 +58,22 @@ export default function SessionDetail({ detail }: { detail: SessionDetailView })
             </p>
           )}
         </div>
+        {!full && (
+          <Dock withNav={false}>
+            <Button asChild>
+              <Link
+                route="client.choose.store"
+                routeParams={{ id: card.sessionId }}
+                method="post"
+                data={{ pendingId: detail.pendingId }}
+                as="button"
+              >
+                Usar clase pendiente
+              </Link>
+            </Button>
+          </Dock>
+        )}
       </main>
-      {!full && (
-        <Dock withNav={false}>
-          <Button asChild>
-            <Link
-              route="client.choose.store"
-              routeParams={{ id: card.sessionId }}
-              method="post"
-              data={{ pendingId: detail.pendingId }}
-              as="button"
-            >
-              Usar clase pendiente
-            </Link>
-          </Button>
-        </Dock>
-      )}
     </>
   )
 }

@@ -61,9 +61,9 @@ export function AdminLayout({
             </p>
           )}
           {children}
+          {dock && <Dock>{dock}</Dock>}
         </main>
       </div>
-      {dock && <Dock>{dock}</Dock>}
       <AdminBottomNav active={tab} />
     </>
   )
@@ -96,8 +96,8 @@ export function AdminInnerLayout({
           <p className="mt-2 text-base leading-tight font-bold text-muted-foreground">{subtitle}</p>
         )}
         {children}
+        {dock && <Dock withNav={false}>{dock}</Dock>}
       </main>
-      {dock && <Dock withNav={false}>{dock}</Dock>}
     </>
   )
 }
