@@ -66,10 +66,7 @@ test.group('Tenant resolution / fallback tenant', () => {
     response.assertInertiaComponent('errors/not_found')
   })
 
-  test('does not apply the fallback to unknown tenant subdomains', async ({
-    client,
-    cleanup,
-  }) => {
+  test('does not apply the fallback to unknown tenant subdomains', async ({ client, cleanup }) => {
     useTenantEnv(cleanup, { FALLBACK_TENANT_SLUG: 'kinaf' })
 
     const response = await client.get('/').header('host', 'otro.reservo.fit').withInertia()
@@ -87,10 +84,7 @@ test.group('Tenant resolution / fallback tenant', () => {
     response.assertInertiaPropsContains({ tenant: null })
   })
 
-  test('returns 404 when the fallback points to a missing tenant', async ({
-    client,
-    cleanup,
-  }) => {
+  test('returns 404 when the fallback points to a missing tenant', async ({ client, cleanup }) => {
     useTenantEnv(cleanup, { FALLBACK_TENANT_SLUG: 'inexistente', DEFAULT_TENANT_SLUG: '' })
 
     const response = await client.get('/').header('host', 'reservo.fly.dev').withInertia()
