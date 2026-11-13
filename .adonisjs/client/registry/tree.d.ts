@@ -16,7 +16,10 @@ export interface ApiDefinition {
   client: {
     classes: typeof routes['client.classes'] & {
       show: typeof routes['client.classes.show']
+      cancel: typeof routes['client.classes.cancel']
+      undo: typeof routes['client.classes.undo']
     }
+    choose: typeof routes['client.choose']
     plan: typeof routes['client.plan']
     payments: typeof routes['client.payments']
     profile: typeof routes['client.profile']

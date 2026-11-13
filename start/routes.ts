@@ -58,6 +58,15 @@ router
               .where('id', router.matchers.number())
               .as('client.classes.show')
             router
+              .post('/clases/:id/cancelar', [MyClassesController, 'cancel'])
+              .where('id', router.matchers.number())
+              .as('client.classes.cancel')
+            router
+              .post('/clases/:id/deshacer', [MyClassesController, 'undo'])
+              .where('id', router.matchers.number())
+              .as('client.classes.undo')
+            router.on('/elegir-clase').renderInertia('client/choose_class', {}).as('client.choose')
+            router
               .on('/plan')
               .renderInertia('client/coming_soon', { tab: 'plan' })
               .as('client.plan')

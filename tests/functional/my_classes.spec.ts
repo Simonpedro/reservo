@@ -241,7 +241,7 @@ test.group('Class detail', (group) => {
     response.assertStatus(200)
     response.assertInertiaComponent('client/class_detail')
     response.assertInertiaPropsContains({
-      card: { bookingId: sofi.booking.id, centerName: 'Ovidio Lagos' },
+      detail: { card: { bookingId: sofi.booking.id, centerName: 'Ovidio Lagos' } },
     })
   })
 

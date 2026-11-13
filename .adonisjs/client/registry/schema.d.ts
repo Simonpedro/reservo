@@ -125,6 +125,45 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['show']>>>
     }
   }
+  'client.classes.cancel': {
+    methods: ["POST"]
+    pattern: '/clases/:id/cancelar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['cancel']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['cancel']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['cancel']>>>
+    }
+  }
+  'client.classes.undo': {
+    methods: ["POST"]
+    pattern: '/clases/:id/deshacer'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['undo']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['undo']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/my_classes_controller').default['undo']>>>
+    }
+  }
+  'client.choose': {
+    methods: ["GET","HEAD"]
+    pattern: '/elegir-clase'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
   'client.plan': {
     methods: ["GET","HEAD"]
     pattern: '/plan'

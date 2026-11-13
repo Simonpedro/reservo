@@ -62,6 +62,24 @@ const routes = {
     tokens: [[0,"clases"],[1,"id"]],
     types: placeholder as Registry['client.classes.show']['types'],
   },
+  'client.classes.cancel': {
+    methods: ["POST"],
+    pattern: '/clases/:id/cancelar',
+    tokens: [[0,"clases"],[1,"id"],[0,"cancelar"]],
+    types: placeholder as Registry['client.classes.cancel']['types'],
+  },
+  'client.classes.undo': {
+    methods: ["POST"],
+    pattern: '/clases/:id/deshacer',
+    tokens: [[0,"clases"],[1,"id"],[0,"deshacer"]],
+    types: placeholder as Registry['client.classes.undo']['types'],
+  },
+  'client.choose': {
+    methods: ["GET","HEAD"],
+    pattern: '/elegir-clase',
+    tokens: [[0,"elegir-clase"]],
+    types: placeholder as Registry['client.choose']['types'],
+  },
   'client.plan': {
     methods: ["GET","HEAD"],
     pattern: '/plan',
