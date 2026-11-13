@@ -13,6 +13,12 @@ type ExtractProps<T> =
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
     'access/invalid': ExtractProps<(typeof import('../../inertia/pages/access/invalid.tsx'))['default']>
+    'admin/clients/assign_placeholder': ExtractProps<(typeof import('../../inertia/pages/admin/clients/assign_placeholder.tsx'))['default']>
+    'admin/clients/index': ExtractProps<(typeof import('../../inertia/pages/admin/clients/index.tsx'))['default']>
+    'admin/clients/new': ExtractProps<(typeof import('../../inertia/pages/admin/clients/new.tsx'))['default']>
+    'admin/clients/show': ExtractProps<(typeof import('../../inertia/pages/admin/clients/show.tsx'))['default']>
+    'admin/coming_soon': ExtractProps<(typeof import('../../inertia/pages/admin/coming_soon.tsx'))['default']>
+    'admin/settings_placeholder': ExtractProps<(typeof import('../../inertia/pages/admin/settings_placeholder.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'client/choose_class': ExtractProps<(typeof import('../../inertia/pages/client/choose_class.tsx'))['default']>
     'client/class_detail': ExtractProps<(typeof import('../../inertia/pages/client/class_detail.tsx'))['default']>
