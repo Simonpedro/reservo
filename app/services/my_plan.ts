@@ -77,6 +77,8 @@ export async function myPlan(
     .where('tenantId', student.tenantId)
     .where('userId', student.id)
     .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
+    // The current plan wins over one already assigned from next Monday.
+    .orderBy('startsOn', 'asc')
     .preload('plan', (plan) =>
       plan.preload('quotas', (quotas) =>
         quotas.preload('activities').orderBy('position').orderBy('id')
@@ -90,10 +92,15 @@ export async function myPlan(
     text: `${quotaLine(toQuotaDescriptor(quota))} por semana`,
   }))
 
+  // The schedule in force on the day the plan applies: today, or its first day
+  // for a plan that has not started. Never the old and the new one together.
+  const startsOn = subscription.startsOn.toISODate()!
+  const day = startsOn > today ? startsOn : today
   const slots = await FixedSlot.query()
     .where('tenantId', student.tenantId)
     .where('userId', student.id)
-    .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', today))
+    .where('startsOn', '<=', day)
+    .where((range) => range.whereNull('endsOn').orWhere('endsOn', '>=', day))
     .preload('classSchedule', (schedule) => schedule.preload('activity').preload('center'))
 
   const schedule =
