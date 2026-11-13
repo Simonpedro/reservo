@@ -17,15 +17,23 @@ test.group('Tenant login', () => {
     login.assertStatus(302)
     login.assertHeader('location', '/admin')
 
-    const admin = await client
+    const home = await client
       .get('/admin')
+      .header('host', host)
+      .withSession(login.sessionBag.values)
+      .redirects(0)
+
+    home.assertStatus(302)
+    home.assertHeader('location', '/admin/clientes')
+
+    const clients = await client
+      .get('/admin/clientes')
       .header('host', host)
       .withSession(login.sessionBag.values)
       .withInertia()
 
-    admin.assertStatus(200)
-    admin.assertInertiaComponent('dashboard')
-    admin.assertInertiaPropsContains({ section: 'admin' })
+    clients.assertStatus(200)
+    clients.assertInertiaComponent('admin/clients/index')
   })
 
   test('rejects invalid credentials and does not authenticate', async ({ client }) => {
