@@ -34,12 +34,18 @@ Usuarios demo creados por los seeders:
 
 - El alumno no tiene contraseña: entra por `/acceso/<token>`, que abre sesión (con "recordarme") y lo lleva a Mis clases. El link sirve 30 días y se puede reusar; generar uno nuevo (`AccessLinks.issue`) revoca los anteriores. Solo se guarda el SHA-256 del token.
 - El admin entra con email y contraseña en `/login`; después del login cada rol va a su inicio (`app/services/role_home.ts`).
-- Las reservas de los horarios fijos se generan 4 semanas adelante (`app/services/booking_generator.ts`), en la zona `America/Argentina/Buenos_Aires`, salteando cierres y clases suspendidas. Es idempotente:
+- Las reservas de los horarios fijos se generan 4 semanas adelante (`app/services/booking_generator.ts`), en la zona `America/Argentina/Buenos_Aires`, salteando cierres y clases suspendidas. El mismo comando es el proceso diario: también crea la cuota del mes de cada suscripción vigente (`app/services/daily_process.ts`). Es idempotente:
 
 ```bash
 node ace bookings:generate              # todos los tenants
 node ace bookings:generate --tenant=kinaf
 ```
+
+## Pagos
+
+- La cuota del mes vale el precio del plan y vence el 10. "Atrasada" se calcula (sin pagar y hoy pasado el día 10); es solo visual y no bloquea nada. Si el alumno ya subió un comprobante, se muestra "En revisión" aunque sea después del 10 (`statusOf` en `app/services/fees.ts`).
+- El comprobante (imagen o PDF, máx. 5 MB) se guarda en Postgres (`receipts.data`). `GET /pagos/comprobantes/:id` lo sirve solo al alumno dueño o al admin del tenant.
+- Los alias de transferencia son datos del tenant (`tenants.transfer_aliases`).
 
 ## Scripts
 

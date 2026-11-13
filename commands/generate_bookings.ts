@@ -3,7 +3,8 @@ import type { CommandOptions } from '@adonisjs/core/types/ace'
 
 export default class GenerateBookings extends BaseCommand {
   static commandName = 'bookings:generate'
-  static description = 'Create the fixed-schedule bookings of the next four weeks for every tenant'
+  static description =
+    "Daily process: create the next four weeks' fixed-schedule bookings and this month's fees for every tenant"
 
   static options: CommandOptions = {
     startApp: true,
@@ -14,7 +15,7 @@ export default class GenerateBookings extends BaseCommand {
 
   async run() {
     const { default: Tenant } = await import('#models/tenant')
-    const { default: BookingGenerator } = await import('#services/booking_generator')
+    const { default: DailyProcess } = await import('#services/daily_process')
 
     const tenants = await Tenant.query()
       .if(this.tenant, (query) => query.where('slug', this.tenant!))
@@ -26,11 +27,11 @@ export default class GenerateBookings extends BaseCommand {
       return
     }
 
-    const generator = new BookingGenerator()
+    const process = new DailyProcess()
     for (const tenant of tenants) {
-      const summary = await generator.generate({ tenantId: tenant.id })
+      const { bookings, fees } = await process.run({ tenantId: tenant.id })
       this.logger.success(
-        `${tenant.slug}: ${summary.created} created, ${summary.existing} existing, ${summary.skipped} skipped`
+        `${tenant.slug}: bookings ${bookings.created} created, ${bookings.existing} existing, ${bookings.skipped} skipped; fees ${fees.created} created, ${fees.existing} existing`
       )
     }
   }
