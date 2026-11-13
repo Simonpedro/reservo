@@ -1,4 +1,5 @@
 import { adminAgenda, closeDayForm } from '#services/admin_agenda'
+import { adminWeek } from '#services/admin_week'
 import { dayName } from '#services/business_calendar'
 import DayClosures, { ClosureError, type ClosureFailure } from '#services/day_closures'
 import { closureValidator } from '#validators/closure'
@@ -21,6 +22,15 @@ export default class AdminAgendaController {
   async index({ inertia, request, tenant }: HttpContext) {
     return inertia.render('admin/agenda', {
       view: await adminAgenda(tenant!.id, request.input('fecha')),
+    })
+  }
+
+  /**
+   * Semana: the typical week with the people of each class.
+   */
+  async week({ inertia, request, tenant }: HttpContext) {
+    return inertia.render('admin/agenda_week', {
+      week: await adminWeek(tenant!.id, request.input('sede')),
     })
   }
 

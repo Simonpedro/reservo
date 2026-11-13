@@ -190,6 +190,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['index']>>>
     }
   }
+  'admin.agenda.week': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/agenda/semana'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['week']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['week']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['week']>>>
+    }
+  }
   'admin.agenda.closeForm': {
     methods: ["GET","HEAD"]
     pattern: '/admin/agenda/cerrar'

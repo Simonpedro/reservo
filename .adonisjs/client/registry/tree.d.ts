@@ -25,6 +25,7 @@ export interface ApiDefinition {
       undoAbsent: typeof routes['admin.classes.undoAbsent']
     }
     agenda: typeof routes['admin.agenda'] & {
+      week: typeof routes['admin.agenda.week']
       closeForm: typeof routes['admin.agenda.closeForm']
       close: typeof routes['admin.agenda.close']
     }

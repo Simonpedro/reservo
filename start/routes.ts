@@ -82,6 +82,9 @@ router
               .as('admin.classes.undoAbsent')
             router.get('/admin/agenda', [AdminAgendaController, 'index']).as('admin.agenda')
             router
+              .get('/admin/agenda/semana', [AdminAgendaController, 'week'])
+              .as('admin.agenda.week')
+            router
               .get('/admin/agenda/cerrar', [AdminAgendaController, 'closeForm'])
               .as('admin.agenda.closeForm')
             router

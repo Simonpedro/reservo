@@ -15,6 +15,7 @@ declare module '@adonisjs/inertia/types' {
     'access/invalid': ExtractProps<(typeof import('../../inertia/pages/access/invalid.tsx'))['default']>
     'admin/activities/form': ExtractProps<(typeof import('../../inertia/pages/admin/activities/form.tsx'))['default']>
     'admin/activities/index': ExtractProps<(typeof import('../../inertia/pages/admin/activities/index.tsx'))['default']>
+    'admin/agenda_week': ExtractProps<(typeof import('../../inertia/pages/admin/agenda_week.tsx'))['default']>
     'admin/agenda': ExtractProps<(typeof import('../../inertia/pages/admin/agenda.tsx'))['default']>
     'admin/centers/form': ExtractProps<(typeof import('../../inertia/pages/admin/centers/form.tsx'))['default']>
     'admin/centers/index': ExtractProps<(typeof import('../../inertia/pages/admin/centers/index.tsx'))['default']>

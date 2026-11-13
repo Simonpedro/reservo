@@ -4,6 +4,7 @@ import { CalendarDays, CalendarX, CircleAlert, CircleCheck, Plus } from 'lucide-
 import { useEffect, useRef } from 'react'
 import type { AgendaClosure, AgendaView } from '#services/admin_agenda'
 import { AdminLayout } from '~/components/admin_layout'
+import { AgendaSwitch } from '~/components/agenda_switch'
 import { AdminSessionCard } from '~/components/admin_session_card'
 import { EmptyState } from '~/components/empty_state'
 import { Notice } from '~/components/notice'
@@ -54,6 +55,7 @@ export default function AdminAgenda({ view }: { view: AgendaView }) {
         </Button>
       }
     >
+      <AgendaSwitch current="day" />
       <nav
         ref={strip}
         aria-label="Días"

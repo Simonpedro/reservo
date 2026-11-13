@@ -92,6 +92,12 @@ const routes = {
     tokens: [[0,"admin"],[0,"agenda"]],
     types: placeholder as Registry['admin.agenda']['types'],
   },
+  'admin.agenda.week': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/agenda/semana',
+    tokens: [[0,"admin"],[0,"agenda"],[0,"semana"]],
+    types: placeholder as Registry['admin.agenda.week']['types'],
+  },
   'admin.agenda.closeForm': {
     methods: ["GET","HEAD"],
     pattern: '/admin/agenda/cerrar',

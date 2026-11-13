@@ -15,6 +15,13 @@ function peopleText(count: number) {
 }
 
 /**
+ * "Volver" goes back to the week when the form was opened from it.
+ */
+function backHrefOf(from: unknown) {
+  return from === 'semana' ? '/admin/agenda/semana' : '/admin/agenda'
+}
+
+/**
  * Nuevo / Editar horario: the weekly classes of the agenda.
  */
 export default class AdminSchedulesController {
@@ -23,13 +30,18 @@ export default class AdminSchedulesController {
     return inertia.render('admin/schedule_form', {
       editor: (await scheduleEditor(tenant!.id, null))!,
       weekday: Number.isInteger(weekday) && weekday >= 1 && weekday <= 7 ? weekday : null,
+      backHref: backHrefOf(request.input('desde')),
     })
   }
 
-  async edit({ inertia, params, response, tenant }: HttpContext) {
+  async edit({ inertia, params, request, response, tenant }: HttpContext) {
     const editor = await scheduleEditor(tenant!.id, Number(params.id))
     if (!editor) return this.notFound(inertia, response)
-    return inertia.render('admin/schedule_form', { editor, weekday: null })
+    return inertia.render('admin/schedule_form', {
+      editor,
+      weekday: null,
+      backHref: backHrefOf(request.input('desde')),
+    })
   }
 
   async store(ctx: HttpContext) {

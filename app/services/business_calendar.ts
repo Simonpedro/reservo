@@ -84,6 +84,14 @@ export function dayName(date: IsoDate): string {
 }
 
 /**
+ * Names of an ISO weekday (1 = Monday): { name: 'Lunes', short: 'Lun' }.
+ */
+export function weekdayNames(weekday: number) {
+  const name = WEEKDAYS[weekday - 1]
+  return { name: name.charAt(0).toUpperCase() + name.slice(1), short: WEEKDAYS_SHORT[weekday - 1] }
+}
+
+/**
  * Capitalized day for the class detail: "Lunes 16".
  */
 export function longDayLabel(date: IsoDate): string {

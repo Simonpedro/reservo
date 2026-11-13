@@ -98,9 +98,11 @@ function Select({
 export default function AdminScheduleForm({
   editor,
   weekday,
+  backHref,
 }: {
   editor: ScheduleEditor
   weekday: number | null
+  backHref: string
 }) {
   const flash = usePage().flash
   const { schedule, activities, centers, instructors, fixedStudents, locked } = editor
@@ -135,7 +137,7 @@ export default function AdminScheduleForm({
   return (
     <AdminInnerLayout
       title={schedule ? 'Editar horario' : 'Nuevo horario'}
-      backHref="/admin/agenda"
+      backHref={backHref}
       dock={
         <Button type="submit" form="schedule-form" disabled={form.processing}>
           {form.processing ? 'Guardando…' : 'Guardar'}

@@ -12,12 +12,17 @@ export function AdminLayout({
   title,
   subtitle,
   dock,
+  wide = false,
   children,
 }: {
   tab: AdminTab
   title: string
   subtitle?: string
   dock?: ReactNode
+  /**
+   * Uses the whole width on large screens (the week grid).
+   */
+  wide?: boolean
   children: ReactNode
 }) {
   const { auth, tenant } = usePage<PageProps>().props
@@ -28,6 +33,7 @@ export function AdminLayout({
       <div
         className={cn(
           'mx-auto flex min-h-svh w-full max-w-[430px] flex-col px-5 pt-3',
+          wide && 'md:max-w-7xl',
           dock ? 'pb-44' : 'pb-[104px]'
         )}
       >

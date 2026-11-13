@@ -18,6 +18,7 @@ export type ScannedRoutes = {
     'admin.classes.absent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
     'admin.classes.undoAbsent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.week': { paramsTuple?: []; params?: {} }
     'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
     'admin.agenda.close': { paramsTuple?: []; params?: {} }
     'admin.schedules.create': { paramsTuple?: []; params?: {} }
@@ -85,6 +86,7 @@ export type ScannedRoutes = {
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.week': { paramsTuple?: []; params?: {} }
     'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
     'admin.schedules.create': { paramsTuple?: []; params?: {} }
     'admin.schedules.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -124,6 +126,7 @@ export type ScannedRoutes = {
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.week': { paramsTuple?: []; params?: {} }
     'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
     'admin.schedules.create': { paramsTuple?: []; params?: {} }
     'admin.schedules.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
