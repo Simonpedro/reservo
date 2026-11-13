@@ -13,7 +13,7 @@ test.group('Admin plans', (group) => {
     await page.getByLabel('Email').fill('admin@kinaf.test')
     await page.getByLabel('Contraseña').fill('KinafDev2026!')
     await page.getByRole('button', { name: 'Ingresar' }).click()
-    await page.waitForURL(`${baseUrl}/admin/clientes`)
+    await page.waitForURL(`${baseUrl}/admin/hoy`)
 
     await page.getByRole('link', { name: 'Abrir ajustes' }).click()
     await page.waitForURL(`${baseUrl}/admin/ajustes`)
