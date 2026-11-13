@@ -48,10 +48,10 @@ export default function AdminSettings({
           hint={count(activities, 'actividad', 'actividades')}
         />
         <LinkRow
-          href="/admin/ajustes/sedes"
+          href="/admin/ajustes/centros"
           bubble={<MapPin strokeWidth={2.2} />}
-          title="Sedes"
-          hint={count(centers, 'sede', 'sedes')}
+          title="Centros"
+          hint={count(centers, 'centro', 'centros')}
         />
       </nav>
 

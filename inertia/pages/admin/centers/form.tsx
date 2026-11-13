@@ -7,7 +7,7 @@ import { Button } from '~/components/ui/button'
 type EditableCenter = { id: number; name: string }
 
 /**
- * Nueva / Editar sede: its name.
+ * Nuevo / Editar centro: its name.
  */
 export default function AdminCenterForm({ center }: { center: EditableCenter | null }) {
   const form = useForm({ name: center?.name ?? '' })
@@ -15,14 +15,14 @@ export default function AdminCenterForm({ center }: { center: EditableCenter | n
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (center) form.put(`/admin/ajustes/sedes/${center.id}`)
-    else form.post('/admin/ajustes/sedes')
+    if (center) form.put(`/admin/ajustes/centros/${center.id}`)
+    else form.post('/admin/ajustes/centros')
   }
 
   return (
     <AdminInnerLayout
-      title={center ? 'Editar sede' : 'Nueva sede'}
-      backHref="/admin/ajustes/sedes"
+      title={center ? 'Editar centro' : 'Nuevo centro'}
+      backHref="/admin/ajustes/centros"
       dock={
         <Button type="submit" form="center-form" disabled={form.processing}>
           {form.processing ? 'Guardando…' : 'Guardar'}

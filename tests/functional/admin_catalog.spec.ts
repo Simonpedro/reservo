@@ -20,7 +20,7 @@ test.group('Admin › activities', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
   group.each.timeout(15_000)
 
-  test('Ajustes links to Actividades and Sedes with how many there are', async ({
+  test('Ajustes links to Actividades and Centros with how many there are', async ({
     client,
     assert,
   }) => {
@@ -237,22 +237,22 @@ test.group('Admin › centers', (group) => {
     const { catalog, admin } = await kinafWorld()
 
     const created = await client
-      .post('/admin/ajustes/sedes')
+      .post('/admin/ajustes/centros')
       .header('host', host)
       .loginAs(admin)
       .json({ name: 'Fisherton' })
       .withCsrfToken()
       .redirects(0)
     created.assertStatus(302)
-    created.assertHeader('location', '/admin/ajustes/sedes')
-    created.assertFlashMessage('success', 'Creamos la sede.')
+    created.assertHeader('location', '/admin/ajustes/centros')
+    created.assertFlashMessage('success', 'Creamos el centro.')
     const center = await Center.query()
       .where('tenantId', catalog.tenant.id)
       .where('slug', 'fisherton')
       .firstOrFail()
 
     const renamed = await client
-      .put(`/admin/ajustes/sedes/${center.id}`)
+      .put(`/admin/ajustes/centros/${center.id}`)
       .header('host', host)
       .loginAs(admin)
       .json({ name: 'Fisherton Norte' })
@@ -263,20 +263,20 @@ test.group('Admin › centers', (group) => {
     assert.include(center.serialize(), { name: 'Fisherton Norte', slug: 'fisherton' })
 
     const repeated = await client
-      .put(`/admin/ajustes/sedes/${center.id}`)
+      .put(`/admin/ajustes/centros/${center.id}`)
       .header('host', host)
-      .header('referer', `http://${host}/admin/ajustes/sedes/${center.id}`)
+      .header('referer', `http://${host}/admin/ajustes/centros/${center.id}`)
       .loginAs(admin)
       .json({ name: 'mendoza' })
       .withCsrfToken()
       .redirects(0)
     repeated.assertStatus(302)
-    repeated.assertFlashMessage('errors', { name: 'Ya hay una sede con ese nombre.' })
+    repeated.assertFlashMessage('errors', { name: 'Ya hay un centro con ese nombre.' })
     await center.refresh()
     assert.equal(center.name, 'Fisherton Norte')
 
     const listed = await client
-      .get('/admin/ajustes/sedes')
+      .get('/admin/ajustes/centros')
       .header('host', host)
       .loginAs(admin)
       .withInertia()
@@ -295,8 +295,8 @@ test.group('Admin › centers', (group) => {
       client.request(path, method).header('host', host).loginAs(admin).withCsrfToken().redirects(0)
 
     const attempts = [
-      request('GET', `/admin/ajustes/sedes/${other.mendoza.id}`),
-      request('PUT', `/admin/ajustes/sedes/${other.mendoza.id}`).json({ name: 'Robada' }),
+      request('GET', `/admin/ajustes/centros/${other.mendoza.id}`),
+      request('PUT', `/admin/ajustes/centros/${other.mendoza.id}`).json({ name: 'Robada' }),
     ]
     for (const attempt of attempts) {
       const response = await attempt
@@ -312,8 +312,8 @@ test.group('Admin › centers', (group) => {
     for (const path of [
       `/admin/ajustes/actividades/${catalog.yoga.id}/desactivar`,
       `/admin/ajustes/actividades/${catalog.yoga.id}/activar`,
-      `/admin/ajustes/sedes/${catalog.mendoza.id}/desactivar`,
-      `/admin/ajustes/sedes/${catalog.mendoza.id}/activar`,
+      `/admin/ajustes/centros/${catalog.mendoza.id}/desactivar`,
+      `/admin/ajustes/centros/${catalog.mendoza.id}/activar`,
     ]) {
       const response = await client
         .post(path)

@@ -97,7 +97,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
       <AgendaSwitch current="week" />
 
       {week.centers.length > 0 && (
-        <nav aria-label="Sedes" className="mt-4 flex flex-wrap gap-2">
+        <nav aria-label="Centros" className="mt-4 flex flex-wrap gap-2">
           {[{ slug: null, name: 'Todas' }, ...week.centers].map((center) => {
             const selected = (week.center?.slug ?? null) === center.slug
             return (
@@ -105,7 +105,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
                 key={center.slug ?? '*'}
                 href={
                   center.slug
-                    ? `/admin/agenda/semana?sede=${encodeURIComponent(center.slug)}`
+                    ? `/admin/agenda/semana?centro=${encodeURIComponent(center.slug)}`
                     : '/admin/agenda/semana'
                 }
                 preserveScroll
@@ -126,7 +126,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
       {week.total === 0 ? (
         <EmptyState icon={CalendarDays} title="Todavía no hay horarios.">
           {week.center
-            ? `En ${week.center.name} no hay horarios activos. Probá con otra sede.`
+            ? `En ${week.center.name} no hay horarios activos. Probá con otro centro.`
             : 'Creá el primero y acá vas a ver la semana con la gente de cada clase.'}
         </EmptyState>
       ) : (

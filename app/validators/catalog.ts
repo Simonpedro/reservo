@@ -20,7 +20,7 @@ activityValidator.messagesProvider = new SimpleMessagesProvider({
 export const centerValidator = vine.compile(vine.object({ name: name() }))
 
 centerValidator.messagesProvider = new SimpleMessagesProvider({
-  'name.required': 'Poné un nombre para la sede.',
-  'name.minLength': 'Poné un nombre para la sede.',
+  'name.required': 'Poné un nombre para el centro.',
+  'name.minLength': 'Poné un nombre para el centro.',
   'name.maxLength': 'El nombre es muy largo.',
 })

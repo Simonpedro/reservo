@@ -3,7 +3,7 @@ import { centerValidator } from '#validators/catalog'
 import type { HttpContext } from '@adonisjs/core/http'
 
 /**
- * Ajustes › Sedes: list, create and rename.
+ * Ajustes › Centros: list, create and rename.
  */
 export default class AdminCentersController {
   async index({ inertia, tenant }: HttpContext) {
@@ -16,10 +16,10 @@ export default class AdminCentersController {
     return inertia.render('admin/centers/form', (await centerEditor(tenant!.id, null))!)
   }
 
-  async edit({ inertia, params, response, tenant }: HttpContext) {
-    const editor = await centerEditor(tenant!.id, Number(params.id))
-    if (!editor) return this.notFound(inertia, response)
-    return inertia.render('admin/centers/form', editor)
+  async edit(ctx: HttpContext) {
+    const editor = await centerEditor(ctx.tenant!.id, Number(ctx.params.id))
+    if (!editor) return this.notFound(ctx)
+    return ctx.inertia.render('admin/centers/form', editor)
   }
 
   async store(ctx: HttpContext) {
@@ -30,30 +30,28 @@ export default class AdminCentersController {
     return this.save(ctx, Number(ctx.params.id))
   }
 
-  private async save(
-    { inertia, request, response, session, tenant }: HttpContext,
-    centerId: number | null
-  ) {
+  private async save(ctx: HttpContext, centerId: number | null) {
+    const { request, response, session, tenant } = ctx
     const payload = await request.validateUsing(centerValidator)
 
     try {
       const center = await saveCenter(tenant!.id, centerId, payload)
-      if (!center) return this.notFound(inertia, response)
+      if (!center) return this.notFound(ctx)
     } catch (error) {
       if (!(error instanceof CatalogError)) throw error
       session.flash('errors', { [error.field]: error.message })
       return response.redirect().back()
     }
 
-    session.flash('success', centerId ? 'Guardamos los cambios de la sede.' : 'Creamos la sede.')
-    return response.redirect('/admin/ajustes/sedes')
+    session.flash('success', centerId ? 'Guardamos los cambios del centro.' : 'Creamos el centro.')
+    return response.redirect('/admin/ajustes/centros')
   }
 
-  private notFound(inertia: HttpContext['inertia'], response: HttpContext['response']) {
+  private notFound({ inertia, response, tenant }: HttpContext) {
     response.status(404)
     return inertia.render('errors/not_found', {
-      title: 'No encontramos esa sede',
-      message: 'Puede que no exista en este centro.',
+      title: 'No encontramos ese centro',
+      message: `Puede que no exista en ${tenant!.name}.`,
     })
   }
 }

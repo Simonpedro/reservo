@@ -179,20 +179,20 @@ router
               .where('id', router.matchers.number())
               .as('admin.activities.update')
             router
-              .get('/admin/ajustes/sedes', [AdminCentersController, 'index'])
+              .get('/admin/ajustes/centros', [AdminCentersController, 'index'])
               .as('admin.centers.index')
             router
-              .get('/admin/ajustes/sedes/nuevo', [AdminCentersController, 'create'])
+              .get('/admin/ajustes/centros/nuevo', [AdminCentersController, 'create'])
               .as('admin.centers.create')
             router
-              .post('/admin/ajustes/sedes', [AdminCentersController, 'store'])
+              .post('/admin/ajustes/centros', [AdminCentersController, 'store'])
               .as('admin.centers.store')
             router
-              .get('/admin/ajustes/sedes/:id', [AdminCentersController, 'edit'])
+              .get('/admin/ajustes/centros/:id', [AdminCentersController, 'edit'])
               .where('id', router.matchers.number())
               .as('admin.centers.edit')
             router
-              .put('/admin/ajustes/sedes/:id', [AdminCentersController, 'update'])
+              .put('/admin/ajustes/centros/:id', [AdminCentersController, 'update'])
               .where('id', router.matchers.number())
               .as('admin.centers.update')
 

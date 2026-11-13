@@ -65,7 +65,7 @@ test.group('Admin · Agenda › Semana', (group) => {
     await page.assertTextContains(card, '2 anotados · 4 lugares libres')
 
     await page.getByRole('link', { name: 'Ovidio Lagos', exact: true }).click()
-    await page.waitForURL(/sede=ovidio-lagos/)
+    await page.waitForURL(/centro=ovidio-lagos/)
     await page.assertVisible(card)
 
     await card.click()

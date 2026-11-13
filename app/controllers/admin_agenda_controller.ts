@@ -30,7 +30,7 @@ export default class AdminAgendaController {
    */
   async week({ inertia, request, tenant }: HttpContext) {
     return inertia.render('admin/agenda_week', {
-      week: await adminWeek(tenant!.id, request.input('sede')),
+      week: await adminWeek(tenant!.id, request.input('centro')),
     })
   }
 

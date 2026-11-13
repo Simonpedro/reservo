@@ -569,7 +569,7 @@ export interface Registry {
   }
   'admin.centers.index': {
     methods: ["GET","HEAD"]
-    pattern: '/admin/ajustes/sedes'
+    pattern: '/admin/ajustes/centros'
     types: {
       body: {}
       paramsTuple: []
@@ -582,7 +582,7 @@ export interface Registry {
   }
   'admin.centers.create': {
     methods: ["GET","HEAD"]
-    pattern: '/admin/ajustes/sedes/nuevo'
+    pattern: '/admin/ajustes/centros/nuevo'
     types: {
       body: {}
       paramsTuple: []
@@ -595,7 +595,7 @@ export interface Registry {
   }
   'admin.centers.store': {
     methods: ["POST"]
-    pattern: '/admin/ajustes/sedes'
+    pattern: '/admin/ajustes/centros'
     types: {
       body: {}
       paramsTuple: []
@@ -608,7 +608,7 @@ export interface Registry {
   }
   'admin.centers.edit': {
     methods: ["GET","HEAD"]
-    pattern: '/admin/ajustes/sedes/:id'
+    pattern: '/admin/ajustes/centros/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]
@@ -621,7 +621,7 @@ export interface Registry {
   }
   'admin.centers.update': {
     methods: ["PUT"]
-    pattern: '/admin/ajustes/sedes/:id'
+    pattern: '/admin/ajustes/centros/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]

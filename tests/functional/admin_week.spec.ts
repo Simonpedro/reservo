@@ -81,7 +81,7 @@ test.group('Admin · Agenda › Semana', (group) => {
 
     const response = await client
       .get('/admin/agenda/semana')
-      .qs({ sede: w.catalog.ovidio.slug })
+      .qs({ centro: w.catalog.ovidio.slug })
       .header('host', hostOf(w.catalog))
       .loginAs(w.admin)
       .withInertia()

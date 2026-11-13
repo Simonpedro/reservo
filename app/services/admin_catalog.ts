@@ -3,7 +3,7 @@ import Center from '#models/center'
 import db from '@adonisjs/lucid/services/db'
 
 /**
- * Ajustes › Actividades and Ajustes › Sedes: what the admin can name and
+ * Ajustes › Actividades and Ajustes › Centros: what the admin can name and
  * color. A rename keeps the record (and its slug), so schedules, plans and
  * bookings keep pointing at it.
  */
@@ -172,7 +172,7 @@ export async function saveCenter(
     const center = centerId === null ? null : rows.find((row) => row.id === centerId)
     if (center === undefined) return null
 
-    const slug = checkName(rows, input.name, centerId, 'Ya hay una sede con ese nombre.')
+    const slug = checkName(rows, input.name, centerId, 'Ya hay un centro con ese nombre.')
     if (center) {
       center.useTransaction(trx)
       return center.merge({ name: input.name }).save()

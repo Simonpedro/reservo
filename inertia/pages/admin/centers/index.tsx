@@ -9,20 +9,20 @@ import { Button } from '~/components/ui/button'
 type CenterListItem = { id: number; name: string; hint: string }
 
 /**
- * Ajustes › Sedes: the places where classes happen.
+ * Ajustes › Centros: the places where classes happen.
  */
 export default function AdminCentersIndex({ centers }: { centers: CenterListItem[] }) {
   const success = usePage().flash?.success
 
   return (
     <AdminInnerLayout
-      title="Sedes"
+      title="Centros"
       backHref="/admin/ajustes"
       dock={
         <Button asChild>
-          <Link href="/admin/ajustes/sedes/nuevo">
+          <Link href="/admin/ajustes/centros/nuevo">
             <Plus strokeWidth={2.6} aria-hidden="true" />
-            Nueva sede
+            Nuevo centro
           </Link>
         </Button>
       }
@@ -41,7 +41,7 @@ export default function AdminCentersIndex({ centers }: { centers: CenterListItem
           {centers.map((center) => (
             <li key={center.id}>
               <LinkRow
-                href={`/admin/ajustes/sedes/${center.id}`}
+                href={`/admin/ajustes/centros/${center.id}`}
                 bubble={<MapPin strokeWidth={2.2} />}
                 title={center.name}
                 hint={center.hint}
@@ -50,8 +50,8 @@ export default function AdminCentersIndex({ centers }: { centers: CenterListItem
           ))}
         </ul>
       ) : (
-        <EmptyState icon={MapPin} title="Todavía no hay sedes.">
-          Creá la primera con el nombre con el que la conocen tus alumnos.
+        <EmptyState icon={MapPin} title="Todavía no hay centros.">
+          Creá el primero con el nombre con el que lo conocen tus alumnos.
         </EmptyState>
       )}
     </AdminInnerLayout>
