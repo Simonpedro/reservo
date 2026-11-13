@@ -24,7 +24,14 @@ export interface ApiDefinition {
       store: typeof routes['client.choose.store']
     }
     plan: typeof routes['client.plan']
-    payments: typeof routes['client.payments']
+    payments: typeof routes['client.payments'] & {
+      receipt: typeof routes['client.payments.receipt'] & {
+        store: typeof routes['client.payments.receipt.store']
+      }
+    }
     profile: typeof routes['client.profile']
+  }
+  receipts: {
+    show: typeof routes['receipts.show']
   }
 }

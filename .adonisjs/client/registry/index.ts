@@ -104,11 +104,29 @@ const routes = {
     tokens: [[0,"pagos"]],
     types: placeholder as Registry['client.payments']['types'],
   },
+  'client.payments.receipt': {
+    methods: ["GET","HEAD"],
+    pattern: '/pagos/:id/comprobante',
+    tokens: [[0,"pagos"],[1,"id"],[0,"comprobante"]],
+    types: placeholder as Registry['client.payments.receipt']['types'],
+  },
+  'client.payments.receipt.store': {
+    methods: ["POST"],
+    pattern: '/pagos/:id/comprobante',
+    tokens: [[0,"pagos"],[1,"id"],[0,"comprobante"]],
+    types: placeholder as Registry['client.payments.receipt.store']['types'],
+  },
   'client.profile': {
     methods: ["GET","HEAD"],
     pattern: '/perfil',
     tokens: [[0,"perfil"]],
     types: placeholder as Registry['client.profile']['types'],
+  },
+  'receipts.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/pagos/comprobantes/:id',
+    tokens: [[0,"pagos"],[0,"comprobantes"],[1,"id"]],
+    types: placeholder as Registry['receipts.show']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

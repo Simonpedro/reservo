@@ -16,11 +16,12 @@ declare module '@adonisjs/inertia/types' {
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'client/choose_class': ExtractProps<(typeof import('../../inertia/pages/client/choose_class.tsx'))['default']>
     'client/class_detail': ExtractProps<(typeof import('../../inertia/pages/client/class_detail.tsx'))['default']>
-    'client/coming_soon': ExtractProps<(typeof import('../../inertia/pages/client/coming_soon.tsx'))['default']>
     'client/my_classes': ExtractProps<(typeof import('../../inertia/pages/client/my_classes.tsx'))['default']>
+    'client/payments': ExtractProps<(typeof import('../../inertia/pages/client/payments.tsx'))['default']>
     'client/plan': ExtractProps<(typeof import('../../inertia/pages/client/plan.tsx'))['default']>
     'client/profile': ExtractProps<(typeof import('../../inertia/pages/client/profile.tsx'))['default']>
     'client/session_detail': ExtractProps<(typeof import('../../inertia/pages/client/session_detail.tsx'))['default']>
+    'client/upload_receipt': ExtractProps<(typeof import('../../inertia/pages/client/upload_receipt.tsx'))['default']>
     'dashboard': ExtractProps<(typeof import('../../inertia/pages/dashboard.tsx'))['default']>
     'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>

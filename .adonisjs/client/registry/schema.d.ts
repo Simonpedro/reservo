@@ -198,9 +198,9 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/my_plan_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/my_plan_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/my_plan_controller').default['index']>>>
     }
   }
   'client.payments': {
@@ -211,9 +211,35 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['index']>>>
+    }
+  }
+  'client.payments.receipt': {
+    methods: ["GET","HEAD"]
+    pattern: '/pagos/:id/comprobante'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['create']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['create']>>>
+    }
+  }
+  'client.payments.receipt.store': {
+    methods: ["POST"]
+    pattern: '/pagos/:id/comprobante'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/receipt').receiptValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/receipt').receiptValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.profile': {
@@ -227,6 +253,19 @@ export interface Registry {
       response: unknown
       errorResponse: unknown
       rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'receipts.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/pagos/comprobantes/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['receipt']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['receipt']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/payments_controller').default['receipt']>>>
     }
   }
 }

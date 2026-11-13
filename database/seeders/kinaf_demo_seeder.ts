@@ -3,6 +3,7 @@ import Activity from '#models/activity'
 import Center from '#models/center'
 import ClassSchedule from '#models/class_schedule'
 import FixedSlot from '#models/fixed_slot'
+import MonthlyFee from '#models/monthly_fee'
 import Plan from '#models/plan'
 import PlanQuota from '#models/plan_quota'
 import Subscription from '#models/subscription'
@@ -11,6 +12,7 @@ import User from '#models/user'
 import { ACCESS_LINK_DAYS, hashToken } from '#services/access_links'
 import BookingGenerator from '#services/booking_generator'
 import { businessNow } from '#services/business_calendar'
+import { ensureFee } from '#services/fees'
 import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
@@ -111,7 +113,7 @@ export default class extends BaseSeeder {
     const startsOn = businessNow().startOf('month')
     const subscription = await Subscription.firstOrCreate(
       { tenantId, userId: sofi.id, planId: plan.id },
-      { startsOn }
+      { startsOn: startsOn.minus({ months: 3 }) }
     )
     for (const [key, quota] of [
       ['1-18:00', gymPilates],
@@ -137,6 +139,26 @@ export default class extends BaseSeeder {
         revokedAt: null,
       }
     )
+
+    // Three paid months for the Pagos history; this month stays pending.
+    for (const [monthsAgo, paidOnDay] of [
+      [1, 4],
+      [2, 8],
+      [3, 2],
+    ] as const) {
+      const period = startsOn.minus({ months: monthsAgo })
+      await MonthlyFee.updateOrCreate(
+        { tenantId, userId: sofi.id, period },
+        {
+          subscriptionId: subscription.id,
+          amount: plan.price,
+          status: 'paid',
+          method: 'transfer',
+          paidAt: period.set({ day: paidOnDay, hour: 10 }),
+        }
+      )
+    }
+    await ensureFee(subscription, startsOn.toISODate()!)
 
     await new BookingGenerator().generate({ tenantId })
   }

@@ -20,7 +20,10 @@ export type ScannedRoutes = {
     'client.choose.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
+    'client.payments.receipt': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.payments.receipt.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.profile': { paramsTuple?: []; params?: {} }
+    'receipts.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'health': { paramsTuple?: []; params?: {} }
@@ -34,7 +37,9 @@ export type ScannedRoutes = {
     'client.choose.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
+    'client.payments.receipt': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.profile': { paramsTuple?: []; params?: {} }
+    'receipts.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'health': { paramsTuple?: []; params?: {} }
@@ -48,7 +53,9 @@ export type ScannedRoutes = {
     'client.choose.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
+    'client.payments.receipt': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.profile': { paramsTuple?: []; params?: {} }
+    'receipts.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'session.store': { paramsTuple?: []; params?: {} }
@@ -56,6 +63,7 @@ export type ScannedRoutes = {
     'client.classes.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.classes.undo': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.choose.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.payments.receipt.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

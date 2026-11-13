@@ -17,6 +17,7 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const MyClassesController = () => import('#controllers/my_classes_controller')
 const ChooseClassController = () => import('#controllers/choose_class_controller')
 const MyPlanController = () => import('#controllers/my_plan_controller')
+const PaymentsController = () => import('#controllers/payments_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 
@@ -77,13 +78,24 @@ router
               .where('id', router.matchers.number())
               .as('client.choose.store')
             router.get('/plan', [MyPlanController, 'index']).as('client.plan')
+            router.get('/pagos', [PaymentsController, 'index']).as('client.payments')
             router
-              .on('/pagos')
-              .renderInertia('client/coming_soon', { tab: 'payments' })
-              .as('client.payments')
+              .get('/pagos/:id/comprobante', [PaymentsController, 'create'])
+              .where('id', router.matchers.number())
+              .as('client.payments.receipt')
+            router
+              .post('/pagos/:id/comprobante', [PaymentsController, 'store'])
+              .where('id', router.matchers.number())
+              .as('client.payments.receipt.store')
             router.on('/perfil').renderInertia('client/profile', {}).as('client.profile')
           })
           .use(middleware.role({ roles: ['client'] }))
+
+        router
+          .get('/pagos/comprobantes/:id', [PaymentsController, 'receipt'])
+          .where('id', router.matchers.number())
+          .as('receipts.show')
+          .use(middleware.role({ roles: ['client', 'admin'] }))
       })
       .use(middleware.requireTenant())
       .use(middleware.auth())
