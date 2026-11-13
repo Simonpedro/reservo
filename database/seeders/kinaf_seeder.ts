@@ -155,7 +155,7 @@ export default class extends BaseSeeder {
       { slug: 'mendoza', name: 'Mendoza' },
       { slug: 'ovidio-lagos', name: 'Ovidio Lagos' },
     ]) {
-      await Center.updateOrCreate({ tenantId: tenant.id, slug: center.slug }, center)
+      await Center.firstOrCreate({ tenantId: tenant.id, slug: center.slug }, center)
     }
 
     const activityIds = new Map<string, number>()
@@ -164,7 +164,7 @@ export default class extends BaseSeeder {
       { slug: 'pilates', name: 'Pilates', wash: 'celeste' as const },
       { slug: 'yoga', name: 'Yoga', wash: 'green' as const },
     ]) {
-      const row = await Activity.updateOrCreate(
+      const row = await Activity.firstOrCreate(
         { tenantId: tenant.id, slug: activity.slug },
         { ...activity, image: `/images/activities/${activity.slug}.webp` }
       )

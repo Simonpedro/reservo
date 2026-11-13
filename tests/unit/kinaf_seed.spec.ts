@@ -1,6 +1,8 @@
 import KinafDemoSeeder, { SOFI_EMAIL } from '#database/seeders/kinaf_demo_seeder'
 import KinafSeeder from '#database/seeders/kinaf_seeder'
+import Activity from '#models/activity'
 import Booking from '#models/booking'
+import Center from '#models/center'
 import FixedSlot from '#models/fixed_slot'
 import MonthlyFee from '#models/monthly_fee'
 import Plan from '#models/plan'
@@ -173,6 +175,22 @@ test.group('Kinaf seed | demo', (group) => {
     await new KinafDemoSeeder(db.connection()).run()
 
     assert.deepEqual(await kinafRowCounts(tenant.id), before)
+  }).timeout(30000)
+
+  test('seeding again keeps the names and colors the admin changed', async ({ assert }) => {
+    const tenant = await kinaf()
+    const gym = await Activity.findByOrFail({ tenantId: tenant.id, slug: 'gimnasio' })
+    await gym.merge({ name: 'Gym', wash: 'green' }).save()
+    const mendoza = await Center.findByOrFail({ tenantId: tenant.id, slug: 'mendoza' })
+    await mendoza.merge({ name: 'Sede Mendoza' }).save()
+
+    await new KinafSeeder(db.connection()).run()
+
+    await gym.refresh()
+    await mendoza.refresh()
+    assert.equal(gym.name, 'Gym')
+    assert.equal(gym.wash, 'green')
+    assert.equal(mendoza.name, 'Sede Mendoza')
   }).timeout(30000)
 
   test('this month has fees in every status the student can see', async ({ assert }) => {
