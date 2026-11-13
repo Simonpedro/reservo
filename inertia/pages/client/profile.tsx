@@ -12,8 +12,9 @@ import type { PageProps } from '~/types'
  * Minimal profile (inner page): who is signed in and how to sign out.
  */
 export default function Profile() {
-  const { auth } = usePage<PageProps>().props
+  const { auth, tenant } = usePage<PageProps>().props
   const user = auth.user
+  const center = tenant?.name ?? 'Kinaf'
 
   return (
     <>
@@ -29,6 +30,9 @@ export default function Profile() {
           {user?.email && <InfoLine icon={Mail}>{user.email}</InfoLine>}
           {user?.phone && <InfoLine icon={Phone}>{user.phone}</InfoLine>}
         </div>
+        <p className="mt-[18px] text-base leading-snug font-bold text-muted-foreground">
+          {`¿Necesitás cambiar algo de tu plan o avisar que no venís con menos de 24 h? Escribile a ${center}.`}
+        </p>
       </main>
       <Dock withNav={false}>
         <WhatsappButton />

@@ -18,6 +18,7 @@ declare module '@adonisjs/inertia/types' {
     'client/class_detail': ExtractProps<(typeof import('../../inertia/pages/client/class_detail.tsx'))['default']>
     'client/coming_soon': ExtractProps<(typeof import('../../inertia/pages/client/coming_soon.tsx'))['default']>
     'client/my_classes': ExtractProps<(typeof import('../../inertia/pages/client/my_classes.tsx'))['default']>
+    'client/plan': ExtractProps<(typeof import('../../inertia/pages/client/plan.tsx'))['default']>
     'client/profile': ExtractProps<(typeof import('../../inertia/pages/client/profile.tsx'))['default']>
     'client/session_detail': ExtractProps<(typeof import('../../inertia/pages/client/session_detail.tsx'))['default']>
     'dashboard': ExtractProps<(typeof import('../../inertia/pages/dashboard.tsx'))['default']>

@@ -9,5 +9,6 @@ export const controllers = {
   Dashboard: () => import('#controllers/dashboard_controller'),
   Home: () => import('#controllers/home_controller'),
   MyClasses: () => import('#controllers/my_classes_controller'),
+  MyPlan: () => import('#controllers/my_plan_controller'),
   Session: () => import('#controllers/session_controller'),
 }
