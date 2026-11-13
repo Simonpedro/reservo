@@ -1,0 +1,365 @@
+{
+  "screens": [
+    {
+      "id": "admin-asignar-ultimo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-agenda",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 is only the initial V in a circle (Abrir ajustes); it is not back, close, search, more, or add and has no universal icon affordance."
+        }
+      ]
+    },
+    {
+      "id": "admin-agenda-cerrado",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 is avatar text only (Abrir ajustes), same pattern as admin-agenda; outside allowed icon-only controls."
+        }
+      ]
+    },
+    {
+      "id": "admin-horario-nuevo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-horario-cupo",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-cierre",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-pagos",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 (Abrir ajustes) is letter-only avatar control, not an allowed icon-only pattern."
+        }
+      ]
+    },
+    {
+      "id": "admin-comprobante",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-registrar",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-ajustes",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-planes",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 1,
+        "R4": 2,
+        "R5": 1,
+        "R6": 2,
+        "R7": 1,
+        "R8": 2,
+        "R9": 2,
+        "R10": 1
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R3",
+          "severity": 3,
+          "marks": [],
+          "note": "Below cupo 2, underlined “Quitar cupo 2” mirrors mark 9 “Quitar cupo 1” but has no pink mark; it reads as the same secondary link affordance without being interactive."
+        },
+        {
+          "rule": "R5",
+          "severity": 2,
+          "marks": [4, 5, 6, 7, 8],
+          "note": "Above the fold, nombre/precio, cupo 1 dropdown and four activity pills compete for attention before mark 15; focal point is slower than title → single task → Guardar."
+        },
+        {
+          "rule": "R7",
+          "severity": 2,
+          "marks": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+          "note": "First viewport stacks plan meta, cupo 1 frequency, multi activity toggles, quitar cupo 1, and the start of cupo 2—more than five distinct decision groups."
+        },
+        {
+          "rule": "R10",
+          "severity": 2,
+          "marks": [5, 6, 7, 8, 11, 12, 13, 14],
+          "note": "Activity picking uses outlined/filled pills (marks 5–8, 11–14); other admin forms in this batch use light-blue dropdown fields, diverging from the no-chip selector pattern."
+        }
+      ]
+    },
+    {
+      "id": "instructor-hoy",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 (Abrir perfil) is initials-only avatar, not back/close/search/more/add."
+        }
+      ]
+    },
+    {
+      "id": "instructor-clase",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    }
+  ]
+}

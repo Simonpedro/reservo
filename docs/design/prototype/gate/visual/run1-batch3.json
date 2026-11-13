@@ -1,0 +1,354 @@
+{
+  "screens": [
+    {
+      "id": "perfil",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-hoy",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Marca 1 es solo el avatar «V» para ajustes; no es volver, cerrar, buscar, más ni agregar."
+        }
+      ]
+    },
+    {
+      "id": "admin-hoy-cerrado",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Igual que en admin-hoy: marca 1 es icono solo de perfil/ajustes, fuera de la lista permitida."
+        }
+      ]
+    },
+    {
+      "id": "admin-clase",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-clase-ausente",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-clase-ausente-ok",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-clase-suspender",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-clientes",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Marca 1 (Abrir ajustes) es un avatar circular sin texto; no encaja en iconos permitidos."
+        }
+      ]
+    },
+    {
+      "id": "admin-clientes-vacio",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Marca 1 repite el acceso a ajustes solo con inicial «V», sin etiqueta."
+        }
+      ]
+    },
+    {
+      "id": "admin-ficha",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-ficha-sin-horario",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-ficha-sin-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-asignar-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "admin-asignar-horarios",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2,
+        "R11": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    }
+  ]
+}

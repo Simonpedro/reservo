@@ -1,0 +1,5866 @@
+{
+  "generated": "2026-11-12T18:47:58.037Z",
+  "viewports": {
+    "412x915": {
+      "login": {
+        "group": "Ingreso",
+        "label": "Ingresar",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "sofi@gmail.com",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "reservo2026",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Ingresar",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "login-error": {
+        "group": "Ingreso",
+        "label": "Ingresar · error",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "sofi@gmail.com",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "12345",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Ingresar",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases": {
+        "group": "Cliente · Mis clases",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Lunes 16, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio, Viernes 20, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-pendiente": {
+        "group": "Cliente · Mis clases",
+        "label": "Con clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Elegir clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 6,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-feriado": {
+        "group": "Cliente · Mis clases",
+        "label": "Clase suspendida por feriado",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Lunes 16, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Elegir clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 6,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-sin-horario": {
+        "group": "Cliente · Mis clases",
+        "label": "Plan sin horario todavía",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-sin-plan": {
+        "group": "Cliente · Mis clases",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-fija": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Tu clase, con 24 h o más",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "No voy a ir",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-confirmar": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Confirmar “No voy a ir”",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Sí, no voy",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-cancelada": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Recién cancelada",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 64,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Elegir clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-menos-24h": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Menos de 24 h",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-suspendida": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Suspendida por feriado",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-usar-pendiente": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Usar clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Usar clase pendiente",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-reservada": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Recién reservada con pendiente",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 71,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-completa": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Cupo completo",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase": {
+        "group": "Cliente · Elegir clase",
+        "label": "Lista del día (pendiente libre)",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Jueves 12",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Pilates, Jueves 12, 18:00, Mendoza, 4 lugares libres",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Gimnasio, Jueves 12, 19:00, Ovidio Lagos, Cupo completo",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase-yoga": {
+        "group": "Cliente · Elegir clase",
+        "label": "Pendiente de Yoga (solo Yoga)",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Jueves 12",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Viernes 20",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Yoga, Lunes 16, 19:00, Ovidio Lagos, 3 lugares libres",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase-vacio": {
+        "group": "Cliente · Elegir clase",
+        "label": "Día sin clases",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Jueves 12",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan": {
+        "group": "Cliente · Mi plan",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-pendiente": {
+        "group": "Cliente · Mi plan",
+        "label": "Con clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Elegir clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 4,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-especifico": {
+        "group": "Cliente · Mi plan",
+        "label": "Plan Yoga y Pilates",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-sin-plan": {
+        "group": "Cliente · Mi plan",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-pendiente": {
+        "group": "Cliente · Pagos",
+        "label": "Pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Subir comprobante",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-revision": {
+        "group": "Cliente · Pagos",
+        "label": "En revisión (recién enviado)",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-pagado": {
+        "group": "Cliente · Pagos",
+        "label": "Pagado",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-atrasado": {
+        "group": "Cliente · Pagos",
+        "label": "Atrasado",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Subir comprobante",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 119,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "comprobante": {
+        "group": "Cliente · Pagos",
+        "label": "Subir comprobante",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir foto o PDF",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "comprobante-listo": {
+        "group": "Cliente · Pagos",
+        "label": "Comprobante elegido",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir otro archivo",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Enviar comprobante",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "perfil": {
+        "group": "Cliente · Perfil",
+        "label": "Perfil",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Cerrar sesión",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Escribir a Kinaf",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-hoy": {
+        "group": "Admin · Hoy",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 comprobantes para revisar Pagos de noviembre",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Carla Vico no tiene horario Tiene plan, elegí sus horarios",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Miércoles 11, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio, Miércoles 11, 20:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-hoy-cerrado": {
+        "group": "Admin · Hoy",
+        "label": "Día cerrado",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 comprobantes para revisar Pagos de noviembre",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Carla Vico no tiene horario Tiene plan, elegí sus horarios",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase": {
+        "group": "Admin · Clase del día",
+        "label": "Anotados",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Sofi Ortiz, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Tomi Sosa, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Flor Ibáñez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Juan Ponce, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lu Martínez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Ana Gómez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Mati Ruiz, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-ausente": {
+        "group": "Admin · Clase del día",
+        "label": "Confirmar ausente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Marcar ausente",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-ausente-ok": {
+        "group": "Admin · Clase del día",
+        "label": "Ausente marcado",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 62,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Sofi Ortiz, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Tomi Sosa, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Flor Ibáñez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lu Martínez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Ana Gómez, marcar ausente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-suspender": {
+        "group": "Admin · Clase del día",
+        "label": "Confirmar suspender",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Suspender clase",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clientes": {
+        "group": "Admin · Clientes",
+        "label": "Lista",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "SO Sofi Ortiz Combinado 3 · Cuota pendiente",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "LM Lu Martínez Libre 3 · Al día",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "JP Juan Ponce 2 de Yoga o Pilates · Al día",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "CV Carla Vico Yoga y Pilates · Sin horario",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "MR Mati Ruiz Libre 3 · Cuota atrasada",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "AG Ana Gómez Combinado 3 · Comprobante en revisión",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "FP Fede Paz Sin plan",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "NA Nati Acosta Libre 3 · Comprobante en revisión",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "TS Tomi Sosa Yoga y Pilates · Comprobante en revisión",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "FI Flor Ibáñez 2 de Yoga o Pilates · Cuota atrasada",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 16,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clientes-vacio": {
+        "group": "Admin · Clientes",
+        "label": "Búsqueda sin resultados",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Rocío",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Activa, con pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Cambiar plan u horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha-sin-horario": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Sin horario",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir horarios",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha-sin-plan": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Asignar plan y horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-plan": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Paso 1: plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Combinado 3 1 clase de Yoga + 2 clases libres · $38.000",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Libre 3 3 clases libres · $42.000",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Yoga y Pilates 1 clase de Yoga + 1 clase de Pilates · $30.00",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "2 de Yoga o Pilates 2 clases de Yoga o Pilates · $29.000",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Siguiente",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-horarios": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Paso 2: horarios (con completos)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Lunes 16 de noviembre Lunes 23 de noviembre",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes 18:00 · Pilates Mendoza · 1 lugar fijo libre",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Lunes 19:00 · Yoga Ovidio Lagos · 3 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Martes 18:00 · Gimnasio Mendoza · 2 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Miércoles 18:00 · Pilates Mendoza · 2 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Miércoles 19:00 · Yoga Ovidio Lagos · 2 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Jueves 18:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Viernes 18:00 · Gimnasio Mendoza · 3 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Viernes 19:00 · Yoga Mendoza · 5 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Sábado 10:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Confirmar horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-ultimo": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Último cupo y fecha de inicio",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Lunes 16 de noviembre Lunes 23 de noviembre",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes 18:00 · Pilates Mendoza · 1 lugar fijo libre",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Miércoles 18:00 · Pilates Mendoza · 2 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Jueves 18:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Sábado 10:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Confirmar horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-agenda": {
+        "group": "Admin · Agenda",
+        "label": "Día con clases",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 4
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Viernes 20",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Sábado 21",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Domingo 22",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Pilates, Miércoles 18, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Gimnasio, Miércoles 18, 20:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Cerrar el miércoles 18 (feriado o cierre)",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Nuevo horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 16,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 17,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 18,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 19,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-agenda-cerrado": {
+        "group": "Admin · Agenda",
+        "label": "Día cerrado",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Viernes 20",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Sábado 21",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Domingo 22",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Lunes 23",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Martes 24",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Gimnasio, Viernes 20, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Yoga, Viernes 20, 19:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Nuevo horario",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 14,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 16,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 17,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-horario-nuevo": {
+        "group": "Admin · Horario de clase",
+        "label": "Nuevo",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 7
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates Yoga Gimnasio",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "08:00 10:00 18:00 19:00 19:30 20:00",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mendoza Ovidio Lagos",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agus Mica Nico",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "10",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Guardar",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-horario-cupo": {
+        "group": "Admin · Horario de clase",
+        "label": "Bajar cupo (bloqueado)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 7
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates Yoga Gimnasio",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "08:00 10:00 18:00 19:00 19:30 20:00",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mendoza Ovidio Lagos",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agus Mica Nico",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "8",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Guardar",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-cierre": {
+        "group": "Admin · Cerrar un día",
+        "label": "Formulario e impacto",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Feriado",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Los dos centros",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mendoza",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Ovidio Lagos",
+            "w": 372,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Cerrar el viernes 20",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-pagos": {
+        "group": "Admin · Pagos",
+        "label": "Lista",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "AG Ana Gómez Comprobante · $38.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "NA Nati Acosta Comprobante · $42.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "TS Tomi Sosa Comprobante · $30.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "MR Mati Ruiz Desde el 11 · $42.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "FI Flor Ibáñez Desde el 11 · $29.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Registrar pago",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 8,
+            "text": "Hoy",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Clientes",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Agenda",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Pagos",
+            "w": 89,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-comprobante": {
+        "group": "Admin · Pagos",
+        "label": "Revisar comprobante",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Rechazar comprobante",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Aprobar pago",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-registrar": {
+        "group": "Admin · Pagos",
+        "label": "Registrar un pago",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 5
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Sofi Ortiz Lu Martínez Juan Ponce Carla Vico Mati Ruiz Ana G",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Noviembre Diciembre",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "42.000",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Efectivo Transferencia",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Registrar pago",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ajustes": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Ajustes",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Planes 4 planes",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Cerrar sesión",
+            "w": 372,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-planes": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Planes",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 Combinado 3 1 clase de Yoga + 2 clases libres · $38.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "3 Libre 3 3 clases libres · $42.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "2 Yoga y Pilates 1 clase de Yoga + 1 clase de Pilates · $30.",
+            "w": 372,
+            "h": 73,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "2 2 de Yoga o Pilates 2 clases de Yoga o Pilates · $29.000",
+            "w": 372,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Nuevo plan",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-plan": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Editar plan (cupos)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 4
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Combinado 3",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "38.000",
+            "w": 181,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "1 2 3 4 5",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Cualquiera",
+            "w": 109,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio",
+            "w": 99,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Pilates",
+            "w": 83,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Yoga",
+            "w": 91,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Quitar cupo 1",
+            "w": 100,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "1 2 3 4 5",
+            "w": 372,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Cualquiera",
+            "w": 131,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Gimnasio",
+            "w": 99,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Pilates",
+            "w": 83,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Yoga",
+            "w": 69,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Guardar",
+            "w": 372,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "instructor-hoy": {
+        "group": "Instructor",
+        "label": "Hoy",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates, Miércoles 11, 18:00, Mendoza",
+            "w": 372,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "instructor-clase": {
+        "group": "Instructor",
+        "label": "Clase (solo lectura)",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          }
+        ],
+        "findings": []
+      }
+    },
+    "390x844": {
+      "login": {
+        "group": "Ingreso",
+        "label": "Ingresar",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "sofi@gmail.com",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "reservo2026",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Ingresar",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "login-error": {
+        "group": "Ingreso",
+        "label": "Ingresar · error",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "sofi@gmail.com",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "12345",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Ingresar",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases": {
+        "group": "Cliente · Mis clases",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Lunes 16, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio, Viernes 20, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-pendiente": {
+        "group": "Cliente · Mis clases",
+        "label": "Con clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Elegir clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 6,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-feriado": {
+        "group": "Cliente · Mis clases",
+        "label": "Clase suspendida por feriado",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Gimnasio, Viernes 13, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Lunes 16, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Elegir clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 6,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-sin-horario": {
+        "group": "Cliente · Mis clases",
+        "label": "Plan sin horario todavía",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mis-clases-sin-plan": {
+        "group": "Cliente · Mis clases",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-fija": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Tu clase, con 24 h o más",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "No voy a ir",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-confirmar": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Confirmar “No voy a ir”",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Sí, no voy",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-cancelada": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Recién cancelada",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 60,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Elegir clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-menos-24h": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Menos de 24 h",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-suspendida": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Suspendida por feriado",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-usar-pendiente": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Usar clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Usar clase pendiente",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "clase-reservada": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Recién reservada con pendiente",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 71,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "clase-completa": {
+        "group": "Cliente · Detalle de clase",
+        "label": "Cupo completo",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase": {
+        "group": "Cliente · Elegir clase",
+        "label": "Lista del día (pendiente libre)",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Jueves 12",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Pilates, Jueves 12, 18:00, Mendoza, 4 lugares libres",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Gimnasio, Jueves 12, 19:00, Ovidio Lagos, Cupo completo",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase-yoga": {
+        "group": "Cliente · Elegir clase",
+        "label": "Pendiente de Yoga (solo Yoga)",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Yoga, Lunes 16, 19:00, Ovidio Lagos, 3 lugares libres",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "elegir-clase-vacio": {
+        "group": "Cliente · Elegir clase",
+        "label": "Día sin clases",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Jueves 12",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Viernes 13",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Sábado 14",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan": {
+        "group": "Cliente · Mi plan",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-pendiente": {
+        "group": "Cliente · Mi plan",
+        "label": "Con clase pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Elegir clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 4,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-especifico": {
+        "group": "Cliente · Mi plan",
+        "label": "Plan Yoga y Pilates",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "mi-plan-sin-plan": {
+        "group": "Cliente · Mi plan",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-pendiente": {
+        "group": "Cliente · Pagos",
+        "label": "Pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Subir comprobante",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-revision": {
+        "group": "Cliente · Pagos",
+        "label": "En revisión (recién enviado)",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-pagado": {
+        "group": "Cliente · Pagos",
+        "label": "Pagado",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "pagos-atrasado": {
+        "group": "Cliente · Pagos",
+        "label": "Atrasado",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Subir comprobante",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 3,
+            "text": "Mis clases",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mi plan",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Pagos",
+            "w": 111,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "comprobante": {
+        "group": "Cliente · Pagos",
+        "label": "Subir comprobante",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir foto o PDF",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "comprobante-listo": {
+        "group": "Cliente · Pagos",
+        "label": "Comprobante elegido",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir otro archivo",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Enviar comprobante",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "perfil": {
+        "group": "Cliente · Perfil",
+        "label": "Perfil",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Cerrar sesión",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Escribir a Kinaf",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-hoy": {
+        "group": "Admin · Hoy",
+        "label": "Normal",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 comprobantes para revisar Pagos de noviembre",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Carla Vico no tiene horario Tiene plan, elegí sus horarios",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Pilates, Miércoles 11, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Yoga, Miércoles 11, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio, Miércoles 11, 20:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-hoy-cerrado": {
+        "group": "Admin · Hoy",
+        "label": "Día cerrado",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 comprobantes para revisar Pagos de noviembre",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Carla Vico no tiene horario Tiene plan, elegí sus horarios",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase": {
+        "group": "Admin · Clase del día",
+        "label": "Anotados",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Sofi Ortiz, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Tomi Sosa, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Flor Ibáñez, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Juan Ponce, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Lu Martínez, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Ana Gómez, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-ausente": {
+        "group": "Admin · Clase del día",
+        "label": "Confirmar ausente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Marcar ausente",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-ausente-ok": {
+        "group": "Admin · Clase del día",
+        "label": "Ausente marcado",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Deshacer",
+            "w": 59,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Sofi Ortiz, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Tomi Sosa, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Flor Ibáñez, marcar ausente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clase-suspender": {
+        "group": "Admin · Clase del día",
+        "label": "Confirmar suspender",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Suspender clase",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 2,
+            "text": "Mejor no",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clientes": {
+        "group": "Admin · Clientes",
+        "label": "Lista",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "SO Sofi Ortiz Combinado 3 · Cuota pendiente",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "LM Lu Martínez Libre 3 · Al día",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "JP Juan Ponce 2 de Yoga o Pilates · Al día",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "CV Carla Vico Yoga y Pilates · Sin horario",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "MR Mati Ruiz Libre 3 · Cuota atrasada",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "AG Ana Gómez Combinado 3 · Comprobante en revisión",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "FP Fede Paz Sin plan",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "NA Nati Acosta Libre 3 · Comprobante en revisión",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "TS Tomi Sosa Yoga y Pilates · Comprobante en revisión",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-clientes-vacio": {
+        "group": "Admin · Clientes",
+        "label": "Búsqueda sin resultados",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Rocío",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Activa, con pendiente",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Cambiar plan u horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha-sin-horario": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Sin horario",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Elegir horarios",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ficha-sin-plan": {
+        "group": "Admin · Ficha de cliente",
+        "label": "Sin plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Asignar plan y horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-plan": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Paso 1: plan",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Combinado 3 1 clase de Yoga + 2 clases libres · $38.000",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Libre 3 3 clases libres · $42.000",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Yoga y Pilates 1 clase de Yoga + 1 clase de Pilates · $30.00",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "2 de Yoga o Pilates 2 clases de Yoga o Pilates · $29.000",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Siguiente",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-horarios": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Paso 2: horarios (con completos)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Lunes 16 de noviembre Lunes 23 de noviembre",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes 18:00 · Pilates Mendoza · 1 lugar fijo libre",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Lunes 19:00 · Yoga Ovidio Lagos · 3 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Martes 18:00 · Gimnasio Mendoza · 2 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Miércoles 18:00 · Pilates Mendoza · 2 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Miércoles 19:00 · Yoga Ovidio Lagos · 2 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Jueves 18:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Viernes 18:00 · Gimnasio Mendoza · 3 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Viernes 19:00 · Yoga Mendoza · 5 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Sábado 10:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Confirmar horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-asignar-ultimo": {
+        "group": "Admin · Asignar plan y horario",
+        "label": "Último cupo y fecha de inicio",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Lunes 16 de noviembre Lunes 23 de noviembre",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes 18:00 · Pilates Mendoza · 1 lugar fijo libre",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Miércoles 18:00 · Pilates Mendoza · 2 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Jueves 18:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Sábado 10:00 · Pilates Mendoza · 4 lugares fijos libres",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Confirmar horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-agenda": {
+        "group": "Admin · Agenda",
+        "label": "Día con clases",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Domingo 15",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes 16",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Viernes 20",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Sábado 21",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Pilates, Miércoles 18, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Yoga, Miércoles 18, 19:00, Ovidio Lagos",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Gimnasio, Miércoles 18, 20:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Nuevo horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 13,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 16,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-agenda-cerrado": {
+        "group": "Admin · Agenda",
+        "label": "Día cerrado",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Martes 17",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Miércoles 18",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Jueves 19",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Viernes 20",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Sábado 21",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Domingo 22",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Lunes 23",
+            "w": 46,
+            "h": 58,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Gimnasio, Viernes 20, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Yoga, Viernes 20, 19:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Nuevo horario",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 12,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 15,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-horario-nuevo": {
+        "group": "Admin · Horario de clase",
+        "label": "Nuevo",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 7
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates Yoga Gimnasio",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "08:00 10:00 18:00 19:00 19:30 20:00",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mendoza Ovidio Lagos",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agus Mica Nico",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "10",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Guardar",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-horario-cupo": {
+        "group": "Admin · Horario de clase",
+        "label": "Bajar cupo (bloqueado)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 7
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates Yoga Gimnasio",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "08:00 10:00 18:00 19:00 19:30 20:00",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Mendoza Ovidio Lagos",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Agus Mica Nico",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "8",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Guardar",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-cierre": {
+        "group": "Admin · Cerrar un día",
+        "label": "Formulario e impacto",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Feriado",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Los dos centros",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "Mendoza",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Ovidio Lagos",
+            "w": 350,
+            "h": 56,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Cerrar el viernes 20",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-pagos": {
+        "group": "Admin · Pagos",
+        "label": "Lista",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 3
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir ajustes",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "AG Ana Gómez Comprobante · $38.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "NA Nati Acosta Comprobante · $42.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "TS Tomi Sosa Comprobante · $30.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "MR Mati Ruiz Desde el 11 · $42.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "FI Flor Ibáñez Desde el 11 · $29.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Registrar pago",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          },
+          {
+            "n": 8,
+            "text": "Hoy",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Clientes",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "Agenda",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Pagos",
+            "w": 84,
+            "h": 54,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-comprobante": {
+        "group": "Admin · Pagos",
+        "label": "Revisar comprobante",
+        "metrics": {
+          "P1": 1,
+          "P2": 1,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Rechazar comprobante",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Aprobar pago",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-registrar": {
+        "group": "Admin · Pagos",
+        "label": "Registrar un pago",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 5
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Sofi Ortiz Lu Martínez Juan Ponce Carla Vico Mati Ruiz Ana G",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Noviembre Diciembre",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "42.000",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Efectivo Transferencia",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Registrar pago",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-ajustes": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Ajustes",
+        "metrics": {
+          "P1": 0,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Planes 4 planes",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "Cerrar sesión",
+            "w": 350,
+            "h": 44,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "admin-planes": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Planes",
+        "metrics": {
+          "P1": 1,
+          "P2": 2,
+          "P3": 2
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "3 Combinado 3 1 clase de Yoga + 2 clases libres · $38.000",
+            "w": 350,
+            "h": 72,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "3 Libre 3 3 clases libres · $42.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "2 Yoga y Pilates 1 clase de Yoga + 1 clase de Pilates · $30.",
+            "w": 350,
+            "h": 73,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "2 2 de Yoga o Pilates 2 clases de Yoga o Pilates · $29.000",
+            "w": 350,
+            "h": 60,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Nuevo plan",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "admin-plan": {
+        "group": "Admin · Ajustes y planes",
+        "label": "Editar plan (cupos)",
+        "metrics": {
+          "P1": 1,
+          "P2": 3,
+          "P3": 4
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Combinado 3",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 3,
+            "text": "38.000",
+            "w": 170,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 4,
+            "text": "1 2 3 4 5",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 5,
+            "text": "Cualquiera",
+            "w": 109,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 6,
+            "text": "Gimnasio",
+            "w": 99,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 7,
+            "text": "Pilates",
+            "w": 83,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 8,
+            "text": "Yoga",
+            "w": 91,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 9,
+            "text": "Quitar cupo 1",
+            "w": 100,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 10,
+            "text": "1 2 3 4 5",
+            "w": 350,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 11,
+            "text": "Cualquiera",
+            "w": 131,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 12,
+            "text": "Gimnasio",
+            "w": 99,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 13,
+            "text": "Pilates",
+            "w": 83,
+            "h": 44,
+            "primary": false
+          },
+          {
+            "n": 14,
+            "text": "Guardar",
+            "w": 350,
+            "h": 48,
+            "primary": true
+          }
+        ],
+        "findings": []
+      },
+      "instructor-hoy": {
+        "group": "Instructor",
+        "label": "Hoy",
+        "metrics": {
+          "P1": 0,
+          "P2": 1,
+          "P3": 1
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Abrir perfil",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          },
+          {
+            "n": 2,
+            "text": "Pilates, Miércoles 11, 18:00, Mendoza",
+            "w": 350,
+            "h": 128,
+            "primary": false
+          }
+        ],
+        "findings": []
+      },
+      "instructor-clase": {
+        "group": "Instructor",
+        "label": "Clase (solo lectura)",
+        "metrics": {
+          "P1": 0,
+          "P2": 0,
+          "P3": 0
+        },
+        "marks": [
+          {
+            "n": 1,
+            "text": "Volver",
+            "w": 48,
+            "h": 48,
+            "primary": false
+          }
+        ],
+        "findings": []
+      }
+    }
+  },
+  "summary": {
+    "states": 56,
+    "blockers": 0,
+    "warnings": 0
+  }
+}

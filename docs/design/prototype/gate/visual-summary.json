@@ -1,0 +1,389 @@
+[
+  {
+    "id": "admin-plan",
+    "rule": "R3",
+    "gateRule": "P11",
+    "runs": 2,
+    "severity": 3,
+    "blocking": true,
+    "notes": [
+      "[1] S2 [] «Quitar cupo 2» aparece como texto gris sin subrayado y puede no leerse como acción frente a [9] «Quitar cupo 1» subrayado.",
+      "[3] S3 [] Below cupo 2, underlined “Quitar cupo 2” mirrors mark 9 “Quitar cupo 1” but has no pink mark; it reads as the same secondary link affordance without being interactive."
+    ]
+  },
+  {
+    "id": "admin-agenda",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] La marca [1] (avatar «V») es solo icono/inicial y no entra en back/close/search/more/add.",
+      "[2] S2 [1] El acceso a ajustes es solo la inicial «V» en círculo, sin etiqueta; no encaja en back/close/search/more/add.",
+      "[3] S2 [1] Mark 1 is only the initial V in a circle (Abrir ajustes); it is not back, close, search, more, or add and has no universal icon affordance."
+    ]
+  },
+  {
+    "id": "admin-agenda-cerrado",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Avatar de ajustes [1] solo con inicial, fuera de la lista permitida de iconos sin etiqueta.",
+      "[2] S2 [1] Mismo control de perfil solo con inicial «V», sin texto visible.",
+      "[3] S2 [1] Mark 1 is avatar text only (Abrir ajustes), same pattern as admin-agenda; outside allowed icon-only controls."
+    ]
+  },
+  {
+    "id": "admin-clientes",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marca 1 (Abrir ajustes) es un avatar circular sin texto; no encaja en iconos permitidos.",
+      "[2] S2 [1] Acceso a ajustes con inicial «V» sin etiqueta visible.",
+      "[3] S2 [1] Marca [1] abre ajustes con inicial «V» sin etiqueta visible; no es un ícono universal permitido."
+    ]
+  },
+  {
+    "id": "admin-clientes-vacio",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marca 1 repite el acceso a ajustes solo con inicial «V», sin etiqueta.",
+      "[2] S2 [1] Mismo patrón de avatar inicial para ajustes sin etiqueta.",
+      "[3] S2 [1] Marca [1] repite el acceso a ajustes solo con inicial en círculo."
+    ]
+  },
+  {
+    "id": "admin-horario-cupo",
+    "rule": "R9",
+    "gateRule": "REVIEW",
+    "runs": 2,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [8] El aviso de bloqueo por cupo es claro, pero [8] «Guardar» conserva aspecto de CTA activa sin estado deshabilitado visible en el botón.",
+      "[2] S2 [8] El aviso bloquea bajar cupo pero [8] «Guardar» sigue leyéndose como acción principal habilitada; no se ve estado deshabilitado."
+    ]
+  },
+  {
+    "id": "admin-hoy",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marca 1 es solo el avatar «V» para ajustes; no es volver, cerrar, buscar, más ni agregar.",
+      "[2] S2 [1] Ajustes se abre con avatar inicial «V» sin etiqueta; no encaja en back/close/search/more/add.",
+      "[3] S2 [1] Marca [1] abre ajustes con solo la inicial «V» en círculo; no es back, close, search, more ni add."
+    ]
+  },
+  {
+    "id": "admin-hoy-cerrado",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Igual que en admin-hoy: marca 1 es icono solo de perfil/ajustes, fuera de la lista permitida.",
+      "[2] S2 [1] Mismo acceso a ajustes solo con inicial, sin texto ni ícono de «más».",
+      "[3] S2 [1] Marca [1] es avatar con inicial sola para ajustes; fuera del conjunto permitido de controles solo ícono."
+    ]
+  },
+  {
+    "id": "admin-pagos",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marca [1] es avatar sin etiqueta textual en el control.",
+      "[2] S2 [1] Ajustes accesible solo con inicial «V» en el encabezado, sin etiqueta.",
+      "[3] S2 [1] Mark 1 (Abrir ajustes) is letter-only avatar control, not an allowed icon-only pattern."
+    ]
+  },
+  {
+    "id": "admin-plan",
+    "rule": "R5",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [5,6,7,8,11,12,13] Muchas pastillas de actividad [5–8, 11–13] compiten con [14] «Guardar»; el foco no es inmediato.",
+      "[2] S2 [15] El botón fijo [15] tapa parcialmente el enlace «Quitar cupo 2» debajo del segundo bloque; dificulta leer la jerarquía del cupo 2.",
+      "[3] S2 [4,5,6,7,8] Above the fold, nombre/precio, cupo 1 dropdown and four activity pills compete for attention before mark 15; focal point is slower than title → single task → Guardar."
+    ]
+  },
+  {
+    "id": "admin-plan",
+    "rule": "R7",
+    "gateRule": "REVIEW",
+    "runs": 2,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [2,3,4,5,6,7,8,10,11,12,13] Nombre/precio, dos cupos con selects y cuatro chips cada uno superan cinco grupos de decisión antes de [14].",
+      "[3] S2 [2,3,4,5,6,7,8,9,10] First viewport stacks plan meta, cupo 1 frequency, multi activity toggles, quitar cupo 1, and the start of cupo 2—more than five distinct decision groups."
+    ]
+  },
+  {
+    "id": "admin-plan",
+    "rule": "R10",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [5,6,7,8,11,12,13] Selector de actividades en pastillas/chips rompe la regla de estados y el patrón de selects del resto del admin (p. ej. horarios y registrar pago).",
+      "[2] S2 [5,6,7,8,11,12,13,14] Actividades como píldoras con check en este plan; en horarios ([2]–[6] de admin-horario-nuevo) los campos equivalentes son selects celestes, patrón distinto en el lote admin.",
+      "[3] S2 [5,6,7,8,11,12,13,14] Activity picking uses outlined/filled pills (marks 5–8, 11–14); other admin forms in this batch use light-blue dropdown fields, diverging from the no-chip selector pattern."
+    ]
+  },
+  {
+    "id": "instructor-hoy",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Perfil [1] «AB» es control solo con iniciales, sin etiqueta.",
+      "[2] S2 [1] Perfil solo con iniciales «AB», sin etiqueta de texto.",
+      "[3] S2 [1] Mark 1 (Abrir perfil) is initials-only avatar, not back/close/search/more/add."
+    ]
+  },
+  {
+    "id": "mi-plan",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es solo foto circular, sin etiqueta visible; no entra en la lista permitida de controles solo ícono.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Avatar de perfil [1] es solo imagen, sin etiqueta visible; no entra en back/close/search/more/add."
+    ]
+  },
+  {
+    "id": "mi-plan",
+    "rule": "R10",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S3 [2] Escribir a Kinaf [2] aparece como texto subrayado; en mi-plan-sin-plan la misma acción es botón primario navy.",
+      "[2] S2 [2] Escribir a Kinaf en [2] es texto subrayado; en mi-plan-sin-plan la misma acción es pastilla navy primaria.",
+      "[3] S2 [2] Escribir a Kinaf [2] aparece como texto subrayado secundario; en mi-plan-sin-plan la misma acción usa pill navy primario."
+    ]
+  },
+  {
+    "id": "mi-plan-especifico",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es solo imagen circular.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Perfil [1] solo avatar sin texto."
+    ]
+  },
+  {
+    "id": "mi-plan-especifico",
+    "rule": "R10",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S3 [2] Escribir a Kinaf [2] subrayado; distinto estilo que en mi-plan-sin-plan.",
+      "[2] S2 [2] Escribir a Kinaf en [2] es texto subrayado; en mi-plan-sin-plan la misma acción es pastilla navy primaria.",
+      "[3] S2 [2] Misma inconsistencia de Escribir a Kinaf [2] subrayado vs pill en pantalla sin plan."
+    ]
+  },
+  {
+    "id": "mi-plan-pendiente",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es avatar sin texto adyacente.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Abrir perfil [1] es control solo icono (foto) sin etiqueta."
+    ]
+  },
+  {
+    "id": "mi-plan-pendiente",
+    "rule": "R10",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S3 [2,3] Elegir clase [3] como pill primario es coherente con el flujo de pendiente, pero Escribir a Kinaf [2] sigue subrayado frente al pill de mi-plan-sin-plan.",
+      "[2] S2 [2] Escribir a Kinaf en [2] es texto subrayado; en mi-plan-sin-plan la misma acción es pastilla navy primaria.",
+      "[3] S2 [2] Escribir a Kinaf [2] subrayado aquí versus pill primario en mi-plan-sin-plan para la misma acción."
+    ]
+  },
+  {
+    "id": "mi-plan-sin-plan",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es avatar sin etiqueta en pantalla.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Abrir perfil [1] solo icono."
+    ]
+  },
+  {
+    "id": "mi-plan-sin-plan",
+    "rule": "R10",
+    "gateRule": "REVIEW",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S3 [2] Escribir a Kinaf [2] es pill primario navy con ícono; en el resto de variantes Mi plan es enlace subrayado.",
+      "[2] S2 [2] Escribir a Kinaf en [2] es pastilla navy primaria; en mi-plan/mi-plan-especifico/mi-plan-pendiente es texto subrayado secundario.",
+      "[3] S2 [2] Escribir a Kinaf [2] como pill navy primario difiere del enlace subrayado en el resto de vistas Mi plan."
+    ]
+  },
+  {
+    "id": "mis-clases",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] La foto de perfil es solo imagen, sin etiqueta; no entra en la lista permitida de iconos sin texto.",
+      "[2] S2 [1] Mark 1 es solo la foto de perfil, sin etiqueta visible; no está en el conjunto permitido (back/close/search/more/add).",
+      "[3] S2 [1] Mark [1] is photo-only (Abrir perfil); allowed icon-only controls are back, close, search, more, add."
+    ]
+  },
+  {
+    "id": "mis-clases-feriado",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Avatar de perfil [1] es control solo iconográfico fuera del conjunto permitido.",
+      "[2] S2 [1] Mark 1 es avatar icon-only; no hay etiqueta asociada visible.",
+      "[3] S2 [1] Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+    ]
+  },
+  {
+    "id": "mis-clases-pendiente",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marcador 1 es avatar sin etiqueta visible; acción de perfil no identificable por texto.",
+      "[2] S2 [1] Mark 1 es avatar sin texto; acción «Abrir perfil» no se lee en pantalla.",
+      "[3] S2 [1] Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+    ]
+  },
+  {
+    "id": "mis-clases-sin-horario",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Marcador 1 (perfil) no incluye etiqueta textual junto al icono.",
+      "[2] S2 [1] Mark 1 es foto de perfil sin etiqueta textual.",
+      "[3] S2 [1] Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+    ]
+  },
+  {
+    "id": "mis-clases-sin-plan",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Control de perfil [1] es solo avatar, sin texto accesible en pantalla.",
+      "[2] S2 [1] Mark 1 es avatar sin etiqueta visible.",
+      "[3] S2 [1] Mark [1] is photo-only (Abrir perfil); outside the permitted icon-only set."
+    ]
+  },
+  {
+    "id": "pagos-atrasado",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es imagen circular sin texto.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Avatar [1] solo imagen."
+    ]
+  },
+  {
+    "id": "pagos-pagado",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es solo avatar.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Perfil [1] sin etiqueta."
+    ]
+  },
+  {
+    "id": "pagos-pendiente",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] es foto sola en la esquina superior.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Avatar [1] sin etiqueta visible."
+    ]
+  },
+  {
+    "id": "pagos-revision",
+    "rule": "R4",
+    "gateRule": "P12",
+    "runs": 3,
+    "severity": 2,
+    "blocking": false,
+    "notes": [
+      "[1] S2 [1] Abrir perfil [1] sin rótulo visible.",
+      "[2] S2 [1] Marca 1 es solo avatar/foto sin etiqueta visible; no es back/close/search/more/add.",
+      "[3] S2 [1] Perfil [1] icono solo."
+    ]
+  }
+]

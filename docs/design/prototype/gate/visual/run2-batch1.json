@@ -1,0 +1,371 @@
+{
+  "screens": [
+    {
+      "id": "login",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "login-error",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "mis-clases",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 es solo la foto de perfil, sin etiqueta visible; no está en el conjunto permitido (back/close/search/more/add)."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-pendiente",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 1,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 es avatar sin texto; acción «Abrir perfil» no se lee en pantalla."
+        },
+        {
+          "rule": "R5",
+          "severity": 2,
+          "marks": [4, 5],
+          "note": "El bloque de clase pendiente y el botón [5] superponen y recortan la tarjeta [4], compitiendo con el listado como foco inicial."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-feriado",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 1,
+        "R5": 1,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 es avatar icon-only; no hay etiqueta asociada visible."
+        },
+        {
+          "rule": "R5",
+          "severity": 2,
+          "marks": [4, 5],
+          "note": "La zona de clase pendiente y [5] se superpone al listado y tapa parcialmente la tarjeta [4], difuminando jerarquía título→contenido→acción."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-sin-horario",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 1,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 es foto de perfil sin etiqueta textual."
+        },
+        {
+          "rule": "R3",
+          "severity": 2,
+          "marks": [],
+          "note": "El ícono de sincronización dentro del círculo celeste central se parece a un control táctil pero no tiene marca de interactivo."
+        }
+      ]
+    },
+    {
+      "id": "mis-clases-sin-plan",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 1,
+        "R4": 1,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": [
+        {
+          "rule": "R4",
+          "severity": 2,
+          "marks": [1],
+          "note": "Mark 1 es avatar sin etiqueta visible."
+        },
+        {
+          "rule": "R3",
+          "severity": 2,
+          "marks": [],
+          "note": "El calendario en círculo celeste del estado vacío puede leerse como botón aunque no está marcado como interactivo."
+        }
+      ]
+    },
+    {
+      "id": "clase-fija",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-confirmar",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-cancelada",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-menos-24h",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-suspendida",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-usar-pendiente",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    },
+    {
+      "id": "clase-reservada",
+      "scores": {
+        "R1": 2,
+        "R2": 2,
+        "R3": 2,
+        "R4": 2,
+        "R5": 2,
+        "R6": 2,
+        "R7": 2,
+        "R8": 2,
+        "R9": 2,
+        "R10": 2
+      },
+      "walkthrough": {
+        "know_what": true,
+        "notice_action": true,
+        "associate": true,
+        "see_progress": true
+      },
+      "findings": []
+    }
+  ]
+}
