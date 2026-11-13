@@ -89,12 +89,13 @@ export default function ChooseClass({ view }: { view: ChooseClassView }) {
           {`Clases del ${day.label}`}
         </h2>
         <div className="grid gap-2.5">
-          {classes.map((card) => (
+          {classes.map((card, position) => (
             <ClassCard
               key={card.sessionId}
               card={card}
               href={`/elegir-clase/${card.sessionId}`}
               returnKey={`session-${card.sessionId}`}
+              eager={position < 2}
               lines={
                 <>
                   <DetailLine

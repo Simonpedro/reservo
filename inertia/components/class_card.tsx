@@ -90,6 +90,7 @@ export function ClassCard({
   href,
   returnKey,
   lines,
+  eager = false,
 }: {
   card: CardFace
   href: string
@@ -101,6 +102,10 @@ export function ClassCard({
    * Replaces the default lines (admins and Elegir clase show places instead).
    */
   lines?: ReactNode
+  /**
+   * The first cards of a list are on screen at load: their photo is not lazy.
+   */
+  eager?: boolean
 }) {
   const [returning, setReturning] = useState(() => takeReturn(returnKey))
   useEffect(() => {
@@ -154,7 +159,7 @@ export function ClassCard({
           style={names(TRANSITION_NAMES.photo)}
           src={card.activity.image}
           alt=""
-          loading="lazy"
+          loading={eager ? 'eager' : 'lazy'}
           decoding="async"
           className={cn(
             'pointer-events-none absolute drop-shadow-[0_12px_10px_rgb(0_26_77/0.14)] -bottom-[5px] z-[3] object-contain object-right-bottom',

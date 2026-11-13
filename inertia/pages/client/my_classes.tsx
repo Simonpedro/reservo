@@ -43,6 +43,13 @@ export default function MyClasses({ view }: { view: MyClassesView }) {
     )
   }
 
+  /**
+   * Cards listed before each week: the first two of the screen load eagerly.
+   */
+  const before = view.weeks.map((_, index) =>
+    view.weeks.slice(0, index).reduce((total, week) => total + week.classes.length, 0)
+  )
+
   return (
     <ClientLayout tab="classes" title="Mis clases" dock={dock} tallDock>
       {view.weeks.map((week, index) => (
@@ -54,12 +61,13 @@ export default function MyClasses({ view }: { view: MyClassesView }) {
             {week.title}
           </h2>
           <div className="grid gap-2.5">
-            {week.classes.map((card) => (
+            {week.classes.map((card, position) => (
               <ClassCard
                 key={card.bookingId}
                 card={card}
                 href={`/clases/${card.bookingId}`}
                 returnKey={`booking-${card.bookingId}`}
+                eager={before[index] + position < 2}
               />
             ))}
           </div>
