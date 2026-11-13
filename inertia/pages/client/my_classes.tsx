@@ -55,7 +55,12 @@ export default function MyClasses({ view }: { view: MyClassesView }) {
           </h2>
           <div className="grid gap-2.5">
             {week.classes.map((card) => (
-              <ClassCard key={card.bookingId} card={card} href={`/clases/${card.bookingId}`} />
+              <ClassCard
+                key={card.bookingId}
+                card={card}
+                href={`/clases/${card.bookingId}`}
+                returnKey={`booking-${card.bookingId}`}
+              />
             ))}
           </div>
         </section>

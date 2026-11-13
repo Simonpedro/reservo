@@ -42,13 +42,13 @@ const RETURN_KEY = 'reservo:return-class'
  * Called when leaving a class detail, so the matching card on the list takes
  * the shared transition names and the hero morphs back into it.
  */
-export function rememberReturn(bookingId: number) {
-  sessionStorage.setItem(RETURN_KEY, String(bookingId))
+export function rememberReturn(returnKey: string) {
+  sessionStorage.setItem(RETURN_KEY, returnKey)
 }
 
-function takeReturn(bookingId: number) {
+function takeReturn(returnKey: string) {
   if (typeof sessionStorage === 'undefined') return false
-  if (sessionStorage.getItem(RETURN_KEY) !== String(bookingId)) return false
+  if (sessionStorage.getItem(RETURN_KEY) !== returnKey) return false
   sessionStorage.removeItem(RETURN_KEY)
   return true
 }
@@ -73,22 +73,36 @@ function markForTransition(card: HTMLElement) {
 }
 
 /**
+ * What every card shows. Bookings add their source and suspension.
+ */
+export type CardFace = Pick<
+  ClassCardData,
+  'activity' | 'dayLabel' | 'startTime' | 'instructorName' | 'centerName'
+> &
+  Partial<Pick<ClassCardData, 'source' | 'suspended' | 'suspensionReason'>>
+
+/**
  * The one class card, for students and admins: wash by activity, photo that
  * overflows, information lines. The whole card opens the class detail.
  */
 export function ClassCard({
   card,
   href,
+  returnKey,
   lines,
 }: {
-  card: ClassCardData
+  card: CardFace
   href: string
   /**
-   * Replaces the default lines (admins show occupancy instead).
+   * Identifies the card when coming back from its detail (see rememberReturn).
+   */
+  returnKey: string
+  /**
+   * Replaces the default lines (admins and Elegir clase show places instead).
    */
   lines?: ReactNode
 }) {
-  const [returning, setReturning] = useState(() => takeReturn(card.bookingId))
+  const [returning, setReturning] = useState(() => takeReturn(returnKey))
   useEffect(() => {
     if (!returning) return
     const timer = setTimeout(() => setReturning(false), 800)

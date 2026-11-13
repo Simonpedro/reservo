@@ -8,7 +8,7 @@ export function pendingCountText(count: number) {
   return count === 1 ? 'Tenés 1 clase pendiente' : `Tenés ${count} clases pendientes`
 }
 
-function activitiesText(activities: string[] | null) {
+export function activitiesText(activities: string[] | null) {
   if (!activities) return 'Vale para cualquier actividad de tu plan.'
   return `Vale para ${new Intl.ListFormat('es-AR', { type: 'disjunction' }).format(activities)}.`
 }

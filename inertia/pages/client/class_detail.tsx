@@ -14,9 +14,8 @@ import {
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import type { ClassDetailView } from '#services/my_classes'
-import { BackButton } from '~/components/back_button'
 import { BottomSheet } from '~/components/bottom_sheet'
-import { heroCutoutClass, rememberReturn, TRANSITION_NAMES } from '~/components/class_card'
+import { ClassHero } from '~/components/class_hero'
 import { Dock } from '~/components/client_layout'
 import { InfoLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
@@ -26,12 +25,6 @@ import { WhatsappButton } from '~/components/whatsapp_button'
 import { cn } from '~/lib/utils'
 import type { PageProps } from '~/types'
 
-const WASH = {
-  green: 'bg-wash-green',
-  celeste: 'bg-wash-celeste',
-  blue: 'bg-wash-blue',
-} as const
-
 function capitalize(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
@@ -39,9 +32,14 @@ function capitalize(text: string) {
 export default function ClassDetail({
   detail,
   justCancelled,
+  justBooked,
 }: {
   detail: ClassDetailView
   justCancelled: boolean
+  /**
+   * Just booked with a pending class from Elegir clase.
+   */
+  justBooked: boolean
 }) {
   const { card, state, pending } = detail
   const page = usePage<PageProps>()
@@ -60,6 +58,28 @@ export default function ClassDetail({
   let notice = null
   if (error) {
     notice = <Notice icon={CircleAlert} title={error} />
+  } else if (justBooked && state !== 'cancelled') {
+    notice = (
+      <Notice
+        icon={Check}
+        title="Listo, ya tenés tu lugar."
+        action={
+          state === 'cancellable' && (
+            <Button asChild variant="link" className="-my-2.5 h-11 px-0">
+              <Link
+                route="client.classes.cancel"
+                routeParams={{ id: card.bookingId }}
+                method="post"
+                data={{ volver: 'elegir' }}
+                as="button"
+              >
+                Deshacer
+              </Link>
+            </Button>
+          )
+        }
+      />
+    )
   } else if (cancelled && justCancelled) {
     notice = (
       <Notice
@@ -107,7 +127,7 @@ export default function ClassDetail({
   } else stateLine = <InfoLine icon={Repeat}>Tu horario fijo</InfoLine>
 
   let copy = null
-  if (state === 'cancellable') {
+  if (state === 'cancellable' && !justBooked) {
     copy = 'Si no podés venir, avisá con 24 h o más y te queda una clase pendiente para otro día.'
   } else if (suspended) {
     copy = detail.gavePending
@@ -116,7 +136,9 @@ export default function ClassDetail({
   }
 
   let dock = null
-  if (state === 'cancellable') {
+  if (justBooked) {
+    dock = null
+  } else if (state === 'cancellable') {
     dock = (
       <Button type="button" onClick={() => setConfirming(true)}>
         No voy a ir
@@ -134,37 +156,13 @@ export default function ClassDetail({
       <main
         className={cn('mx-auto min-h-svh w-full max-w-[430px] px-5 pt-3', dock ? 'pb-36' : 'pb-10')}
       >
-        <article
-          style={{ viewTransitionName: TRANSITION_NAMES.background }}
-          className={cn(
-            'relative isolate mb-2.5 min-h-[214px] overflow-visible rounded-[34px] px-4 pt-2 pb-5 text-navy',
-            suspended ? 'bg-wash-navy' : WASH[card.activity.wash]
-          )}
-        >
-          <div onClickCapture={() => rememberReturn(card.bookingId)}>
-            <BackButton href="/clases" viewTransition />
-          </div>
-          <h1
-            ref={heading}
-            tabIndex={-1}
-            style={{ viewTransitionName: TRANSITION_NAMES.title }}
-            className="mt-[18px] w-fit max-w-[calc(100%-150px)] text-[32px] leading-[0.95] font-black tracking-[-0.045em] outline-none"
-          >
-            {card.activity.name}
-          </h1>
-          {card.activity.image && (
-            <img
-              src={card.activity.image}
-              alt=""
-              style={{ viewTransitionName: TRANSITION_NAMES.photo }}
-              className={cn(
-                'pointer-events-none absolute z-[3] object-contain object-right-bottom drop-shadow-[0_12px_10px_rgb(0_26_77/0.14)]',
-                heroCutoutClass(card.activity.image),
-                suspended && 'opacity-55 grayscale'
-              )}
-            />
-          )}
-        </article>
+        <ClassHero
+          ref={heading}
+          activity={card.activity}
+          backHref="/clases"
+          returnKey={`booking-${card.bookingId}`}
+          muted={suspended}
+        />
         {notice && <div className="relative z-[2] mt-4 pl-0.5">{notice}</div>}
         <div className="relative z-[2] mt-4 grid gap-2.5">
           <InfoLine icon={Clock}>{`${capitalize(detail.dayName)} · ${card.startTime}`}</InfoLine>
