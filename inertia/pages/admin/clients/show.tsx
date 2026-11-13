@@ -2,6 +2,7 @@ import { Link } from '@adonisjs/inertia/react'
 import { usePage } from '@inertiajs/react'
 import {
   CalendarClock,
+  CircleCheck,
   Clock3,
   Copy,
   Link2,
@@ -16,6 +17,7 @@ import type { ClassCardData } from '#services/my_classes'
 import { AdminInnerLayout } from '~/components/admin_layout'
 import { ClassCard } from '~/components/class_card'
 import { InfoLine } from '~/components/info_line'
+import { Notice } from '~/components/notice'
 import { WhatsappIcon } from '~/components/icons'
 import { Button } from '~/components/ui/button'
 import type { PageProps } from '~/types'
@@ -38,6 +40,7 @@ type Payments = {
 
 type Plan = {
   name: string
+  startsOn: string | null
   quotas: string[]
 } | null
 
@@ -79,7 +82,11 @@ export default function AdminClientShow({
   hasMonthlyFeesTable: boolean
 }) {
   const page = usePage<PageProps>()
-  const flash = page.flash as { success?: string; accessLink?: AccessLinkFlash }
+  const flash = page.flash as {
+    success?: string
+    accessLink?: AccessLinkFlash
+    assigned?: { startsOn: string }
+  }
   const accessLink = flash.accessLink
   const [copyFeedback, setCopyFeedback] = useState('')
   const timer = useRef<number | null>(null)
@@ -126,6 +133,12 @@ export default function AdminClientShow({
         </p>
       )}
 
+      {flash.assigned && (
+        <Notice icon={CircleCheck} title="Listo, horario cargado." className="mt-4">
+          {`Desde el ${formatDate(flash.assigned.startsOn)} el sistema reserva sus clases cada semana.`}
+        </Notice>
+      )}
+
       <section className="mt-5 grid gap-2.5">
         <InfoLine icon={Mail}>{email}</InfoLine>
         <InfoLine icon={Phone}>{phone ?? 'Sin teléfono'}</InfoLine>
@@ -136,6 +149,9 @@ export default function AdminClientShow({
         {plan ? (
           <div className="mt-2.5 grid gap-2.5">
             <p className="text-[22px] leading-[1.1] font-black tracking-[-0.035em]">{plan.name}</p>
+            {plan.startsOn && (
+              <InfoLine icon={CalendarClock}>{`Empieza el ${formatDate(plan.startsOn)}`}</InfoLine>
+            )}
             {plan.quotas.map((quota) => (
               <InfoLine key={quota} icon={Ticket}>
                 {quota}
@@ -227,7 +243,9 @@ export default function AdminClientShow({
       <section className="mt-6 pb-2">
         <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Asignaciones</h2>
         <Button asChild variant="link" className="mt-1 h-11 px-0">
-          <Link href={`/admin/clientes/${id}/asignar-plan-horario`}>Asignar plan y horario</Link>
+          <Link href={`/admin/clientes/${id}/asignar`}>
+            {plan ? 'Cambiar plan u horario' : 'Asignar plan y horario'}
+          </Link>
         </Button>
       </section>
 

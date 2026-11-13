@@ -21,6 +21,19 @@ export interface Registry {
       rawResponse: ExtractRawResponse<unknown>
     }
   }
+  'internal.dailyRun': {
+    methods: ["POST"]
+    pattern: '/internal/daily-run'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/internal_daily_controller').default['run']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/internal_daily_controller').default['run']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/internal_daily_controller').default['run']>>>
+    }
+  }
   'home': {
     methods: ["GET","HEAD"]
     pattern: '/'
@@ -97,6 +110,162 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/session_controller').default['destroy']>>>
+    }
+  }
+  'admin.home': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'admin.today': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/hoy'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'admin.agenda': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/agenda'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'admin.payments': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/pagos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'admin.settings': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/ajustes'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+      rawResponse: ExtractRawResponse<unknown>
+    }
+  }
+  'admin.clients.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/clientes'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['index']>>>
+    }
+  }
+  'admin.clients.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/clientes/nuevo'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['create']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['create']>>>
+    }
+  }
+  'admin.clients.store': {
+    methods: ["POST"]
+    pattern: '/admin/clientes'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_client').createClientValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_client').createClientValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.clients.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/clientes/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['show']>>>
+    }
+  }
+  'admin.clients.issueAccessLink': {
+    methods: ["POST"]
+    pattern: '/admin/clientes/:id/access-link'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['issueAccessLink']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['issueAccessLink']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['issueAccessLink']>>>
+    }
+  }
+  'admin.clients.assign': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/clientes/:id/asignar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['assign']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['assign']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['assign']>>>
+    }
+  }
+  'admin.clients.assign.store': {
+    methods: ["POST"]
+    pattern: '/admin/clientes/:id/asignar'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/schedule_assignment').scheduleAssignmentValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/schedule_assignment').scheduleAssignmentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['storeAssignment']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['storeAssignment']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_clients_controller').default['storeAssignment']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.classes': {

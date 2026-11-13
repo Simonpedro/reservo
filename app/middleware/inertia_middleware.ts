@@ -62,8 +62,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
           whatsappUrl: string | null
         }
       | undefined = session?.flashMessages.get('accessLink')
+    const assigned: { startsOn: string } | undefined = session?.flashMessages.get('assigned')
 
-    return { success, error, accessLink }
+    return { success, error, accessLink, assigned }
   }
 
   async handle(ctx: HttpContext, next: NextFn) {

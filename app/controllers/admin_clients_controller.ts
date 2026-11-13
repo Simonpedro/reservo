@@ -7,7 +7,12 @@ import {
   listAdminClients,
 } from '#services/admin_clients'
 import AccessLinks from '#services/access_links'
+import ScheduleAssignment, {
+  AssignmentError,
+  assignmentWizard,
+} from '#services/schedule_assignment'
 import { createClientValidator } from '#validators/admin_client'
+import { scheduleAssignmentValidator } from '#validators/schedule_assignment'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AdminClientsController {
@@ -79,14 +84,10 @@ export default class AdminClientsController {
     return response.redirect(`/admin/clientes/${client.id}`)
   }
 
-  async assignPlaceholder({ inertia, params, response, tenant }: HttpContext) {
-    const client = await User.query()
-      .where('tenantId', tenant!.id)
-      .where('role', 'client')
-      .where('id', Number(params.id))
-      .first()
+  async assign({ inertia, params, response, tenant }: HttpContext) {
+    const wizard = await assignmentWizard(tenant!.id, Number(params.id))
 
-    if (!client) {
+    if (!wizard) {
       response.status(404)
       return inertia.render('errors/not_found', {
         title: 'No encontramos ese cliente',
@@ -94,9 +95,24 @@ export default class AdminClientsController {
       })
     }
 
-    return inertia.render('admin/clients/assign_placeholder', {
-      id: client.id,
-      fullName: client.fullName,
-    })
+    return inertia.render('admin/clients/assign', wizard)
+  }
+
+  async storeAssignment({ params, request, response, session, tenant }: HttpContext) {
+    const payload = await request.validateUsing(scheduleAssignmentValidator)
+    const clientId = Number(params.id)
+
+    try {
+      await new ScheduleAssignment().assign(tenant!.id, clientId, payload)
+    } catch (error) {
+      if (error instanceof AssignmentError) {
+        session.flash('errors', { assignment: error.message })
+        return response.redirect().back()
+      }
+      throw error
+    }
+
+    session.flash('assigned', { startsOn: payload.startsOn })
+    return response.redirect(`/admin/clientes/${clientId}`)
   }
 }

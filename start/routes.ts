@@ -86,12 +86,13 @@ router
               .where('id', router.matchers.number())
               .as('admin.clients.issueAccessLink')
             router
-              .get('/admin/clientes/:id/asignar-plan-horario', [
-                AdminClientsController,
-                'assignPlaceholder',
-              ])
+              .get('/admin/clientes/:id/asignar', [AdminClientsController, 'assign'])
               .where('id', router.matchers.number())
               .as('admin.clients.assign')
+            router
+              .post('/admin/clientes/:id/asignar', [AdminClientsController, 'storeAssignment'])
+              .where('id', router.matchers.number())
+              .as('admin.clients.assign.store')
           })
           .use(middleware.role({ roles: ['admin'] }))
 
