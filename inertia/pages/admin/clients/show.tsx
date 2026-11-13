@@ -131,6 +131,45 @@ export default function AdminClientShow({
         </p>
       )}
 
+      {accessLink && (
+        <section className="mt-4 rounded-[28px] bg-wash-celeste p-4">
+          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Link de acceso</h2>
+          <p className="mt-2 break-all text-sm leading-tight font-bold">{accessLink.url}</p>
+          <div className="mt-3 grid gap-2">
+            <button
+              type="button"
+              onClick={copyAccessLink}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-navy bg-white px-4 text-sm font-black"
+              aria-label="Copiar link de acceso"
+            >
+              <Copy className="size-4" aria-hidden="true" />
+              Copiar link
+            </button>
+            <span role="status" className="text-sm font-extrabold">
+              {copyFeedback}
+            </span>
+            {accessLink.whatsappUrl ? (
+              <a
+                href={accessLink.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-navy px-4 text-sm font-black text-white no-underline"
+              >
+                <WhatsappIcon className="size-4" />
+                Abrir WhatsApp
+              </a>
+            ) : (
+              <p className="text-sm leading-tight font-bold text-muted-foreground">
+                Cargá su teléfono para compartirlo por WhatsApp.
+              </p>
+            )}
+            <p className="inline-flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
+              <Link2 className="size-4" strokeWidth={2.1} aria-hidden="true" />
+              No se envía nada automáticamente.
+            </p>
+          </div>
+        </section>
+      )}
       {flash.assigned && (
         <Notice icon={CircleCheck} title="Listo, horario cargado." className="mt-4">
           {`Desde el ${formatDate(flash.assigned.startsOn)} el sistema reserva sus clases cada semana.`}
@@ -224,57 +263,17 @@ export default function AdminClientShow({
         </section>
       )}
 
-      <section className="mt-6 pb-2">
+      <section className="mt-6">
         <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Acceso</h2>
         <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
           Entra con un link personal, sin contraseña.
         </p>
         <Button asChild variant="link" className="mt-1 h-11 px-0">
-          <Link href={`/admin/clientes/${id}/access-link`} method="post" as="button" preserveScroll>
+          <Link href={`/admin/clientes/${id}/access-link`} method="post" as="button">
             Generar link de acceso
           </Link>
         </Button>
       </section>
-
-      {accessLink && (
-        <section className="mt-6 rounded-[28px] bg-wash-celeste p-4">
-          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Link de acceso</h2>
-          <p className="mt-2 break-all text-sm leading-tight font-bold">{accessLink.url}</p>
-          <div className="mt-3 grid gap-2">
-            <button
-              type="button"
-              onClick={copyAccessLink}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-navy bg-white px-4 text-sm font-black"
-              aria-label="Copiar link de acceso"
-            >
-              <Copy className="size-4" aria-hidden="true" />
-              Copiar link
-            </button>
-            <span role="status" className="text-sm font-extrabold">
-              {copyFeedback}
-            </span>
-            {accessLink.whatsappUrl ? (
-              <a
-                href={accessLink.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-navy px-4 text-sm font-black text-white no-underline"
-              >
-                <WhatsappIcon className="size-4" />
-                Abrir WhatsApp
-              </a>
-            ) : (
-              <p className="text-sm leading-tight font-bold text-muted-foreground">
-                Cargá su teléfono para compartirlo por WhatsApp.
-              </p>
-            )}
-            <p className="inline-flex items-center gap-1.5 text-sm font-bold text-muted-foreground">
-              <Link2 className="size-4" strokeWidth={2.1} aria-hidden="true" />
-              No se envía nada automáticamente.
-            </p>
-          </div>
-        </section>
-      )}
     </AdminInnerLayout>
   )
 }
