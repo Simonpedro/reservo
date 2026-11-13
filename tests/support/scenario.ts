@@ -15,7 +15,7 @@ import type Activity from '#models/activity'
 import type Center from '#models/center'
 import type ClassSchedule from '#models/class_schedule'
 import type Tenant from '#models/tenant'
-import { DateTime } from 'luxon'
+import { type DateTime } from 'luxon'
 
 /**
  * Builders on top of the Lucid factories for the usual test world: a tenant
