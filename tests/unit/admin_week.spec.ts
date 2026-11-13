@@ -1,4 +1,5 @@
 import { FixedSlotFactory } from '#database/factories/plan_factories'
+import FixedSlot from '#models/fixed_slot'
 import { adminWeek, weekStart, weekTitle } from '#services/admin_week'
 import { BUSINESS_ZONE } from '#services/business_calendar'
 import { createCatalog, createSchedule, createStudent } from '#tests/support/scenario'
@@ -101,6 +102,35 @@ test.group('Admin week', (group) => {
     )
     assert.equal(item.taken, 4)
     assert.equal(item.capacity, 8)
+  })
+
+  test('a person with two overlapping fixed slots in a class counts once', async ({ assert }) => {
+    const catalog = await createCatalog()
+    const schedule = await createSchedule(catalog, { weekday: 3, capacity: 8 })
+    const sofi = await createStudent(catalog, {
+      schedules: [schedule],
+      fullName: 'Sofi Ortiz',
+      slot: { startsOn: day('2026-08-01'), endsOn: day('2026-11-12') },
+    })
+    const first = await FixedSlot.query().where('userId', sofi.user.id).firstOrFail()
+    await FixedSlot.create({
+      tenantId: first.tenantId,
+      userId: first.userId,
+      subscriptionId: first.subscriptionId,
+      planQuotaId: first.planQuotaId,
+      classScheduleId: first.classScheduleId,
+      startsOn: day('2026-08-01'),
+      endsOn: null,
+    })
+
+    const week = await adminWeek(catalog.tenant.id, null, null, now)
+    const [item] = week.days[2].classes
+
+    assert.deepEqual(
+      item.people.map(({ fullName }) => fullName),
+      ['Sofi Ortiz']
+    )
+    assert.equal(item.taken, 1)
   })
 
   test('someone changing schedule is in the old class this week and the new one next week', async ({

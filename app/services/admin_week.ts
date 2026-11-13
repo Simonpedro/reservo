@@ -177,10 +177,16 @@ export async function adminWeek(
         classes: schedules
           .filter((schedule) => schedule.weekday === weekday)
           .map((schedule) => {
-            const people = slots
-              .filter((slot) => slot.classScheduleId === schedule.id && validOn(slot, date))
-              .map((slot) => ({ userId: slot.userId, fullName: slot.user.fullName }))
-              .sort((left, right) => left.fullName.localeCompare(right.fullName, 'es'))
+            const people = [
+              ...new Map(
+                slots
+                  .filter((slot) => slot.classScheduleId === schedule.id && validOn(slot, date))
+                  .map((slot) => [
+                    slot.userId,
+                    { userId: slot.userId, fullName: slot.user.fullName },
+                  ])
+              ).values(),
+            ].sort((left, right) => left.fullName.localeCompare(right.fullName, 'es'))
             return {
               scheduleId: schedule.id,
               startTime: schedule.startTime,
