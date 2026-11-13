@@ -14,14 +14,14 @@ function count(total: number, one: string, many: string) {
 
 export default function AdminSettings({
   activePlans,
-  activeActivities,
-  activeCenters,
+  activities,
+  centers,
   whatsappPhone,
   transferAliases,
 }: {
   activePlans: number
-  activeActivities: number
-  activeCenters: number
+  activities: number
+  centers: number
   whatsappPhone: string | null
   transferAliases: string[]
 }) {
@@ -45,13 +45,13 @@ export default function AdminSettings({
           href="/admin/ajustes/actividades"
           bubble={<Shapes strokeWidth={2.2} />}
           title="Actividades"
-          hint={count(activeActivities, 'actividad', 'actividades')}
+          hint={count(activities, 'actividad', 'actividades')}
         />
         <LinkRow
           href="/admin/ajustes/sedes"
           bubble={<MapPin strokeWidth={2.2} />}
           title="Sedes"
-          hint={count(activeCenters, 'sede', 'sedes')}
+          hint={count(centers, 'sede', 'sedes')}
         />
       </nav>
 

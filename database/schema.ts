@@ -42,7 +42,6 @@ export class AccessLinkSchema extends BaseModel {
 
 export class ActivitySchema extends BaseModel {
   static $columns = [
-    'active',
     'createdAt',
     'id',
     'image',
@@ -53,8 +52,6 @@ export class ActivitySchema extends BaseModel {
     'wash',
   ] as const
   $columns = ActivitySchema.$columns
-  @column()
-  declare active: boolean
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })
@@ -116,10 +113,8 @@ export class BookingSchema extends BaseModel {
 }
 
 export class CenterSchema extends BaseModel {
-  static $columns = ['active', 'createdAt', 'id', 'name', 'slug', 'tenantId', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'name', 'slug', 'tenantId', 'updatedAt'] as const
   $columns = CenterSchema.$columns
-  @column()
-  declare active: boolean
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })

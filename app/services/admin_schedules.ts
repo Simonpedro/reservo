@@ -23,7 +23,7 @@ export type ScheduleInput = {
  * - `capacity`: the new capacity leaves people with this fixed schedule out.
  * - `locked`: day, center or activity change while people still use it.
  * - `has_fixed`: deactivating a class someone still has as fixed schedule.
- * - `unknown`: the activity or center is not of this tenant, or is inactive.
+ * - `unknown`: the activity or center is not of this tenant.
  */
 export type ScheduleFailure = 'capacity' | 'locked' | 'has_fixed' | 'unknown'
 
@@ -117,14 +117,8 @@ export async function scheduleEditor(
     if (!schedule) return null
   }
 
-  const activities = await Activity.query()
-    .where('tenantId', tenantId)
-    .where((offered) => offered.where('active', true).orWhere('id', schedule?.activityId ?? 0))
-    .orderBy('name')
-  const centers = await Center.query()
-    .where('tenantId', tenantId)
-    .where((offered) => offered.where('active', true).orWhere('id', schedule?.centerId ?? 0))
-    .orderBy('name')
+  const activities = await Activity.query().where('tenantId', tenantId).orderBy('name')
+  const centers = await Center.query().where('tenantId', tenantId).orderBy('name')
   const instructorRows = (await db
     .from('class_schedules')
     .where('tenant_id', tenantId)
@@ -184,7 +178,6 @@ export async function saveSchedule(
       if (!schedule) return null
     }
 
-    // Inactive ones are only allowed where the schedule already has them.
     const activity = await Activity.query({ client: trx })
       .where('tenantId', tenantId)
       .where('id', input.activityId)
@@ -193,14 +186,7 @@ export async function saveSchedule(
       .where('tenantId', tenantId)
       .where('id', input.centerId)
       .first()
-    if (
-      !activity ||
-      !center ||
-      (!activity.active && activity.id !== schedule?.activityId) ||
-      (!center.active && center.id !== schedule?.centerId)
-    ) {
-      throw new ScheduleError('unknown')
-    }
+    if (!activity || !center) throw new ScheduleError('unknown')
 
     if (!schedule) {
       return ClassSchedule.create({ ...input, tenantId, active: true }, { client: trx })

@@ -79,10 +79,7 @@ export async function adminWeek(
   now: DateTime = businessNow()
 ): Promise<WeekView> {
   const today = businessDate(now)
-  const centers = await Center.query()
-    .where('tenantId', tenantId)
-    .where('active', true)
-    .orderBy('name')
+  const centers = await Center.query().where('tenantId', tenantId).orderBy('name')
   const center =
     centers.length > 1 ? (centers.find((row) => row.slug === requestedCenter) ?? null) : null
 

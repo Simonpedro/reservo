@@ -17,13 +17,6 @@ export default class Center extends BaseModel {
   @column()
   declare slug: string
 
-  /**
-   * Inactive ones are not offered for new schedules or plans; what already
-   * uses them keeps working.
-   */
-  @column()
-  declare active: boolean
-
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

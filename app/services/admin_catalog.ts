@@ -156,7 +156,7 @@ export async function saveActivity(
       return activity.merge({ name: input.name, wash: input.wash }).save()
     }
     return Activity.create(
-      { tenantId, name: input.name, wash: input.wash, slug, image: null, active: true },
+      { tenantId, name: input.name, wash: input.wash, slug, image: null },
       { client: trx }
     )
   })
@@ -177,6 +177,6 @@ export async function saveCenter(
       center.useTransaction(trx)
       return center.merge({ name: input.name }).save()
     }
-    return Center.create({ tenantId, name: input.name, slug, active: true }, { client: trx })
+    return Center.create({ tenantId, name: input.name, slug }, { client: trx })
   })
 }

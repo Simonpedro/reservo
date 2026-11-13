@@ -125,9 +125,9 @@ test.group('Admin week', (group) => {
     assert.equal(filtered.total, 1)
   })
 
-  test('with a single active center there is nothing to filter', async ({ assert }) => {
+  test('with a single center there is nothing to filter', async ({ assert }) => {
     const catalog = await createCatalog()
-    await catalog.ovidio.merge({ active: false }).save()
+    await catalog.ovidio.delete()
     const schedule = await createSchedule(catalog, { weekday: 4 })
 
     const week = await adminWeek(catalog.tenant.id, catalog.ovidio.slug, now)

@@ -27,13 +27,6 @@ export default class Activity extends BaseModel {
   @column()
   declare image: string | null
 
-  /**
-   * Inactive ones are not offered for new schedules or plans; what already
-   * uses them keeps working.
-   */
-  @column()
-  declare active: boolean
-
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

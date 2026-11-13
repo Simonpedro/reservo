@@ -20,16 +20,14 @@ test.group('Admin › activities', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
   group.each.timeout(15_000)
 
-  test('Ajustes links to Actividades and Sedes with how many are active', async ({
+  test('Ajustes links to Actividades and Sedes with how many there are', async ({
     client,
     assert,
   }) => {
     const { catalog, admin } = await kinafWorld()
-    const activities = await Activity.query()
-      .where('tenantId', catalog.tenant.id)
-      .where('active', true)
+    await ActivityFactory.merge({ tenantId: catalog.tenant.id }).create()
+    const activities = await Activity.query().where('tenantId', catalog.tenant.id)
     const centers = await Center.query().where('tenantId', catalog.tenant.id)
-    await catalog.gym.merge({ active: false }).save()
 
     const response = await client
       .get('/admin/ajustes')
@@ -38,8 +36,8 @@ test.group('Admin › activities', (group) => {
       .withInertia()
 
     response.assertStatus(200)
-    assert.equal(response.inertiaProps.activeActivities, activities.length - 1)
-    assert.equal(response.inertiaProps.activeCenters, centers.length)
+    assert.equal(response.inertiaProps.activities, activities.length)
+    assert.equal(response.inertiaProps.centers, centers.length)
   })
 
   test('lists the activities with their color and active classes', async ({ client, assert }) => {
@@ -96,7 +94,6 @@ test.group('Admin › activities', (group) => {
     assert.include(activity.serialize(), {
       name: 'Kinesiología',
       wash: 'blue',
-      active: true,
       image: null,
     })
   })
@@ -216,7 +213,7 @@ test.group('Admin › activities', (group) => {
       other.yoga.id
     )
     await other.yoga.refresh()
-    assert.include(other.yoga.serialize(), { name: 'Yoga', active: true })
+    assert.equal(other.yoga.name, 'Yoga')
   })
 
   test('only admins manage activities', async ({ client }) => {
@@ -253,7 +250,6 @@ test.group('Admin › centers', (group) => {
       .where('tenantId', catalog.tenant.id)
       .where('slug', 'fisherton')
       .firstOrFail()
-    assert.isTrue(center.active)
 
     const renamed = await client
       .put(`/admin/ajustes/sedes/${center.id}`)
@@ -307,7 +303,7 @@ test.group('Admin › centers', (group) => {
       response.assertStatus(404)
     }
     await other.mendoza.refresh()
-    assert.include(other.mendoza.serialize(), { name: 'Mendoza', active: true })
+    assert.equal(other.mendoza.name, 'Mendoza')
   })
 
   test('activities and centers can no longer be turned off or on', async ({ client }) => {
