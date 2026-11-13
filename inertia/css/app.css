@@ -191,16 +191,13 @@ dialog.bottom-sheet::backdrop {
   overscroll-behavior: contain;
   background: rgb(0 26 77 / 0.34);
 }
-dialog.bottom-sheet[open] {
-  animation: sheet-up 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+@media (prefers-reduced-motion: no-preference) {
+  dialog.bottom-sheet[open] {
+    animation: sheet-up 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  }
 }
 @keyframes sheet-up {
   from {
     transform: translateY(100%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  dialog.bottom-sheet[open] {
-    animation: none;
   }
 }

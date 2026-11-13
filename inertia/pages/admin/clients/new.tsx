@@ -38,11 +38,12 @@ export default function NewAdminClient() {
             value={form.data.fullName}
             onChange={(event) => form.setData('fullName', event.target.value)}
             aria-invalid={Boolean(form.errors.fullName)}
+            aria-describedby={form.errors.fullName ? 'fullName-error' : undefined}
             required
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.fullName && (
-            <p role="status" className="text-sm font-extrabold text-foreground">
+            <p id="fullName-error" className="text-sm font-extrabold text-foreground">
               {form.errors.fullName}
             </p>
           )}
@@ -60,11 +61,12 @@ export default function NewAdminClient() {
             value={form.data.email}
             onChange={(event) => form.setData('email', event.target.value)}
             aria-invalid={Boolean(form.errors.email)}
+            aria-describedby={form.errors.email ? 'email-error' : undefined}
             required
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.email && (
-            <p role="status" className="text-sm font-extrabold text-foreground">
+            <p id="email-error" className="text-sm font-extrabold text-foreground">
               {form.errors.email}
             </p>
           )}
@@ -82,10 +84,11 @@ export default function NewAdminClient() {
             value={form.data.phone}
             onChange={(event) => form.setData('phone', event.target.value)}
             aria-invalid={Boolean(form.errors.phone)}
+            aria-describedby={form.errors.phone ? 'phone-error' : undefined}
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.phone && (
-            <p role="status" className="text-sm font-extrabold text-foreground">
+            <p id="phone-error" className="text-sm font-extrabold text-foreground">
               {form.errors.phone}
             </p>
           )}

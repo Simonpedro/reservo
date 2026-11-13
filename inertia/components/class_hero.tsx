@@ -53,6 +53,7 @@ export function ClassHero({
         <img
           src={activity.image}
           alt=""
+          fetchPriority="high"
           style={{ viewTransitionName: TRANSITION_NAMES.photo }}
           className={cn(
             'pointer-events-none absolute z-[3] object-contain object-right-bottom drop-shadow-[0_12px_10px_rgb(0_26_77/0.14)]',

@@ -73,7 +73,7 @@ export default function Login() {
               name="email"
               type="email"
               autoComplete="username"
-              inputMode="email"
+              spellCheck={false}
               value={form.data.email}
               onChange={(event) => form.setData('email', event.target.value)}
               aria-invalid={Boolean(errors.email)}
