@@ -11,6 +11,7 @@
 - Every business query must be scoped by the request tenant. Never query a business record by ID alone.
 - Resolve tenants through `TenantMiddleware`; production tenants come only from `<slug>.reservo.fit`.
 - The `x-tenant` header and `DEFAULT_TENANT_SLUG` are development/test conveniences only.
+- `FALLBACK_TENANT_SLUG` (optional, also in production) resolves hosts outside `<slug>.reservo.fit`, the apex/`www` and `*.localhost` to one tenant. It exists for hosts like `reservo.fly.dev` while there is no DNS; Fly sets it to `kinaf`.
 - Tenant mismatch in an authenticated session must fail closed.
 
 ## Users and roles
@@ -49,6 +50,7 @@
 
 - Commits are small, one change each, with concise English messages (e.g. `Add tenants migration`).
 - Work on a branch and open a pull request to `main`; do not push directly to `main`.
+- Exception: for the initial MVP, Simon authorized committing directly to `main`.
 
 ## Shared skills toolkit
 
