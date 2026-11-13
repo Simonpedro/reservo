@@ -522,7 +522,10 @@ export default class extends BaseSeeder {
             subscriptionId: subscription.id,
             planQuotaId: quota.id,
             classScheduleId: schedule.id,
-            startsOn: subscription.startsOn,
+            // A change of schedule holds from today, so history never overlaps.
+            startsOn: existing.length
+              ? DateTime.fromISO(today, { zone: BUSINESS_ZONE })
+              : subscription.startsOn,
             endsOn: null,
           }))
       )

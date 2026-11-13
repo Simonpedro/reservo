@@ -310,6 +310,13 @@ test.group('Kinaf seed | demo', (group) => {
       .orderBy('id')
       .firstOrFail()
     await subscription.merge({ planId: otherPlan.id }).save()
+    await otherPlan.load('quotas')
+    const pilates = await FixedSlot.query()
+      .where('tenantId', tenant.id)
+      .where('userId', sofi.id)
+      .whereNull('endsOn')
+      .firstOrFail()
+    await pilates.merge({ planQuotaId: otherPlan.quotas[0].id }).save()
 
     await new KinafDemoSeeder(db.connection()).resetSofi()
 
@@ -321,6 +328,17 @@ test.group('Kinaf seed | demo', (group) => {
       .where('userId', sofi.id)
       .whereNull('endsOn')
     assert.lengthOf(slots, 3)
+    const history = await FixedSlot.query().where('tenantId', tenant.id).where('userId', sofi.id)
+    for (const slot of history) {
+      const overlapping = history.filter(
+        (other) =>
+          other.id !== slot.id &&
+          other.classScheduleId === slot.classScheduleId &&
+          other.startsOn <= (slot.endsOn ?? other.startsOn) &&
+          (other.endsOn === null || other.endsOn >= slot.startsOn)
+      )
+      assert.lengthOf(overlapping, 0, `slot ${slot.id} overlaps in its class`)
+    }
     const future = await Booking.query()
       .where('tenantId', tenant.id)
       .where('userId', sofi.id)
