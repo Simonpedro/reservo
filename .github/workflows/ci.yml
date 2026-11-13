@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: reservo_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      TZ: UTC
+      PORT: 3333
+      HOST: 0.0.0.0
+      LOG_LEVEL: warn
+      APP_URL: http://kinaf.localhost:3333
+      SESSION_DRIVER: memory
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/reservo_test
+      DB_SSL: false
+      APP_BASE_DOMAIN: reservo.fit
+      DEFAULT_TENANT_SLUG: kinaf
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Create .env.test
+        run: |
+          cat > .env.test <<EOF
+          TZ=$TZ
+          PORT=$PORT
+          HOST=$HOST
+          NODE_ENV=test
+          LOG_LEVEL=$LOG_LEVEL
+          APP_KEY=$(openssl rand -hex 16)
+          APP_URL=$APP_URL
+          SESSION_DRIVER=$SESSION_DRIVER
+          DATABASE_URL=$DATABASE_URL
+          DB_SSL=$DB_SSL
+          APP_BASE_DOMAIN=$APP_BASE_DOMAIN
+          DEFAULT_TENANT_SLUG=$DEFAULT_TENANT_SLUG
+          EOF
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Format check
+        run: npx prettier --check .
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm run build
+
+      - run: npm run test:coverage
+
+      - name: Coverage summary
+        if: always() && hashFiles('coverage/coverage-summary.json') != ''
+        run: |
+          node -e '
+            const { total } = require("./coverage/coverage-summary.json")
+            const rows = ["lines", "statements", "functions", "branches"]
+              .map((key) => `| ${key} | ${total[key].pct}% | ${total[key].covered}/${total[key].total} |`)
+            console.log(["## Coverage", "", "| Metric | % | Covered |", "| --- | --- | --- |", ...rows].join("\n"))
+          ' >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo ''
+            echo '<details><summary>Per file</summary>'
+            echo ''
+            echo '```'
+            npx c8 report --reporter=text
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage
+        if: always() && hashFiles('coverage/coverage-summary.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            coverage/
+            !coverage/tmp/
+          if-no-files-found: ignore
