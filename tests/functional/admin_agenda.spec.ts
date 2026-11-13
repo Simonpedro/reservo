@@ -383,6 +383,79 @@ test.group('Admin · Horarios', (group) => {
     assert.isTrue(w.pilates.active)
   })
 
+  test('a class nobody has as fixed schedule can be deactivated and brought back', async ({
+    client,
+    assert,
+  }) => {
+    const w = await world()
+    const spare = await createSchedule(w.catalog, {
+      weekday: w.weekday,
+      startTime: '08:00',
+      capacity: 6,
+    })
+    const agenda = async () => {
+      const response = await client
+        .get(`/admin/agenda?fecha=${w.date}`)
+        .header('host', hostOf(w.catalog))
+        .loginAs(w.admin)
+        .withInertia()
+      const { view } = response.inertiaProps as { view: any }
+      return view.classes.map((card: any) => card.scheduleId)
+    }
+    assert.include(await agenda(), spare.id)
+
+    const off = await client
+      .post(`/admin/horarios/${spare.id}/desactivar`)
+      .header('host', hostOf(w.catalog))
+      .loginAs(w.admin)
+      .withCsrfToken()
+      .redirects(0)
+
+    off.assertHeader('location', '/admin/agenda')
+    off.assertFlashMessage('success', 'Desactivamos el horario. Ya no aparece en la agenda.')
+    assert.notInclude(await agenda(), spare.id)
+
+    const on = await client
+      .post(`/admin/horarios/${spare.id}/activar`)
+      .header('host', hostOf(w.catalog))
+      .loginAs(w.admin)
+      .withCsrfToken()
+      .redirects(0)
+
+    on.assertHeader('location', `/admin/horarios/${spare.id}`)
+    assert.include(await agenda(), spare.id)
+  })
+
+  test('changing the day of a class with people is refused with an explanation', async ({
+    client,
+    assert,
+  }) => {
+    const w = await world()
+
+    const response = await client
+      .put(`/admin/horarios/${w.pilates.id}`)
+      .header('host', hostOf(w.catalog))
+      .header('referer', `http://${hostOf(w.catalog)}/admin/horarios/${w.pilates.id}`)
+      .loginAs(w.admin)
+      .withCsrfToken()
+      .form({
+        activityId: w.catalog.pilates.id,
+        centerId: w.catalog.mendoza.id,
+        weekday: (w.weekday % 7) + 1,
+        startTime: '18:00',
+        instructorName: 'Agus',
+        capacity: 10,
+      })
+      .redirects(0)
+
+    response.assertFlashMessage(
+      'error',
+      'Este horario tiene gente anotada. No se puede cambiar el día, el centro ni la actividad.'
+    )
+    await w.pilates.refresh()
+    assert.equal(w.pilates.weekday, w.weekday)
+  })
+
   test('the schedule of another tenant is not found', async ({ client, assert }) => {
     const w = await world()
     const other = await createCatalog()
