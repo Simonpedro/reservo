@@ -23,12 +23,32 @@ npm run dev
 
 Abrí `http://kinaf.localhost:3333`. Si el navegador no resuelve ese host, usá `localhost:3333` con `DEFAULT_TENANT_SLUG=kinaf`.
 
-Usuarios demo creados por los seeders:
+## Datos semilla y demo
 
-- Admin: `admin@kinaf.test` / `KinafDev2026!` en `/login`. Solo fuera de producción.
-- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf`. Tiene el plan "1 Gym/Pilates + 1 Yoga" con horario fijo lunes 18:00 Pilates (Mendoza) y miércoles 19:00 Yoga (Ovidio Lagos).
+`kinaf_seeder` siembra lo seguro para producción: tenant, centros (Mendoza y Ovidio Lagos), actividades (Gimnasio, Pilates y Yoga) y los planes de la cuota de noviembre 2026. Es idempotente: busca los planes por nombre, actualiza el precio y reemplaza los cupos solo si nadie los usa (horarios fijos, reservas o pendientes).
 
-`kinaf_seeder` siembra lo seguro para producción (tenant, centros y actividades). `kinaf_demo_seeder` agrega los horarios de clase, el plan, la alumna demo y su link; corre fuera de producción, o en producción solo con `DEMO_SEED=true`. El link demo vence a los 30 días de la última siembra; volver a sembrar lo renueva.
+`kinaf_demo_seeder` agrega los datos demo. Corre fuera de producción, o en producción solo con `DEMO_SEED=true`. Las fechas son relativas al día en que se siembra:
+
+- Horarios de lunes a sábado en los dos centros: Gimnasio a la mañana y a la tarde, Pilates y Yoga.
+- Admin: `admin@kinaf.test` / `KinafDev2026!` en `/login`.
+- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf` (en producción, `https://reservo.fly.dev/acceso/demo-sofi-kinaf`). Plan "2 Gym/Pilates + 1 Yoga" con horario fijo lunes 18:00 Pilates y viernes 18:00 Gimnasio (Mendoza), y miércoles 19:00 Yoga (Ovidio Lagos). Tiene una clase pendiente por cancelación y tres meses pagos.
+- Otros 11 alumnos (`<nombre>.<apellido>@kinaf.test`, sin link) con distintos planes: algunos sin horario fijo, Fede Paz sin plan, Mati Ruiz con una pendiente por ausencia.
+- Cuotas del mes en todos los estados: pendiente, en revisión (con un comprobante PNG de ejemplo), pagada y atrasada (Mati y Flor deben el mes anterior). Después del día 10, las pendientes del mes también se ven atrasadas.
+- Un cierre de todos los centros: el próximo feriado nacional dentro de las 4 semanas, o un "Cierre por mantenimiento" de ejemplo a 10 días.
+- Al final corre el proceso diario (reservas de las próximas 4 semanas y cuotas del mes).
+
+El link demo vence a los 30 días de la última siembra; volver a sembrar lo renueva.
+
+Re-sembrar en producción (Fly):
+
+```bash
+# Solo lo seguro para producción (planes, centros, actividades)
+fly ssh console -C "sh -c 'cd /app && node ace db:seed --files=database/seeders/kinaf_seeder'"
+# Con los datos demo
+fly ssh console -C "sh -c 'cd /app && DEMO_SEED=true node ace db:seed'"
+```
+
+Ojo: con `DEMO_SEED=true` queda en producción el admin demo con la contraseña de arriba. Sirve mientras Kinaf usa la app como demo; antes de cargar datos reales hay que cambiarla.
 
 ## Alumnos, links de acceso y reservas
 
