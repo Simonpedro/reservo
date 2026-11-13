@@ -264,6 +264,48 @@ export class FixedSlotSchema extends BaseModel {
   declare userId: number
 }
 
+export class MonthlyFeeSchema extends BaseModel {
+  static $columns = [
+    'amount',
+    'createdAt',
+    'id',
+    'method',
+    'paidAt',
+    'period',
+    'recordedById',
+    'status',
+    'subscriptionId',
+    'tenantId',
+    'updatedAt',
+    'userId',
+  ] as const
+  $columns = MonthlyFeeSchema.$columns
+  @column()
+  declare amount: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare method: string | null
+  @column.dateTime()
+  declare paidAt: DateTime | null
+  @column.date()
+  declare period: DateTime
+  @column()
+  declare recordedById: number | null
+  @column()
+  declare status: string
+  @column()
+  declare subscriptionId: number
+  @column()
+  declare tenantId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class PendingClassSchema extends BaseModel {
   static $columns = [
     'createdAt',
@@ -390,6 +432,45 @@ export class PlanSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class ReceiptSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'data',
+    'filename',
+    'id',
+    'mime',
+    'monthlyFeeId',
+    'size',
+    'status',
+    'tenantId',
+    'updatedAt',
+    'userId',
+  ] as const
+  $columns = ReceiptSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare data: Buffer
+  @column()
+  declare filename: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare mime: string
+  @column()
+  declare monthlyFeeId: number
+  @column()
+  declare size: number
+  @column()
+  declare status: string
+  @column()
+  declare tenantId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class RememberMeTokenSchema extends BaseModel {
   static $columns = ['createdAt', 'expiresAt', 'hash', 'id', 'tokenableId', 'updatedAt'] as const
   $columns = RememberMeTokenSchema.$columns
@@ -444,6 +525,7 @@ export class TenantSchema extends BaseModel {
     'name',
     'slug',
     'theme',
+    'transferAliases',
     'updatedAt',
     'whatsappPhone',
   ] as const
@@ -458,6 +540,8 @@ export class TenantSchema extends BaseModel {
   declare slug: string
   @column()
   declare theme: any
+  @column()
+  declare transferAliases: any
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
