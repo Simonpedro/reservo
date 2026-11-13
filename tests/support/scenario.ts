@@ -9,13 +9,14 @@ import {
   PlanQuotaFactory,
   SubscriptionFactory,
 } from '#database/factories/plan_factories'
-import { BookingFactory } from '#database/factories/booking_factories'
+import { BookingFactory, PendingClassFactory } from '#database/factories/booking_factories'
 import { TenantFactory } from '#database/factories/tenant_factory'
 import { UserFactory } from '#database/factories/user_factory'
 import type Activity from '#models/activity'
 import type Booking from '#models/booking'
 import type Center from '#models/center'
 import type ClassSchedule from '#models/class_schedule'
+import type PlanQuota from '#models/plan_quota'
 import type Tenant from '#models/tenant'
 import { findOrCreateSession } from '#services/class_sessions'
 import { type DateTime } from 'luxon'
@@ -52,7 +53,7 @@ export async function createCatalog(tenant?: Tenant): Promise<Catalog> {
 export function createSchedule(
   catalog: Catalog,
   attributes: Partial<
-    Pick<ClassSchedule, 'weekday' | 'startTime' | 'instructorName' | 'active'>
+    Pick<ClassSchedule, 'weekday' | 'startTime' | 'instructorName' | 'active' | 'capacity'>
   > & {
     activity?: Activity
     center?: Center
@@ -134,5 +135,57 @@ export async function createBooking(
     planQuotaId: student.quota.id,
     fixedSlotId: attributes.source === 'pending' ? null : (student.slots[0]?.id ?? null),
     ...attributes,
+  }).create()
+}
+
+/**
+ * A plan quota limited to some activities ("1 Yoga", "2 de Yoga o Pilates")
+ * in the student's plan.
+ */
+export async function createQuota(
+  catalog: Catalog,
+  student: Awaited<ReturnType<typeof createStudent>>,
+  activities: Activity[]
+) {
+  const tenantId = catalog.tenant.id
+  const quota = await PlanQuotaFactory.merge({
+    tenantId,
+    planId: student.plan.id,
+    anyActivity: false,
+  }).create()
+  await quota
+    .related('activities')
+    .attach(
+      Object.fromEntries(activities.map((activity) => [activity.id, { tenant_id: tenantId }]))
+    )
+  return quota
+}
+
+/**
+ * An available pending class of the student for a class missed on `missedOn`
+ * (its origin booking is created there, cancelled).
+ */
+export async function createPendingClass(
+  catalog: Catalog,
+  student: Awaited<ReturnType<typeof createStudent>>,
+  options: {
+    schedule: ClassSchedule
+    missedOn: DateTime
+    expiresOn: DateTime
+    quota?: PlanQuota
+  }
+) {
+  const quota = options.quota ?? student.quota
+  const origin = await createBooking(catalog, student, options.schedule, options.missedOn, {
+    status: 'cancelled',
+  })
+  await origin.merge({ planQuotaId: quota.id }).save()
+  return PendingClassFactory.merge({
+    tenantId: catalog.tenant.id,
+    userId: student.user.id,
+    planQuotaId: quota.id,
+    originBookingId: origin.id,
+    missedOn: options.missedOn,
+    expiresOn: options.expiresOn,
   }).create()
 }
