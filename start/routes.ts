@@ -19,6 +19,7 @@ const ChooseClassController = () => import('#controllers/choose_class_controller
 const MyPlanController = () => import('#controllers/my_plan_controller')
 const PaymentsController = () => import('#controllers/payments_controller')
 const InternalDailyController = () => import('#controllers/internal_daily_controller')
+const AdminClientsController = () => import('#controllers/admin_clients_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
@@ -46,8 +47,52 @@ router
         router.post('/logout', [SessionController, 'destroy']).as('logout')
 
         router
-          .on('/admin')
-          .renderInertia('dashboard', { section: 'admin' })
+          .group(() => {
+            router
+              .get('/admin', ({ response }) => response.redirect('/admin/clientes'))
+              .as('admin.home')
+            router
+              .on('/admin/hoy')
+              .renderInertia('admin/coming_soon', { tab: 'today' })
+              .as('admin.today')
+            router
+              .on('/admin/agenda')
+              .renderInertia('admin/coming_soon', { tab: 'agenda' })
+              .as('admin.agenda')
+            router
+              .on('/admin/pagos')
+              .renderInertia('admin/coming_soon', { tab: 'payments' })
+              .as('admin.payments')
+            router
+              .on('/admin/ajustes')
+              .renderInertia('admin/settings_placeholder', {})
+              .as('admin.settings')
+
+            router
+              .get('/admin/clientes', [AdminClientsController, 'index'])
+              .as('admin.clients.index')
+            router
+              .get('/admin/clientes/nuevo', [AdminClientsController, 'create'])
+              .as('admin.clients.create')
+            router
+              .post('/admin/clientes', [AdminClientsController, 'store'])
+              .as('admin.clients.store')
+            router
+              .get('/admin/clientes/:id', [AdminClientsController, 'show'])
+              .where('id', router.matchers.number())
+              .as('admin.clients.show')
+            router
+              .post('/admin/clientes/:id/access-link', [AdminClientsController, 'issueAccessLink'])
+              .where('id', router.matchers.number())
+              .as('admin.clients.issueAccessLink')
+            router
+              .get('/admin/clientes/:id/asignar-plan-horario', [
+                AdminClientsController,
+                'assignPlaceholder',
+              ])
+              .where('id', router.matchers.number())
+              .as('admin.clients.assign')
+          })
           .use(middleware.role({ roles: ['admin'] }))
 
         router
