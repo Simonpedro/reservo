@@ -7,7 +7,6 @@ import {
   Copy,
   Link2,
   Mail,
-  MapPin,
   Phone,
   Ticket,
   Wallet,
@@ -66,8 +65,6 @@ export default function AdminClientShow({
   upcomingClasses,
   pendingClasses,
   payments,
-  hasPendingClassesTable,
-  hasMonthlyFeesTable,
 }: {
   id: number
   fullName: string
@@ -78,8 +75,6 @@ export default function AdminClientShow({
   upcomingClasses: ClassCardData[]
   pendingClasses: PendingClasses
   payments: Payments
-  hasPendingClassesTable: boolean
-  hasMonthlyFeesTable: boolean
 }) {
   const page = usePage<PageProps>()
   const flash = page.flash as {
@@ -202,43 +197,41 @@ export default function AdminClientShow({
         )}
       </section>
 
-      {hasPendingClassesTable && (
-        <section className="mt-6">
-          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pendientes</h2>
-          {pendingClasses && pendingClasses.available > 0 ? (
-            <div className="mt-2.5 grid gap-2.5">
-              <InfoLine icon={Ticket}>{`${pendingClasses.available} disponibles`}</InfoLine>
-              {pendingClasses.expiresOn && (
-                <InfoLine icon={Clock3}>
-                  {`Vencen ${formatDate(pendingClasses.expiresOn)}`}
-                </InfoLine>
-              )}
-            </div>
-          ) : (
-            <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-              No tiene pendientes.
-            </p>
-          )}
-        </section>
-      )}
+      <section className="mt-6">
+        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pendientes</h2>
+        {pendingClasses && pendingClasses.available > 0 ? (
+          <div className="mt-2.5 grid gap-2.5">
+            <InfoLine icon={Ticket}>
+              {pendingClasses.available === 1
+                ? '1 disponible'
+                : `${pendingClasses.available} disponibles`}
+            </InfoLine>
+            {pendingClasses.expiresOn && (
+              <InfoLine icon={Clock3}>{`Vencen ${formatDate(pendingClasses.expiresOn)}`}</InfoLine>
+            )}
+          </div>
+        ) : (
+          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
+            No tiene pendientes.
+          </p>
+        )}
+      </section>
 
-      {hasMonthlyFeesTable && (
-        <section className="mt-6">
-          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pagos</h2>
-          {payments ? (
-            <div className="mt-2.5 grid gap-2.5">
-              <InfoLine
-                icon={Wallet}
-              >{`${payments.periodLabel} · ${formatMoney(payments.amount)}`}</InfoLine>
-              <InfoLine icon={MapPin}>{payments.statusLabel}</InfoLine>
-            </div>
-          ) : (
-            <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-              No hay pagos cargados.
-            </p>
-          )}
-        </section>
-      )}
+      <section className="mt-6">
+        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pagos</h2>
+        {payments ? (
+          <div className="mt-2.5 grid gap-2.5">
+            <InfoLine
+              icon={Wallet}
+            >{`${payments.periodLabel} · ${formatMoney(payments.amount)}`}</InfoLine>
+            <InfoLine icon={CircleCheck}>{payments.statusLabel}</InfoLine>
+          </div>
+        ) : (
+          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
+            No hay pagos cargados.
+          </p>
+        )}
+      </section>
 
       <section className="mt-6 pb-2">
         <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Asignaciones</h2>

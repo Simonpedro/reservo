@@ -4,6 +4,7 @@ import Subscription from '#models/subscription'
 import User from '#models/user'
 import { businessDate, businessNow, type IsoDate } from '#services/business_calendar'
 import { toClassCard, type ClassCardData } from '#services/my_classes'
+import PendingClasses from '#services/pending_classes'
 import db from '@adonisjs/lucid/services/db'
 import { randomBytes } from 'node:crypto'
 import { DateTime } from 'luxon'
@@ -11,15 +12,6 @@ import { DateTime } from 'luxon'
 const WEEKDAYS = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
 
 type FeeStatus = 'pending' | 'in_review' | 'paid'
-
-type OptionalTables = {
-  pendingClasses: boolean
-  monthlyFees: boolean
-}
-
-function isMissingRelation(error: unknown) {
-  return (error as { code?: string }).code === '42P01'
-}
 
 export type AdminClientListItem = {
   id: number
@@ -64,8 +56,6 @@ export type AdminClientDetail = {
   upcomingClasses: ClassCardData[]
   pendingClasses: AdminClientPending
   payments: AdminClientPayments
-  hasPendingClassesTable: boolean
-  hasMonthlyFeesTable: boolean
 }
 
 export class DuplicateClientEmailError extends Error {}
@@ -123,21 +113,6 @@ function fixedSlotLabel(slot: FixedSlot) {
   return `${WEEKDAYS[schedule.weekday - 1][0]!.toUpperCase()}${WEEKDAYS[schedule.weekday - 1].slice(1)} ${schedule.startTime} · ${schedule.activity.name} · ${schedule.center.name}`
 }
 
-async function optionalTables() {
-  const [pendingClasses, monthlyFees] = await Promise.all([
-    tableExists('pending_classes'),
-    tableExists('monthly_fees'),
-  ])
-
-  return { pendingClasses, monthlyFees } satisfies OptionalTables
-}
-
-async function tableExists(tableName: string) {
-  const result = await db.rawQuery('select to_regclass(?) as relation', [`public.${tableName}`])
-  const rows = result as { rows: Array<{ relation: string | null }> }
-  return Boolean(rows.rows[0]?.relation)
-}
-
 function monthLabel(period: IsoDate) {
   return DateTime.fromISO(period).setLocale('es-AR').toFormat("LLLL 'de' yyyy")
 }
@@ -149,7 +124,6 @@ export async function listAdminClients(
   const query = normalizeQuery(queryText)
   const now = businessNow()
   const today = businessDate(now)
-  const optional = await optionalTables()
 
   const users = await User.query()
     .where('tenantId', tenantId)
@@ -190,21 +164,14 @@ export async function listAdminClients(
   }
 
   const monthlyFeeByUser = new Map<number, FeeRow>()
-  if (optional.monthlyFees) {
-    try {
-      const fees = (await db
-        .from('monthly_fees')
-        .where('tenant_id', tenantId)
-        .whereIn('user_id', userIds)
-        .orderBy('period', 'desc')
-        .select('user_id', 'period', 'status', 'amount')) as FeeRow[]
-
-      for (const fee of fees) {
-        if (!monthlyFeeByUser.has(fee.user_id)) monthlyFeeByUser.set(fee.user_id, fee)
-      }
-    } catch (error) {
-      if (!isMissingRelation(error)) throw error
-    }
+  const fees = (await db
+    .from('monthly_fees')
+    .where('tenant_id', tenantId)
+    .whereIn('user_id', userIds)
+    .orderBy('period', 'desc')
+    .select('user_id', 'period', 'status', 'amount')) as FeeRow[]
+  for (const fee of fees) {
+    if (!monthlyFeeByUser.has(fee.user_id)) monthlyFeeByUser.set(fee.user_id, fee)
   }
 
   const items = users.map((user) => {
@@ -284,7 +251,6 @@ export function buildAccessWhatsappUrl({
 export async function getAdminClientDetail(tenantId: number, clientId: number) {
   const now = businessNow()
   const today = businessDate(now)
-  const optional = await optionalTables()
 
   const client = await User.query()
     .where('tenantId', tenantId)
@@ -341,48 +307,26 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
     )
     .slice(0, 4)
 
-  let pendingClasses: AdminClientPending = null
-  if (optional.pendingClasses) {
-    try {
-      const pending = (await db
-        .from('pending_classes')
-        .where('tenant_id', tenantId)
-        .where('user_id', clientId)
-        .where('status', 'available')
-        .count('* as available')
-        .min('expires_on as expires_on')
-        .first()) as { available?: string | number; expires_on?: unknown } | null
-
-      pendingClasses = {
-        available: Number(pending?.available ?? 0),
-        expiresOn: pending?.expires_on ? periodToIsoDate(pending.expires_on) : null,
-      }
-    } catch (error) {
-      if (!isMissingRelation(error)) throw error
-    }
+  // Expiry is computed: one past its date no longer counts, even before the daily process.
+  const pendings = await new PendingClasses().available(client, today)
+  const pendingClasses: AdminClientPending = {
+    available: pendings.length,
+    expiresOn: pendings[0]?.expiresOn.toISODate() ?? null,
   }
 
   let payments: AdminClientPayments = null
-  if (optional.monthlyFees) {
-    try {
-      const latestFee = (await db
-        .from('monthly_fees')
-        .where('tenant_id', tenantId)
-        .where('user_id', clientId)
-        .orderBy('period', 'desc')
-        .select('period', 'status', 'amount')
-        .first()) as Pick<FeeRow, 'period' | 'status' | 'amount'> | null
-
-      if (latestFee) {
-        const period = periodToIsoDate(latestFee.period)
-        payments = {
-          periodLabel: monthLabel(period),
-          statusLabel: feeStatusLabel(latestFee, today),
-          amount: Number(latestFee.amount),
-        }
-      }
-    } catch (error) {
-      if (!isMissingRelation(error)) throw error
+  const latestFee = (await db
+    .from('monthly_fees')
+    .where('tenant_id', tenantId)
+    .where('user_id', clientId)
+    .orderBy('period', 'desc')
+    .select('period', 'status', 'amount')
+    .first()) as Pick<FeeRow, 'period' | 'status' | 'amount'> | null
+  if (latestFee) {
+    payments = {
+      periodLabel: monthLabel(periodToIsoDate(latestFee.period)),
+      statusLabel: feeStatusLabel(latestFee, today),
+      amount: Number(latestFee.amount),
     }
   }
 
@@ -407,7 +351,5 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
     upcomingClasses,
     pendingClasses,
     payments,
-    hasPendingClassesTable: optional.pendingClasses,
-    hasMonthlyFeesTable: optional.monthlyFees,
   } satisfies AdminClientDetail
 }
