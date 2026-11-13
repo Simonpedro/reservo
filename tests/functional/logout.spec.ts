@@ -25,6 +25,7 @@ test.group('Logout', (group) => {
 
     logout.assertStatus(302)
     logout.assertHeader('location', '/login')
+    logout.assertHeader('clear-site-data', '"cache", "storage"')
 
     const after = await client
       .get('/plan')

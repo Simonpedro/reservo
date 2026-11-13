@@ -27,6 +27,8 @@ export default class SessionController {
 
   async destroy({ auth, response }: HttpContext) {
     await auth.use('web').logout()
+    // Shared devices: drop cached pages and storage of the previous person.
+    response.header('Clear-Site-Data', '"cache", "storage"')
     return response.redirect('/login')
   }
 }
