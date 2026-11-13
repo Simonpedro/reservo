@@ -20,6 +20,8 @@ const MyPlanController = () => import('#controllers/my_plan_controller')
 const PaymentsController = () => import('#controllers/payments_controller')
 const InternalDailyController = () => import('#controllers/internal_daily_controller')
 const AdminClientsController = () => import('#controllers/admin_clients_controller')
+const AdminSettingsController = () => import('#controllers/admin_settings_controller')
+const AdminPlansController = () => import('#controllers/admin_plans_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
@@ -63,10 +65,32 @@ router
               .on('/admin/pagos')
               .renderInertia('admin/coming_soon', { tab: 'payments' })
               .as('admin.payments')
+            router.get('/admin/ajustes', [AdminSettingsController, 'show']).as('admin.settings')
             router
-              .on('/admin/ajustes')
-              .renderInertia('admin/settings_placeholder', {})
-              .as('admin.settings')
+              .get('/admin/ajustes/planes', [AdminPlansController, 'index'])
+              .as('admin.plans.index')
+            router
+              .get('/admin/ajustes/planes/nuevo', [AdminPlansController, 'create'])
+              .as('admin.plans.create')
+            router
+              .post('/admin/ajustes/planes', [AdminPlansController, 'store'])
+              .as('admin.plans.store')
+            router
+              .get('/admin/ajustes/planes/:id', [AdminPlansController, 'edit'])
+              .where('id', router.matchers.number())
+              .as('admin.plans.edit')
+            router
+              .put('/admin/ajustes/planes/:id', [AdminPlansController, 'update'])
+              .where('id', router.matchers.number())
+              .as('admin.plans.update')
+            router
+              .post('/admin/ajustes/planes/:id/desactivar', [AdminPlansController, 'deactivate'])
+              .where('id', router.matchers.number())
+              .as('admin.plans.deactivate')
+            router
+              .post('/admin/ajustes/planes/:id/activar', [AdminPlansController, 'activate'])
+              .where('id', router.matchers.number())
+              .as('admin.plans.activate')
 
             router
               .get('/admin/clientes', [AdminClientsController, 'index'])

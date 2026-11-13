@@ -64,11 +64,13 @@ export function AdminLayout({
 
 export function AdminInnerLayout({
   title,
+  subtitle,
   backHref,
   dock,
   children,
 }: {
   title: string
+  subtitle?: string
   backHref: string
   dock?: ReactNode
   children: ReactNode
@@ -83,6 +85,9 @@ export function AdminInnerLayout({
           <BackButton href={backHref} viewTransition />
         </div>
         <h1 className="text-[32px] leading-none font-black tracking-[-0.045em]">{title}</h1>
+        {subtitle && (
+          <p className="mt-2 text-base leading-tight font-bold text-muted-foreground">{subtitle}</p>
+        )}
         {children}
       </main>
       {dock && <Dock withNav={false}>{dock}</Dock>}
