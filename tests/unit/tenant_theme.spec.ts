@@ -18,7 +18,24 @@ test.group('Tenant theme', () => {
     })
 
     assert.include(css, '--primary: hsl(219.7 100% 15.1%);')
-    assert.include(css, '--secondary: hsl(94.6 45.1% 57.8%);')
+    assert.include(css, '--accent: hsl(107 84.7% 61.6%);')
     assert.include(css, '--ring: hsl(215.1 85.6% 59.2%);')
+  })
+
+  test('derives the Píldora washes from the brand colors', ({ assert }) => {
+    const css = tenantThemeCss({ brandBackground: '#001A4D', lightBlue: '#5AB8F0' })
+
+    assert.include(css, '--celeste: hsl(202.4 83.3% 64.7%);')
+    assert.include(css, '--wash-celeste: hsl(202.4 83.3% 64.7% / 0.17);')
+    assert.include(css, '--secondary: hsl(202.4 83.3% 64.7% / 0.16);')
+    assert.include(css, '--muted-foreground: hsl(219.7 100% 15.1% / 0.72);')
+  })
+
+  test('leaves out the colors a tenant did not set', ({ assert }) => {
+    const css = tenantThemeCss({ brandBackground: '#001A4D' })
+
+    assert.notInclude(css, '--celeste')
+    assert.notInclude(css, '--wash-green')
+    assert.equal(tenantThemeCss(null), '')
   })
 })
