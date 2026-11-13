@@ -23,12 +23,23 @@ npm run dev
 
 Abrí `http://kinaf.localhost:3333`. Si el navegador no resuelve ese host, usá `localhost:3333` con `DEFAULT_TENANT_SLUG=kinaf`.
 
-Usuario local creado por el seeder:
+Usuarios demo creados por los seeders:
 
-- Email: `admin@kinaf.test`
-- Contraseña: `KinafDev2026!`
+- Admin: `admin@kinaf.test` / `KinafDev2026!` en `/login`. Solo fuera de producción.
+- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf`. Tiene el plan "1 Gym/Pilates + 1 Yoga" con horario fijo lunes 18:00 Pilates (Mendoza) y miércoles 19:00 Yoga (Ovidio Lagos).
 
-El usuario solo se crea cuando `NODE_ENV` no es `production`.
+`kinaf_seeder` siembra lo seguro para producción (tenant, centros y actividades). `kinaf_demo_seeder` agrega los horarios de clase, el plan, la alumna demo y su link; corre fuera de producción, o en producción solo con `DEMO_SEED=true`. El link demo vence a los 30 días de la última siembra; volver a sembrar lo renueva.
+
+## Alumnos, links de acceso y reservas
+
+- El alumno no tiene contraseña: entra por `/acceso/<token>`, que abre sesión (con "recordarme") y lo lleva a Mis clases. El link sirve 30 días y se puede reusar; generar uno nuevo (`AccessLinks.issue`) revoca los anteriores. Solo se guarda el SHA-256 del token.
+- El admin entra con email y contraseña en `/login`; después del login cada rol va a su inicio (`app/services/role_home.ts`).
+- Las reservas de los horarios fijos se generan 4 semanas adelante (`app/services/booking_generator.ts`), en la zona `America/Argentina/Buenos_Aires`, salteando cierres y clases suspendidas. Es idempotente:
+
+```bash
+node ace bookings:generate              # todos los tenants
+node ace bookings:generate --tenant=kinaf
+```
 
 ## Scripts
 
@@ -45,11 +56,11 @@ npm run seed:prod
 
 ## Testing
 
-Los tests usan exclusivamente `reservo_test`; migran, siembran y aíslan los casos funcionales y de browser con una transacción global por suite. `.env.test` es local y está ignorado para evitar publicar claves o conexiones de prueba.
+Los tests usan exclusivamente `reservo_test`; migran y siembran (incluida la alumna demo) al arrancar, y cada grupo aísla sus escrituras con una transacción global por test (`group.each.setup(() => testUtils.db().withGlobalTransaction())`). Los datos se arman con las factories de `database/factories` y los builders de `tests/support/scenario.ts`. `.env.test` es local y está ignorado para evitar publicar claves o conexiones de prueba.
 
 Estrategia por niveles (Japa):
 
-- `unit` (`tests/unit`): reglas de negocio puras de `app/services`, sin HTTP ni base.
+- `unit` (`tests/unit`): reglas de negocio de `app/services` (por ejemplo el generador de reservas, con un "ahora" fijo), sin HTTP.
 - `functional` (`tests/functional`): rutas y middleware por HTTP con `@japa/api-client`, sesión, Inertia y Shield.
 - `browser` (`tests/browser`): flujos clave en Chromium con Playwright (`@japa/browser-client`).
 
