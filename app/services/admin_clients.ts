@@ -113,8 +113,12 @@ function fixedSlotLabel(slot: FixedSlot) {
   return `${WEEKDAYS[schedule.weekday - 1][0]!.toUpperCase()}${WEEKDAYS[schedule.weekday - 1].slice(1)} ${schedule.startTime} · ${schedule.activity.name} · ${schedule.center.name}`
 }
 
-function monthLabel(period: IsoDate) {
-  return DateTime.fromISO(period).setLocale('es-AR').toFormat("LLLL 'de' yyyy")
+function monthLabel(period: IsoDate, today: IsoDate) {
+  const month = DateTime.fromISO(period).setLocale('es-AR')
+  const label = month.toFormat(
+    month.year === DateTime.fromISO(today).year ? 'LLLL' : "LLLL 'de' yyyy"
+  )
+  return label.charAt(0).toUpperCase() + label.slice(1)
 }
 
 export async function listAdminClients(
@@ -324,7 +328,7 @@ export async function getAdminClientDetail(tenantId: number, clientId: number) {
     .first()) as Pick<FeeRow, 'period' | 'status' | 'amount'> | null
   if (latestFee) {
     payments = {
-      periodLabel: monthLabel(periodToIsoDate(latestFee.period)),
+      periodLabel: monthLabel(periodToIsoDate(latestFee.period), today),
       statusLabel: feeStatusLabel(latestFee, today),
       amount: Number(latestFee.amount),
     }

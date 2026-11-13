@@ -8,6 +8,7 @@ import { DateTime } from 'luxon'
 
 const card = (bookingId: number, date: string): ClassCardData => ({
   bookingId,
+  sessionId: bookingId,
   activity: { name: 'Pilates', wash: 'celeste', image: null },
   date,
   dayLabel: '',

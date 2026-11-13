@@ -23,6 +23,7 @@ import type { DateTime } from 'luxon'
  */
 export type ClassCardData = {
   bookingId: number
+  sessionId: number
   activity: { name: string; wash: ActivityWash; image: string | null }
   date: IsoDate
   dayLabel: string
@@ -99,6 +100,7 @@ export function toClassCard(booking: Booking, today: IsoDate): ClassCardData {
   const date = session.date.toISODate()!
   return {
     bookingId: booking.id,
+    sessionId: session.id,
     activity: {
       name: schedule.activity.name,
       wash: schedule.activity.wash,

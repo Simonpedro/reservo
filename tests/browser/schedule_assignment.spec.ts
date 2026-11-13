@@ -70,7 +70,6 @@ test.group('Admin › assign plan and schedule', (group) => {
     await page.assertTextContains('main', 'Listo, horario cargado.')
     await page.assertTextContains('main', 'Prueba Yoga 1x')
     await page.assertTextContains('main', 'Martes 06:30 · Yoga · Mendoza')
-    await page.assertNotExists(page.getByText('No tiene clases próximas.'))
-    await page.assertExists(page.locator('main a[href="/admin/agenda"]').first())
+    await page.assertExists(page.locator('main a[href^="/admin/clases/"]').first())
   })
 })

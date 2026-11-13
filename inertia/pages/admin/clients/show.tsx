@@ -5,16 +5,19 @@ import {
   CircleCheck,
   Clock3,
   Copy,
+  Info,
+  Layers,
   Link2,
   Mail,
   Phone,
+  Repeat,
   Ticket,
-  Wallet,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import type { ClassCardData } from '#services/my_classes'
 import { AdminInnerLayout } from '~/components/admin_layout'
 import { ClassCard } from '~/components/class_card'
+import { EmptyState } from '~/components/empty_state'
 import { InfoLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
 import { WhatsappIcon } from '~/components/icons'
@@ -42,10 +45,6 @@ type Plan = {
   startsOn: string | null
   quotas: string[]
 } | null
-
-function formatMoney(value: number) {
-  return `$${value.toLocaleString('es-AR')}`
-}
 
 function formatDate(isoDate: string) {
   return new Date(`${isoDate}T00:00:00`).toLocaleDateString('es-AR', {
@@ -107,15 +106,19 @@ export default function AdminClientShow({
     timer.current = window.setTimeout(() => setCopyFeedback(''), 2000)
   }
 
+  const assignLabel = !plan
+    ? 'Asignar plan y horario'
+    : fixedSchedule.length === 0
+      ? 'Elegir horarios'
+      : 'Cambiar plan u horario'
+
   return (
     <AdminInnerLayout
       title={fullName}
       backHref="/admin/clientes"
       dock={
         <Button asChild>
-          <Link href={`/admin/clientes/${id}/access-link`} method="post" as="button">
-            Generar link de acceso
-          </Link>
+          <Link href={`/admin/clientes/${id}/asignar`}>{assignLabel}</Link>
         </Button>
       }
     >
@@ -139,105 +142,96 @@ export default function AdminClientShow({
         <InfoLine icon={Phone}>{phone ?? 'Sin teléfono'}</InfoLine>
       </section>
 
-      <section className="mt-6">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Plan</h2>
-        {plan ? (
-          <div className="mt-2.5 grid gap-2.5">
-            <p className="text-[22px] leading-[1.1] font-black tracking-[-0.035em]">{plan.name}</p>
-            {plan.startsOn && (
-              <InfoLine icon={CalendarClock}>{`Empieza el ${formatDate(plan.startsOn)}`}</InfoLine>
+      {plan ? (
+        <>
+          <section className="mt-6">
+            <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Plan</h2>
+            <div className="mt-2.5 grid gap-2.5">
+              <p className="text-[22px] leading-[1.1] font-black tracking-[-0.035em]">
+                {plan.name}
+              </p>
+              {plan.startsOn && (
+                <InfoLine
+                  icon={CalendarClock}
+                >{`Empieza el ${formatDate(plan.startsOn)}`}</InfoLine>
+              )}
+              {plan.quotas.map((quota) => (
+                <InfoLine key={quota} icon={Layers}>
+                  {quota}
+                </InfoLine>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-6">
+            <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Horario fijo</h2>
+            {fixedSchedule.length > 0 ? (
+              <div className="mt-2.5 grid gap-2.5">
+                {fixedSchedule.map((line) => (
+                  <InfoLine key={line} icon={Repeat}>
+                    {line}
+                  </InfoLine>
+                ))}
+              </div>
+            ) : (
+              <Notice icon={Info} title="Falta elegir sus horarios." className="mt-2.5">
+                Hasta que los cargues, no tiene clases reservadas.
+              </Notice>
             )}
-            {plan.quotas.map((quota) => (
-              <InfoLine key={quota} icon={Ticket}>
-                {quota}
-              </InfoLine>
-            ))}
-          </div>
-        ) : (
-          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-            Todavía no tiene plan.
-          </p>
-        )}
-      </section>
+          </section>
+        </>
+      ) : (
+        <EmptyState icon={Layers} title="Todavía no tiene plan.">
+          Asignale un plan y sus horarios fijos. Desde ahí el sistema lo reserva solo cada semana.
+        </EmptyState>
+      )}
 
-      <section className="mt-6">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Horario fijo</h2>
-        {fixedSchedule.length > 0 ? (
-          <div className="mt-2.5 grid gap-2.5">
-            {fixedSchedule.map((line) => (
-              <InfoLine key={line} icon={CalendarClock}>
-                {line}
-              </InfoLine>
-            ))}
-          </div>
-        ) : (
-          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-            Falta elegir sus horarios.
-          </p>
-        )}
-      </section>
-
-      <section className="mt-6">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Próximas clases</h2>
-        {upcomingClasses.length > 0 ? (
+      {upcomingClasses.length > 0 && (
+        <section className="mt-6">
+          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Próximas clases</h2>
           <div className="mt-2.5 grid gap-2.5">
             {upcomingClasses.map((card) => (
               <ClassCard
                 key={card.bookingId}
                 card={card}
-                href="/admin/agenda"
+                href={`/admin/clases/${card.sessionId}`}
                 returnKey={`admin-client-${id}-${card.bookingId}`}
               />
             ))}
           </div>
-        ) : (
-          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-            No tiene clases próximas.
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section className="mt-6">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pendientes</h2>
-        {pendingClasses && pendingClasses.available > 0 ? (
+      {pendingClasses && pendingClasses.available > 0 && (
+        <section className="mt-6">
+          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Clases pendientes</h2>
           <div className="mt-2.5 grid gap-2.5">
             <InfoLine icon={Ticket}>
-              {pendingClasses.available === 1
-                ? '1 disponible'
-                : `${pendingClasses.available} disponibles`}
+              {pendingClasses.expiresOn
+                ? `${pendingClasses.available} · vence el ${formatDate(pendingClasses.expiresOn)}`
+                : String(pendingClasses.available)}
             </InfoLine>
-            {pendingClasses.expiresOn && (
-              <InfoLine icon={Clock3}>{`Vencen ${formatDate(pendingClasses.expiresOn)}`}</InfoLine>
-            )}
           </div>
-        ) : (
-          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-            No tiene pendientes.
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section className="mt-6">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pagos</h2>
-        {payments ? (
+      {payments && (
+        <section className="mt-6">
+          <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Pagos</h2>
           <div className="mt-2.5 grid gap-2.5">
-            <InfoLine
-              icon={Wallet}
-            >{`${payments.periodLabel} · ${formatMoney(payments.amount)}`}</InfoLine>
-            <InfoLine icon={CircleCheck}>{payments.statusLabel}</InfoLine>
+            <InfoLine icon={Clock3}>{`${payments.periodLabel} · ${payments.statusLabel}`}</InfoLine>
           </div>
-        ) : (
-          <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
-            No hay pagos cargados.
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
       <section className="mt-6 pb-2">
-        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Asignaciones</h2>
+        <h2 className="text-lg leading-none font-black tracking-[-0.035em]">Acceso</h2>
+        <p className="mt-2.5 text-base leading-tight font-bold text-muted-foreground">
+          Entra con un link personal, sin contraseña.
+        </p>
         <Button asChild variant="link" className="mt-1 h-11 px-0">
-          <Link href={`/admin/clientes/${id}/asignar`}>
-            {plan ? 'Cambiar plan u horario' : 'Asignar plan y horario'}
+          <Link href={`/admin/clientes/${id}/access-link`} method="post" as="button" preserveScroll>
+            Generar link de acceso
           </Link>
         </Button>
       </section>
