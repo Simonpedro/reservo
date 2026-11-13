@@ -27,6 +27,7 @@ import { DateTime } from 'luxon'
  */
 export type AdminSessionCard = {
   sessionId: number
+  scheduleId: number
   activity: { name: string; wash: ActivityWash; image: string | null }
   date: IsoDate
   dayLabel: string
@@ -122,11 +123,15 @@ function monthName(period: IsoDate) {
 /**
  * Closures of a date: `*` closes every center, otherwise by center id.
  */
-async function closuresOn(tenantId: number, date: IsoDate) {
+export async function closuresOn(tenantId: number, date: IsoDate) {
   const closures = await Closure.query().where('tenantId', tenantId).where('date', date)
   const all = closures.find((closure) => closure.centerId === null) ?? null
   const byCenter = new Map(closures.map((closure) => [closure.centerId, closure.reason]))
-  return { all, reasonFor: (centerId: number) => all?.reason ?? byCenter.get(centerId) ?? null }
+  return {
+    all,
+    list: closures,
+    reasonFor: (centerId: number) => all?.reason ?? byCenter.get(centerId) ?? null,
+  }
 }
 
 async function activeCounts(tenantId: number, sessionIds: number[]) {
@@ -155,6 +160,7 @@ function toSessionCard(
   const suspended = session.status === 'suspended' || closureReason !== null
   return {
     sessionId: session.id,
+    scheduleId: schedule.id,
     activity: {
       name: schedule.activity.name,
       wash: schedule.activity.wash,
@@ -237,6 +243,47 @@ async function withoutScheduleAlerts(tenantId: number, today: IsoDate): Promise<
 }
 
 /**
+ * The cards of every active class on a date, creating the missing sessions.
+ * Classes in a closed center show as suspended with the closure reason.
+ */
+export async function sessionCardsOn(
+  tenantId: number,
+  date: IsoDate,
+  today: IsoDate,
+  closures?: Awaited<ReturnType<typeof closuresOn>>
+): Promise<AdminSessionCard[]> {
+  closures ??= await closuresOn(tenantId, date)
+  const schedules = (await ClassSchedule.query()
+    .where('tenantId', tenantId)
+    .where('active', true)
+    .where('weekday', isoWeekday(date))
+    .orderBy('startTime')
+    .orderBy('id')
+    .preload('activity')
+    .preload('center')) as ScheduleWithRelations[]
+
+  const sessions = await findOrCreateSessions(
+    tenantId,
+    schedules.map((schedule) => ({ scheduleId: schedule.id, date }))
+  )
+  const counts = await activeCounts(
+    tenantId,
+    [...sessions.values()].map((session) => session.id)
+  )
+
+  return schedules.map((schedule) => {
+    const session = sessions.get(sessionKey(schedule.id, date))!
+    return toSessionCard(
+      session,
+      schedule,
+      counts.get(session.id) ?? 0,
+      today,
+      closures.reasonFor(schedule.centerId)
+    )
+  })
+}
+
+/**
  * Hoy: what needs the admin and today's classes with how many places are
  * taken (active bookings over capacity).
  */
@@ -259,34 +306,7 @@ export async function adminToday(
   }
   if (closures.all) return { ...base, closed: true, classes: [] }
 
-  const schedules = (await ClassSchedule.query()
-    .where('tenantId', tenantId)
-    .where('active', true)
-    .where('weekday', isoWeekday(today))
-    .orderBy('startTime')
-    .orderBy('id')
-    .preload('activity')
-    .preload('center')) as ScheduleWithRelations[]
-
-  const sessions = await findOrCreateSessions(
-    tenantId,
-    schedules.map((schedule) => ({ scheduleId: schedule.id, date: today }))
-  )
-  const counts = await activeCounts(
-    tenantId,
-    [...sessions.values()].map((session) => session.id)
-  )
-
-  const classes = schedules.map((schedule) => {
-    const session = sessions.get(sessionKey(schedule.id, today))!
-    return toSessionCard(
-      session,
-      schedule,
-      counts.get(session.id) ?? 0,
-      today,
-      closures.reasonFor(schedule.centerId)
-    )
-  })
+  const classes = await sessionCardsOn(tenantId, today, today, closures)
   return { ...base, closed: false, classes }
 }
 
