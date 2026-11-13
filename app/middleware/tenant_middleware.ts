@@ -1,17 +1,9 @@
 import Tenant from '#models/tenant'
+import { tenantSlugFromHost } from '#services/tenant_url'
 import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
 import type { NextFn } from '@adonisjs/core/types/http'
-
-function tenantSlugFromHost(host: string): string | null | undefined {
-  const baseDomain = env.get('APP_BASE_DOMAIN', 'reservo.fit').toLowerCase()
-
-  if (host === baseDomain || host === `www.${baseDomain}`) return null
-  if (host.endsWith('.localhost')) return host.slice(0, -'.localhost'.length)
-  if (host.endsWith(`.${baseDomain}`)) return host.slice(0, -(baseDomain.length + 1))
-  return undefined
-}
 
 export default class TenantMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
