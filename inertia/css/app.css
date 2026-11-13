@@ -127,3 +127,56 @@
     @apply font-sans;
   }
 }
+
+/* Card → class detail shared-element transition (prototype › Transiciones). */
+.bottom-nav {
+  view-transition-name: chrome-nav;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.36s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+::view-transition-group(clase-fondo),
+::view-transition-group(clase-titulo),
+::view-transition-group(clase-foto),
+::view-transition-old(clase-fondo),
+::view-transition-new(clase-fondo),
+::view-transition-old(clase-titulo),
+::view-transition-new(clase-titulo),
+::view-transition-old(clase-foto),
+::view-transition-new(clase-foto) {
+  animation-duration: 0.48s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+::view-transition-old(clase-foto),
+::view-transition-new(clase-foto) {
+  height: 100%;
+  overflow: clip;
+  object-fit: contain;
+  object-position: right bottom;
+}
+::view-transition-group(chrome-nav) {
+  animation: none;
+}
+::view-transition-old(chrome-nav) {
+  animation: nav-fade 0.3s ease both;
+}
+::view-transition-new(chrome-nav) {
+  animation: nav-fade 0.3s ease both reverse;
+}
+@keyframes nav-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

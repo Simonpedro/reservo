@@ -4,6 +4,9 @@
  */
 
 export const controllers = {
+  Access: () => import('#controllers/access_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
+  Home: () => import('#controllers/home_controller'),
+  MyClasses: () => import('#controllers/my_classes_controller'),
   Session: () => import('#controllers/session_controller'),
 }

@@ -8,20 +8,38 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'login': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
+    'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'logout': { paramsTuple?: []; params?: {} }
+    'client.classes': { paramsTuple?: []; params?: {} }
+    'client.classes.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.plan': { paramsTuple?: []; params?: {} }
+    'client.payments': { paramsTuple?: []; params?: {} }
+    'client.profile': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'health': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'login': { paramsTuple?: []; params?: {} }
+    'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'client.classes': { paramsTuple?: []; params?: {} }
+    'client.classes.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.plan': { paramsTuple?: []; params?: {} }
+    'client.payments': { paramsTuple?: []; params?: {} }
+    'client.profile': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'health': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'login': { paramsTuple?: []; params?: {} }
+    'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'dashboard': { paramsTuple?: []; params?: {} }
+    'client.classes': { paramsTuple?: []; params?: {} }
+    'client.classes.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.plan': { paramsTuple?: []; params?: {} }
+    'client.payments': { paramsTuple?: []; params?: {} }
+    'client.profile': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'session.store': { paramsTuple?: []; params?: {} }

@@ -32,6 +32,12 @@ const routes = {
     tokens: [[0,"login"]],
     types: placeholder as Registry['session.store']['types'],
   },
+  'access.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/acceso/:token',
+    tokens: [[0,"acceso"],[1,"token"]],
+    types: placeholder as Registry['access.show']['types'],
+  },
   'dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/dashboard',
@@ -43,6 +49,36 @@ const routes = {
     pattern: '/logout',
     tokens: [[0,"logout"]],
     types: placeholder as Registry['logout']['types'],
+  },
+  'client.classes': {
+    methods: ["GET","HEAD"],
+    pattern: '/clases',
+    tokens: [[0,"clases"]],
+    types: placeholder as Registry['client.classes']['types'],
+  },
+  'client.classes.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/clases/:id',
+    tokens: [[0,"clases"],[1,"id"]],
+    types: placeholder as Registry['client.classes.show']['types'],
+  },
+  'client.plan': {
+    methods: ["GET","HEAD"],
+    pattern: '/plan',
+    tokens: [[0,"plan"]],
+    types: placeholder as Registry['client.plan']['types'],
+  },
+  'client.payments': {
+    methods: ["GET","HEAD"],
+    pattern: '/pagos',
+    tokens: [[0,"pagos"]],
+    types: placeholder as Registry['client.payments']['types'],
+  },
+  'client.profile': {
+    methods: ["GET","HEAD"],
+    pattern: '/perfil',
+    tokens: [[0,"perfil"]],
+    types: placeholder as Registry['client.profile']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

@@ -8,6 +8,17 @@ export interface ApiDefinition {
   session: {
     store: typeof routes['session.store']
   }
+  access: {
+    show: typeof routes['access.show']
+  }
   dashboard: typeof routes['dashboard']
   logout: typeof routes['logout']
+  client: {
+    classes: typeof routes['client.classes'] & {
+      show: typeof routes['client.classes.show']
+    }
+    plan: typeof routes['client.plan']
+    payments: typeof routes['client.payments']
+    profile: typeof routes['client.profile']
+  }
 }
