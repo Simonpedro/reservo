@@ -23,6 +23,7 @@ import {
   type IsoDate,
 } from '#services/business_calendar'
 import { findOrCreateSession } from '#services/class_sessions'
+import BookingGenerator from '#services/booking_generator'
 import DailyProcess from '#services/daily_process'
 import { ensureFee } from '#services/fees'
 import PendingClasses from '#services/pending_classes'
@@ -38,6 +39,7 @@ import KinafSeeder from './kinaf_seeder.js'
  * Known token of the demo student's access link (README). Demo data only.
  */
 export const DEMO_ACCESS_TOKEN = 'demo-sofi-kinaf'
+export const SOFI_EMAIL = 'sofi@kinaf.test'
 
 /**
  * Kinaf weekly classes: [weekday, time, activity, center, instructor, capacity].
@@ -96,14 +98,14 @@ type DemoStudent = {
 
 const STUDENTS: DemoStudent[] = [
   {
-    email: 'sofi@kinaf.test',
+    email: SOFI_EMAIL,
     fullName: 'Sofi Ortiz',
     phone: '5493415550101',
-    plan: '2 Gym/Pilates + 1 Yoga',
+    plan: '2 Gym + 1 Pilates',
     slots: [
-      ['1-18:00', 0],
+      ['3-20:00', 0],
       ['5-18:00', 0],
-      ['3-19:00', 1],
+      ['1-18:00', 1],
     ],
     fee: 'pending',
     history: 3,
@@ -282,25 +284,118 @@ export default class extends BaseSeeder {
     const plans = new Map(planRows.map((plan) => [plan.name, plan]))
 
     for (const student of STUDENTS) {
-      const user = await User.firstOrCreate(
-        { tenantId, email: student.email },
-        {
-          fullName: student.fullName,
-          phone: student.phone,
-          password: randomBytes(24).toString('base64url'),
-          role: 'client',
-        }
-      )
-      if (!student.plan) continue
-
-      const plan = plans.get(student.plan)!
-      const subscription = await this.subscribe(user, plan, now)
-      const slots = await this.seedSlots(user, subscription, plan, student, schedules, today)
-      await this.seedFees(user, subscription, plan, student, admin, now)
-      if (student.pending) await this.seedPending(slots[0], student.pending, today)
+      await this.applyStudent(student, { tenantId, plans, schedules, admin, now, today })
     }
 
-    const sofi = await User.findByOrFail({ tenantId, email: 'sofi@kinaf.test' })
+    await this.renewSofiAccessLink(tenantId)
+
+    await this.seedClosure(tenantId, today)
+    await new DailyProcess().run({ tenantId, now })
+  }
+
+  /**
+   * Reset only Sofi Ortiz to the demo state: the "2 Gym + 1 Pilates" plan,
+   * her fixed slots, a pending class, fee history and the known access link.
+   * Does not create other students, change the admin, or run the tenant-wide
+   * daily process. Idempotent. Safe to run in production.
+   */
+  async resetSofi() {
+    await new KinafSeeder(this.client).run()
+    const tenant = await Tenant.findByOrFail('slug', 'kinaf')
+    const tenantId = tenant.id
+    const now = businessNow()
+    const today = businessDate(now)
+    const spec = STUDENTS.find((student) => student.email === SOFI_EMAIL)!
+    const schedules = await this.loadExistingSchedules(
+      tenantId,
+      spec.slots.map(([key]) => key)
+    )
+    const planRows = await Plan.query()
+      .where('tenantId', tenantId)
+      .preload('quotas', (quotas) => quotas.orderBy('position'))
+    const plans = new Map(planRows.map((plan) => [plan.name, plan]))
+    const admin = await User.query().where({ tenantId, role: 'admin' }).orderBy('id').first()
+
+    const user = await this.applyStudent(spec, {
+      tenantId,
+      plans,
+      schedules,
+      admin,
+      now,
+      today,
+      fresh: true,
+    })
+    await this.renewSofiAccessLink(tenantId)
+    const bookings = await new BookingGenerator().generate({ tenantId, userId: user.id, now })
+    return { user, plan: spec.plan!, slots: spec.slots.length, bookings }
+  }
+
+  private async applyStudent(
+    student: DemoStudent,
+    {
+      tenantId,
+      plans,
+      schedules,
+      admin,
+      now,
+      today,
+      fresh = false,
+    }: {
+      tenantId: number
+      plans: Map<string, Plan>
+      schedules: Map<ScheduleKey, ClassSchedule>
+      admin: User | null
+      now: DateTime
+      today: IsoDate
+      fresh?: boolean
+    }
+  ) {
+    const user = await User.firstOrCreate(
+      { tenantId, email: student.email },
+      {
+        fullName: student.fullName,
+        phone: student.phone,
+        password: randomBytes(24).toString('base64url'),
+        role: 'client',
+      }
+    )
+    if (!student.plan) return user
+
+    const plan = plans.get(student.plan)
+    if (!plan) throw new Error(`Demo plan "${student.plan}" is missing`)
+    if (fresh) await this.clearStudentClasses(user)
+
+    const subscription = await this.subscribe(user, plan, now)
+    const slots = await this.seedSlots(user, subscription, plan, student, schedules, today)
+    await this.seedFees(user, subscription, plan, student, admin, now)
+    if (student.pending) {
+      await this.dropStalePendings(user, slots)
+      await this.seedPending(slots[0], student.pending, today)
+    }
+    return user
+  }
+
+  private async clearStudentClasses(user: User) {
+    await PendingClass.query().where('tenantId', user.tenantId).where('userId', user.id).delete()
+    await Booking.query().where('tenantId', user.tenantId).where('userId', user.id).delete()
+  }
+
+  /**
+   * Drops available pending classes that no longer belong to the student's
+   * current quotas, so a plan change does not leave a recovery from the old one.
+   */
+  private async dropStalePendings(user: User, slots: FixedSlot[]) {
+    const quotaIds = slots.map((slot) => slot.planQuotaId)
+    await PendingClass.query()
+      .where('tenantId', user.tenantId)
+      .where('userId', user.id)
+      .where('status', 'available')
+      .whereNotIn('planQuotaId', quotaIds)
+      .delete()
+  }
+
+  private async renewSofiAccessLink(tenantId: number) {
+    const sofi = await User.findByOrFail({ tenantId, email: SOFI_EMAIL })
     await AccessLink.updateOrCreate(
       { tokenHash: hashToken(DEMO_ACCESS_TOKEN) },
       {
@@ -310,9 +405,34 @@ export default class extends BaseSeeder {
         revokedAt: null,
       }
     )
+  }
 
-    await this.seedClosure(tenantId, today)
-    await new DailyProcess().run({ tenantId, now })
+  /**
+   * Looks up existing class schedules; never creates or overwrites them.
+   */
+  private async loadExistingSchedules(tenantId: number, keys: ScheduleKey[]) {
+    const centerRows = await Center.query().where('tenantId', tenantId)
+    const centers = new Map(centerRows.map((center) => [center.slug, center]))
+    const activityRows = await Activity.query().where('tenantId', tenantId)
+    const activities = new Map(activityRows.map((activity) => [activity.slug, activity]))
+
+    const schedules = new Map<ScheduleKey, ClassSchedule>()
+    for (const [weekday, startTime, activity, center] of SCHEDULES) {
+      const key: ScheduleKey = `${weekday}-${startTime}`
+      if (!keys.includes(key)) continue
+      const row = await ClassSchedule.query()
+        .where('tenantId', tenantId)
+        .where('weekday', weekday)
+        .where('startTime', startTime)
+        .where('activityId', activities.get(activity)!.id)
+        .where('centerId', centers.get(center)!.id)
+        .first()
+      if (!row) {
+        throw new Error(`Missing class schedule ${weekday} ${startTime} ${activity} at ${center}`)
+      }
+      schedules.set(key, row)
+    }
+    return schedules
   }
 
   private async seedSchedules(tenantId: number) {
@@ -441,7 +561,7 @@ export default class extends BaseSeeder {
     subscription: Subscription,
     plan: Plan,
     student: DemoStudent,
-    admin: User,
+    admin: User | null,
     now: DateTime
   ) {
     const fee = student.fee!
@@ -450,17 +570,12 @@ export default class extends BaseSeeder {
     for (let monthsAgo = history; monthsAgo >= 1; monthsAgo--) {
       const period = thisMonth.minus({ months: monthsAgo })
       const unpaid = fee === 'overdue' && monthsAgo === 1
+      const cash = Boolean(admin) && user.id % 2 === 0
       await MonthlyFee.updateOrCreate(
         { tenantId: user.tenantId, userId: user.id, period },
         unpaid
           ? { subscriptionId: subscription.id, amount: plan.price, status: 'pending' }
-          : this.paid(
-              subscription,
-              plan,
-              period.plus({ days: 2 + monthsAgo }),
-              user.id % 2 === 0,
-              admin
-            )
+          : this.paid(subscription, plan, period.plus({ days: 2 + monthsAgo }), cash, admin)
       )
     }
 
@@ -469,7 +584,8 @@ export default class extends BaseSeeder {
     const current = await ensureFee(subscription, thisMonth.toISODate()!)
     if (fee === 'paid') {
       const paidAt = DateTime.min(thisMonth.plus({ days: 3 }), now)
-      await current.merge(this.paid(subscription, plan, paidAt, true, admin)).save()
+      const cash = Boolean(admin)
+      await current.merge(this.paid(subscription, plan, paidAt, cash, admin)).save()
       return
     }
     await Receipt.query()
@@ -501,7 +617,7 @@ export default class extends BaseSeeder {
     plan: Plan,
     paidAt: DateTime,
     cash: boolean,
-    admin: User
+    admin: User | null
   ) {
     return {
       subscriptionId: subscription.id,
@@ -509,7 +625,7 @@ export default class extends BaseSeeder {
       status: 'paid' as const,
       method: cash ? ('cash' as const) : ('transfer' as const),
       paidAt,
-      recordedById: cash ? admin.id : null,
+      recordedById: cash && admin ? admin.id : null,
     }
   }
 

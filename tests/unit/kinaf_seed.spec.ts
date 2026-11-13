@@ -1,9 +1,11 @@
-import KinafDemoSeeder from '#database/seeders/kinaf_demo_seeder'
+import KinafDemoSeeder, { SOFI_EMAIL } from '#database/seeders/kinaf_demo_seeder'
 import KinafSeeder from '#database/seeders/kinaf_seeder'
+import Booking from '#models/booking'
 import FixedSlot from '#models/fixed_slot'
 import MonthlyFee from '#models/monthly_fee'
 import Plan from '#models/plan'
 import Receipt from '#models/receipt'
+import Subscription from '#models/subscription'
 import Tenant from '#models/tenant'
 import User from '#models/user'
 import { businessDate, businessNow } from '#services/business_calendar'
@@ -39,6 +41,14 @@ const NOVEMBER_2026: Array<[string, number, string[]]> = [
   ['2 Gym/Pilates + 2 Gym/Pilates', 77000, ['2:GP', '2:GP']],
   ['2 Gym/Pilates + 1 Gym/Pilates + 1 Yoga', 80000, ['2:GP', '1:GP', '1:Y']],
   ['3 Gym/Pilates + 2 Gym/Pilates', 90000, ['3:GP', '2:GP']],
+]
+
+/**
+ * Not on the November 2026 fee list. Price estimated from the 3-class combos
+ * on that list, which all cost 70000.
+ */
+const EXTRA_PLANS: Array<[string, number, string[]]> = [
+  ['2 Gym + 1 Pilates', 70000, ['2:G', '1:P']],
 ]
 
 const LETTER: Record<string, string> = { gimnasio: 'G', pilates: 'P', yoga: 'Y' }
@@ -98,11 +108,11 @@ async function kinafRowCounts(tenantId: number) {
 test.group('Kinaf seed | plans', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
-  test('has exactly the plans, prices and quotas of the November 2026 fee list', async ({
+  test('has the November 2026 fee list, plus the estimated 2 Gym + 1 Pilates plan', async ({
     assert,
   }) => {
     const tenant = await kinaf()
-    assert.deepEqual(await seededPlans(tenant.id), NOVEMBER_2026)
+    assert.deepEqual(await seededPlans(tenant.id), [...NOVEMBER_2026, ...EXTRA_PLANS])
   })
 
   test('restores quotas edited by hand when no student uses the plan', async ({ assert }) => {
@@ -225,11 +235,12 @@ test.group('Kinaf seed | demo', (group) => {
     assert,
   }) => {
     const tenant = await kinaf()
-    const sofi = await User.findByOrFail({ tenantId: tenant.id, email: 'sofi@kinaf.test' })
+    const sofi = await User.findByOrFail({ tenantId: tenant.id, email: SOFI_EMAIL })
     const slots = await FixedSlot.query()
       .where('tenantId', tenant.id)
       .where('userId', sofi.id)
       .whereNull('endsOn')
+      .preload('classSchedule', (schedule) => schedule.preload('activity').preload('center'))
       .preload('subscription', (subscription) => subscription.preload('plan'))
     const pendings = await db
       .from('pending_classes')
@@ -238,10 +249,85 @@ test.group('Kinaf seed | demo', (group) => {
       .where('status', 'available')
 
     assert.lengthOf(slots, 3)
-    assert.equal(slots[0].subscription.plan.name, '2 Gym/Pilates + 1 Yoga')
+    assert.equal(slots[0].subscription.plan.name, '2 Gym + 1 Pilates')
+    assert.deepEqual(
+      slots
+        .map((slot) => [
+          slot.classSchedule.weekday,
+          slot.classSchedule.startTime,
+          slot.classSchedule.activity.slug,
+          slot.classSchedule.center.slug,
+        ])
+        .sort(),
+      [
+        [1, '18:00', 'pilates', 'mendoza'],
+        [3, '20:00', 'gimnasio', 'mendoza'],
+        [5, '18:00', 'gimnasio', 'mendoza'],
+      ]
+    )
     assert.deepEqual(
       pendings.map((pending) => pending.reason),
       ['cancelled']
     )
   })
+
+  test('resetting Sofi restores her demo state and leaves other students alone', async ({
+    assert,
+  }) => {
+    const tenant = await kinaf()
+    const sofi = await User.findByOrFail({ tenantId: tenant.id, email: SOFI_EMAIL })
+    const ana = await User.findByOrFail({ tenantId: tenant.id, email: 'ana.gomez@kinaf.test' })
+    const anaBefore = {
+      bookings: await Booking.query().where('tenantId', tenant.id).where('userId', ana.id),
+      slots: await FixedSlot.query().where('tenantId', tenant.id).where('userId', ana.id),
+      fees: await MonthlyFee.query().where('tenantId', tenant.id).where('userId', ana.id),
+    }
+    const otherPlan = await Plan.query()
+      .where('tenantId', tenant.id)
+      .where('name', 'Yoga 1x semana')
+      .firstOrFail()
+    const subscription = await Subscription.query()
+      .where('tenantId', tenant.id)
+      .where('userId', sofi.id)
+      .orderBy('id')
+      .firstOrFail()
+    await subscription.merge({ planId: otherPlan.id }).save()
+
+    await new KinafDemoSeeder(db.connection()).resetSofi()
+
+    await subscription.refresh()
+    const plan = await Plan.findOrFail(subscription.planId)
+    assert.equal(plan.name, '2 Gym + 1 Pilates')
+    const slots = await FixedSlot.query()
+      .where('tenantId', tenant.id)
+      .where('userId', sofi.id)
+      .whereNull('endsOn')
+    assert.lengthOf(slots, 3)
+    const future = await Booking.query()
+      .where('tenantId', tenant.id)
+      .where('userId', sofi.id)
+      .where('status', 'active')
+    assert.isAtLeast(future.length, 3)
+    const anaAfterSlots = await FixedSlot.query()
+      .where('tenantId', tenant.id)
+      .where('userId', ana.id)
+    const anaAfterFees = await MonthlyFee.query()
+      .where('tenantId', tenant.id)
+      .where('userId', ana.id)
+    const anaAfterBookings = await Booking.query()
+      .where('tenantId', tenant.id)
+      .where('userId', ana.id)
+    assert.deepEqual(
+      anaAfterSlots.map((slot) => slot.id).sort(),
+      anaBefore.slots.map((slot) => slot.id).sort()
+    )
+    assert.deepEqual(
+      anaAfterFees.map((fee) => [fee.id, fee.status, fee.amount]),
+      anaBefore.fees.map((fee) => [fee.id, fee.status, fee.amount])
+    )
+    assert.deepEqual(
+      anaAfterBookings.map((booking) => [booking.id, booking.status]).sort(),
+      anaBefore.bookings.map((booking) => [booking.id, booking.status]).sort()
+    )
+  }).timeout(30000)
 })

@@ -115,6 +115,22 @@ export const KINAF_PLANS: Array<{ name: string; price: number; quotas: QuotaSpec
 ]
 
 /**
+ * Plans the product uses that are not on the November 2026 fee list.
+ * "2 Gym + 1 Pilates" follows the dedicated-quota shape of "1 Gym + 1 Pilates".
+ * Its price is estimated: every 3-class combo on that list costs $70.000.
+ */
+export const KINAF_EXTRA_PLANS: Array<{ name: string; price: number; quotas: QuotaSpec[] }> = [
+  {
+    name: '2 Gym + 1 Pilates',
+    price: 70000,
+    quotas: [
+      { count: 2, activities: GYM },
+      { count: 1, activities: PILATES },
+    ],
+  },
+]
+
+/**
  * Production-safe Kinaf data: the tenant, its centers, its activities and the
  * plans of the current fee list. Idempotent: plans are matched by name.
  */
@@ -155,7 +171,8 @@ export default class extends BaseSeeder {
       activityIds.set(activity.slug, row.id)
     }
 
-    for (const [position, spec] of KINAF_PLANS.entries()) {
+    const allPlans = [...KINAF_PLANS, ...KINAF_EXTRA_PLANS]
+    for (const [position, spec] of allPlans.entries()) {
       const plan = await Plan.updateOrCreate(
         { tenantId: tenant.id, name: spec.name },
         { price: spec.price, active: true, position }

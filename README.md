@@ -25,13 +25,13 @@ Abrí `http://kinaf.localhost:3333`. Si el navegador no resuelve ese host, usá 
 
 ## Datos semilla y demo
 
-`kinaf_seeder` siembra lo seguro para producción: tenant, centros (Mendoza y Ovidio Lagos), actividades (Gimnasio, Pilates y Yoga) y los planes de la cuota de noviembre 2026. Es idempotente: busca los planes por nombre, actualiza el precio y reemplaza los cupos solo si nadie los usa (horarios fijos, reservas o pendientes).
+`kinaf_seeder` siembra lo seguro para producción: tenant, centros (Mendoza y Ovidio Lagos), actividades (Gimnasio, Pilates y Yoga) y los planes de la cuota de noviembre 2026, más el plan "2 Gym + 1 Pilates" (no está en esa lista; el precio de $70.000 está estimado a partir de los combinados de 3 clases, que salen todos esa cifra). Es idempotente: busca los planes por nombre, actualiza el precio y reemplaza los cupos solo si nadie los usa (horarios fijos, reservas o pendientes).
 
 `kinaf_demo_seeder` agrega los datos demo. Corre fuera de producción, o en producción solo con `DEMO_SEED=true`. Las fechas son relativas al día en que se siembra:
 
 - Horarios de lunes a sábado en los dos centros: Gimnasio a la mañana y a la tarde, Pilates y Yoga.
 - Admin: `admin@kinaf.test` / `KinafDev2026!` en `/login`.
-- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf` (en producción, `https://reservo.fly.dev/acceso/demo-sofi-kinaf`). Plan "2 Gym/Pilates + 1 Yoga" con horario fijo lunes 18:00 Pilates y viernes 18:00 Gimnasio (Mendoza), y miércoles 19:00 Yoga (Ovidio Lagos). Tiene una clase pendiente por cancelación y tres meses pagos.
+- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf` (en producción, `https://reservo.fly.dev/acceso/demo-sofi-kinaf`). Plan "2 Gym + 1 Pilates" (precio estimado, ver arriba) con horario fijo miércoles 20:00 y viernes 18:00 Gimnasio, y lunes 18:00 Pilates, todos en Mendoza. Tiene una clase pendiente por cancelación y tres meses pagos.
 - Otros 11 alumnos (`<nombre>.<apellido>@kinaf.test`, sin link) con distintos planes: algunos sin horario fijo, Fede Paz sin plan, Mati Ruiz con una pendiente por ausencia.
 - Cuotas del mes en todos los estados: pendiente, en revisión (con un comprobante PNG de ejemplo), pagada y atrasada (Mati y Flor deben el mes anterior). Después del día 10, las pendientes del mes también se ven atrasadas.
 - Un cierre de todos los centros: el próximo feriado nacional dentro de las 4 semanas, o un "Cierre por mantenimiento" de ejemplo a 10 días.
@@ -44,7 +44,9 @@ Re-sembrar en producción (Fly):
 ```bash
 # Solo lo seguro para producción (planes, centros, actividades)
 fly ssh console -C "sh -c 'cd /app && node ace db:seed --files=database/seeders/kinaf_seeder'"
-# Con los datos demo
+# Solo los datos de Sofi Ortiz (plan, horarios, pendiente, cuotas y link)
+fly ssh console -C "sh -c 'cd /app && node ace demo:reset-sofi'"
+# Con todos los datos demo
 fly ssh console -C "sh -c 'cd /app && DEMO_SEED=true node ace db:seed'"
 ```
 
