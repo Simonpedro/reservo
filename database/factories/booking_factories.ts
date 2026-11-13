@@ -1,6 +1,7 @@
 import AccessLink from '#models/access_link'
 import Booking from '#models/booking'
 import ClassSession from '#models/class_session'
+import PendingClass from '#models/pending_class'
 import { createHash, randomBytes } from 'node:crypto'
 import factory from '@adonisjs/lucid/factories'
 import { DateTime } from 'luxon'
@@ -33,5 +34,15 @@ export const AccessLinkFactory = factory
     expiresAt: DateTime.now().plus({ days: 30 }),
     revokedAt: null,
     lastUsedAt: null,
+  }))
+  .build()
+
+export const PendingClassFactory = factory
+  .define(PendingClass, () => ({
+    reason: 'cancelled' as const,
+    missedOn: DateTime.now(),
+    expiresOn: DateTime.now().plus({ days: 7 }),
+    status: 'available' as const,
+    usedBookingId: null,
   }))
   .build()

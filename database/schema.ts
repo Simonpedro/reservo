@@ -264,6 +264,48 @@ export class FixedSlotSchema extends BaseModel {
   declare userId: number
 }
 
+export class PendingClassSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'expiresOn',
+    'id',
+    'missedOn',
+    'originBookingId',
+    'planQuotaId',
+    'reason',
+    'status',
+    'tenantId',
+    'updatedAt',
+    'usedBookingId',
+    'userId',
+  ] as const
+  $columns = PendingClassSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.date()
+  declare expiresOn: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column.date()
+  declare missedOn: DateTime
+  @column()
+  declare originBookingId: number
+  @column()
+  declare planQuotaId: number
+  @column()
+  declare reason: string
+  @column()
+  declare status: string
+  @column()
+  declare tenantId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare usedBookingId: number | null
+  @column()
+  declare userId: number
+}
+
 export class PlanQuotaActivitySchema extends BaseModel {
   static $columns = [
     'activityId',
