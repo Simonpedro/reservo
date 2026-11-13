@@ -16,8 +16,8 @@ export default class SessionController {
       .first()
 
     if (!user || !(await user.verifyPassword(credentials.password))) {
-      session.flashAll()
-      session.flash('errors', { email: 'El email o la contraseña no son correctos.' })
+      session.flashExcept(['password'])
+      session.flash('errors', { credentials: 'El email o la contraseña no coinciden.' })
       return response.redirect().back()
     }
 

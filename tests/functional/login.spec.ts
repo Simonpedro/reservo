@@ -36,7 +36,7 @@ test.group('Tenant login', () => {
     today.assertInertiaComponent('admin/today')
   })
 
-  test('rejects invalid credentials and does not authenticate', async ({ client }) => {
+  test('rejects invalid credentials and does not authenticate', async ({ client, assert }) => {
     const login = await client
       .post('/login')
       .header('host', host)
@@ -50,6 +50,17 @@ test.group('Tenant login', () => {
 
     login.assertStatus(302)
     login.assertHeader('location', `http://${host}/login`)
+    login.assertFlashMessage('errors', {
+      credentials: 'El email o la contraseña no coinciden.',
+    })
+    assert.notProperty(login.flashMessages().input ?? {}, 'password')
+
+    const page = await client
+      .get('/login')
+      .header('host', host)
+      .withFlashMessages(login.flashMessages())
+      .withInertia()
+    assert.equal(page.inertiaProps.errors.credentials, 'El email o la contraseña no coinciden.')
 
     const admin = await client
       .get('/admin')
@@ -59,5 +70,21 @@ test.group('Tenant login', () => {
 
     admin.assertStatus(302)
     admin.assertHeader('location', '/login')
+  })
+
+  test('explains validation errors in Spanish', async ({ client }) => {
+    const login = await client
+      .post('/login')
+      .header('host', host)
+      .header('referer', `http://${host}/login`)
+      .form({ email: 'no-es-un-email', password: '' })
+      .withCsrfToken()
+      .redirects(0)
+
+    login.assertStatus(302)
+    login.assertFlashMessage('inputErrorsBag', {
+      email: ['Ese email no parece válido.'],
+      password: ['Escribí tu contraseña.'],
+    })
   })
 })

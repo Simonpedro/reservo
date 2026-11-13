@@ -20,7 +20,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
      * transformers for rich data-types like Models.
      */
     return {
-      errors: ctx.inertia.always(this.getValidationErrors(ctx)),
+      errors: ctx.inertia.always(this.errors(ctx)),
       tenant: ctx.inertia.always(
         tenant
           ? {
@@ -44,6 +44,24 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
           : null,
       }),
     }
+  }
+
+  /**
+   * Validation errors plus the ones controllers flash by hand under `errors`
+   * (wrong credentials, business rules). Inertia only reads the validation
+   * bag, so without this merge those messages never reached the page.
+   */
+  errors(ctx: HttpContext) {
+    const { session } = ctx as Partial<HttpContext>
+    const flashed: Record<string, string | string[]> =
+      session?.flashMessages.get('errors', {}) ?? {}
+    const manual = Object.fromEntries(
+      Object.entries(flashed).map(([field, message]) => [
+        field,
+        Array.isArray(message) ? message[0] : message,
+      ])
+    )
+    return { ...this.getValidationErrors(ctx), ...manual }
   }
 
   flash(ctx: HttpContext) {
