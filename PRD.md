@@ -29,7 +29,8 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 - Un plan es un **precio** más una lista de **cupos semanales**. Cada cupo es una cantidad de clases por semana y un conjunto de actividades permitidas: una sola, varias o cualquiera.
 - Los arma el admin (los dueños del negocio) con cualquier combinación. Ejemplos: "1 Yoga + 1 Pilates" (dos cupos de 1), "2 de Yoga o Pilates" (un cupo de 2 con dos actividades), "2 libres" (un cupo de 2 con cualquier actividad), "1 Yoga + 2 libres".
 - Actividades de Kinaf: Gimnasio, Pilates y Yoga. Kinesiología también existe en el centro; **ABIERTO:** si se modela como otra actividad. Cada una es una actividad distinta; no hay clases intercambiables entre actividades salvo que el cupo lo permita.
-- Extras aparte (ej.: Rutina personalizada Gym $10.000).
+- Extras aparte (ej.: Rutina personalizada Gym $10.000). Fuera del MVP.
+- **Cuota de noviembre 2026 de Kinaf (planes semilla).** En la lista, "Gym/Pilates" es un cupo que acepta Gimnasio o Pilates. Así, "2 Gym/Pilates + 1 Gym/Pilates" son dos cupos (uno de 2 y otro de 1), ambos de Gimnasio o Pilates, y "1 Gym + 1 Pilates" son dos cupos de 1 de una sola actividad cada uno. Los planes simples (por ejemplo "Pilates 3x semana") son un único cupo de esa actividad.
 - **Renovación automática mensual.**
 - **Un plan activo por cliente.** Solo el admin asigna o cambia el plan.
 - Cuota de referencia: se paga del 1 al 10 de cada mes, en efectivo o por transferencia.
@@ -48,8 +49,10 @@ Colores aproximados, tomados de una captura del Instagram (hay que confirmarlos 
 - La persona no reserva semana a semana: sus clases ya están reservadas por el horario fijo. La app le muestra sus próximas clases, su plan y sus pagos.
 - **Cancelar una fecha (faltar una vez):** solo con 24 h o más de anticipación, desde el detalle de la clase. El lugar vuelve al cupo de esa fecha y la persona recibe una **clase pendiente**. El horario fijo no cambia.
 - **No existe la cancelación tardía del lado del alumno.** Con menos de 24 h no hay acción en la app: el detalle explica que avise a Kinaf por WhatsApp. El admin, después de hablar, puede marcarlo ausente (ver sección 4).
-- **Clases pendientes.** Se generan al cancelar a tiempo, por un feriado o cierre, o cuando el admin marca una ausencia. Se usan reservando a mano una clase con lugar libre, dentro de las actividades del cupo de la clase perdida (si el cupo es libre, cualquier actividad). Vencen el domingo de la semana siguiente a la clase perdida; no se acumulan. Si se cancela a tiempo una reserva hecha con una pendiente, la pendiente vuelve con su vencimiento original.
+- **Clases pendientes.** Se generan al cancelar a tiempo, por un feriado o cierre, o cuando el admin marca una ausencia. Se usan reservando a mano una clase con lugar libre, **dentro del mismo cupo del plan que se perdió**: con "1 Yoga + 1 Pilates", si pierde Yoga recupera solo Yoga; con "2 de Yoga o Pilates", puede recuperar cualquiera de las dos; si el cupo es libre, cualquier actividad. Una pendiente se puede usar **antes de la fecha perdida** (por ejemplo, cancela el jueves y recupera el martes de esa misma semana). Vencen el domingo de la semana siguiente a la clase perdida; no se acumulan. Si se cancela a tiempo una reserva hecha con una pendiente, la pendiente vuelve con su vencimiento original.
 - **Vacaciones:** la persona cancela clase por clase. **ABIERTO:** pausar plan o modo vacaciones.
+
+- **Acceso.** El alumno no se registra solo: lo da de alta el admin, que le comparte un **link de acceso** (invitación personal). Con ese link entra sin contraseña.
 
 ### Navegación
 Tres pestañas abajo. Al abrir la app, el cliente entra a **Mis clases**. Perfil no va en la barra: se abre desde el avatar del encabezado. Las páginas internas ocultan la barra y el avatar.
@@ -83,6 +86,7 @@ Mobile first, con la misma gramática que el cliente. Cuatro pestañas: **Hoy**,
 - **Planes** (Ajustes): crear y editar planes con nombre, precio y cupos.
 
 ## 7. Rol instructor
+- **Fuera del MVP** (decidido el 2026-11-12). Queda la idea para después:
 - Solo lectura: ve los **asistentes de las clases de hoy** (la pantalla Hoy del admin, sin acciones).
 
 ## 8. Notificaciones
@@ -98,4 +102,5 @@ Mobile first, con la misma gramática que el cliente. Cuatro pestañas: **Hoy**,
 2. Kinesiología: si se modela como otra actividad.
 
 ## Decisiones (registro)
+- 2026-11-12 (noche): la pendiente se recupera dentro del mismo cupo; solo el admin da de alta al alumno, que entra con link; el instructor queda fuera del MVP; una pendiente se puede usar antes de la fecha perdida. Siguen abiertas la pausa o modo vacaciones y Kinesiología.
 - 2026-11-12: horarios fijos y reservas automáticas; clases pendientes con vencimiento al fin de la semana siguiente; sin cancelación tardía del alumno; planes por cupos; cuota atrasada sin bloqueo. Detalle en [`docs/product/reevaluacion-horarios-fijos.md`](./docs/product/reevaluacion-horarios-fijos.md).
