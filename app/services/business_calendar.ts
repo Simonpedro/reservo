@@ -12,6 +12,7 @@ export const BUSINESS_ZONE = 'America/Argentina/Buenos_Aires'
 export type IsoDate = string
 
 const WEEKDAYS_SHORT = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+const WEEKDAYS = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
 
 export function businessNow(): DateTime {
   return DateTime.now().setZone(BUSINESS_ZONE)
@@ -66,4 +67,19 @@ export function dayLabel(date: IsoDate, today: IsoDate): string {
   if (date === today) return 'Hoy'
   if (date === addDays(today, 1)) return 'Mañana'
   return `${WEEKDAYS_SHORT[isoWeekday(date) - 1]} ${parse(date).day}`
+}
+
+/**
+ * Weekday and day of month in lowercase, for sentences: "lunes 16".
+ */
+export function dayName(date: IsoDate): string {
+  return `${WEEKDAYS[isoWeekday(date) - 1]} ${parse(date).day}`
+}
+
+/**
+ * Capitalized day for the class detail: "Lunes 16".
+ */
+export function longDayLabel(date: IsoDate): string {
+  const name = dayName(date)
+  return name.charAt(0).toUpperCase() + name.slice(1)
 }

@@ -9,12 +9,15 @@ import {
   PlanQuotaFactory,
   SubscriptionFactory,
 } from '#database/factories/plan_factories'
+import { BookingFactory } from '#database/factories/booking_factories'
 import { TenantFactory } from '#database/factories/tenant_factory'
 import { UserFactory } from '#database/factories/user_factory'
 import type Activity from '#models/activity'
+import type Booking from '#models/booking'
 import type Center from '#models/center'
 import type ClassSchedule from '#models/class_schedule'
 import type Tenant from '#models/tenant'
+import { findOrCreateSession } from '#services/class_sessions'
 import { type DateTime } from 'luxon'
 
 /**
@@ -110,4 +113,26 @@ export async function createStudent(
     )
   }
   return { user, plan, quota, subscription, slots }
+}
+
+/**
+ * A booking of the student in the schedule's session on `date` (the session
+ * is created if needed).
+ */
+export async function createBooking(
+  catalog: Catalog,
+  student: Awaited<ReturnType<typeof createStudent>>,
+  schedule: ClassSchedule,
+  date: DateTime,
+  attributes: Partial<Pick<Booking, 'status' | 'source' | 'pendingClassId'>> = {}
+) {
+  const session = await findOrCreateSession(schedule, date.toISODate()!)
+  return BookingFactory.merge({
+    tenantId: catalog.tenant.id,
+    userId: student.user.id,
+    classSessionId: session.id,
+    planQuotaId: student.quota.id,
+    fixedSlotId: attributes.source === 'pending' ? null : (student.slots[0]?.id ?? null),
+    ...attributes,
+  }).create()
 }
