@@ -7,5 +7,6 @@ export const TenantFactory = factory
     name: faker.company.name(),
     theme: {},
     whatsappPhone: null,
+    transferAliases: [],
   }))
   .build()

@@ -31,6 +31,12 @@ export default class Tenant extends BaseModel {
   @column()
   declare whatsappPhone: string | null
 
+  /**
+   * Bank transfer aliases shown on the student's Pagos screen.
+   */
+  @column({ prepare: (value: string[]) => JSON.stringify(value) })
+  declare transferAliases: string[]
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

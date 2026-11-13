@@ -22,6 +22,7 @@ export default class extends BaseSeeder {
           blue: '#3E88F0',
           accent: '#6EF04A',
         },
+        transferAliases: ['KINAF.KINESIOLOGIA', 'KINAF.KINE.AF'],
       }
     )
 
