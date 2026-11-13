@@ -13,7 +13,6 @@ import router from '@adonisjs/core/services/router'
 const HomeController = () => import('#controllers/home_controller')
 const SessionController = () => import('#controllers/session_controller')
 const AccessController = () => import('#controllers/access_controller')
-const DashboardController = () => import('#controllers/dashboard_controller')
 const MyClassesController = () => import('#controllers/my_classes_controller')
 const ChooseClassController = () => import('#controllers/choose_class_controller')
 const MyPlanController = () => import('#controllers/my_plan_controller')
@@ -49,7 +48,6 @@ router
 
     router
       .group(() => {
-        router.get('/dashboard', [DashboardController, 'index']).as('dashboard')
         router.post('/logout', [SessionController, 'destroy']).as('logout')
 
         router
