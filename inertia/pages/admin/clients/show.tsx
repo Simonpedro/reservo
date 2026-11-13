@@ -171,7 +171,12 @@ export default function AdminClientShow({
         {upcomingClasses.length > 0 ? (
           <div className="mt-2.5 grid gap-2.5">
             {upcomingClasses.map((card) => (
-              <ClassCard key={card.bookingId} card={card} href="/admin/agenda" />
+              <ClassCard
+                key={card.bookingId}
+                card={card}
+                href="/admin/agenda"
+                returnKey={`admin-client-${id}-${card.bookingId}`}
+              />
             ))}
           </div>
         ) : (
