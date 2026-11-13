@@ -25,6 +25,12 @@ export default class Tenant extends BaseModel {
   @column()
   declare theme: TenantTheme
 
+  /**
+   * Digits only, with country code (e.g. 5493415550000), for wa.me links.
+   */
+  @column()
+  declare whatsappPhone: string | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

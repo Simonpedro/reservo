@@ -5,10 +5,13 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
 
 export type UserRole = 'admin' | 'instructor' | 'client'
 
 export default class User extends compose(BaseModel, withAuthFinder(hash)) {
+  static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
+
   @column({ isPrimary: true })
   declare id: number
 
@@ -26,6 +29,9 @@ export default class User extends compose(BaseModel, withAuthFinder(hash)) {
 
   @column()
   declare role: UserRole
+
+  @column()
+  declare phone: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
