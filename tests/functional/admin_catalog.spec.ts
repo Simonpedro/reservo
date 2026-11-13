@@ -62,14 +62,14 @@ test.group('Admin › activities', (group) => {
         id: catalog.yoga.id,
         name: 'Yoga',
         wash: 'green',
-        hint: 'Tarjeta verde · 2 horarios activos',
+        hint: 'Tarjeta verde · 2 clases por semana',
       }
     )
     assert.deepEqual(listed.at(-1), {
       id: catalog.pilates.id,
       name: 'Zumba',
       wash: 'celeste',
-      hint: 'Tarjeta celeste · Sin horarios activos',
+      hint: 'Tarjeta celeste · Sin clases',
     })
   })
 
@@ -284,7 +284,7 @@ test.group('Admin › centers', (group) => {
     assert.deepInclude(listed.inertiaProps.centers, {
       id: center.id,
       name: 'Fisherton Norte',
-      hint: 'Sin horarios activos',
+      hint: 'Sin clases',
     })
   })
 

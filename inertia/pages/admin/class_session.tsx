@@ -181,7 +181,7 @@ export default function AdminClassSession({ view }: { view: AdminSessionView }) 
             </Button>
           )}
           <Button asChild variant="link">
-            <Link href={`/admin/horarios/${card.scheduleId}`}>Editar el horario de esta clase</Link>
+            <Link href={`/admin/horarios/${card.scheduleId}`}>Editar esta clase</Link>
           </Button>
         </div>
       </main>

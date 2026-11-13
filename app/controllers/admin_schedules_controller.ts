@@ -67,11 +67,11 @@ export default class AdminSchedulesController {
       if (!(error instanceof ScheduleError)) throw error
       session.flash(
         'error',
-        `Hay ${peopleText(error.detail.fixed ?? 0)} con este horario fijo. Para desactivarlo, primero cambiá su horario desde su ficha.`
+        `Hay ${peopleText(error.detail.fixed ?? 0)} con esta clase como horario fijo. Para desactivarla, primero cambiá su horario desde su ficha.`
       )
       return response.redirect(`/admin/horarios/${Number(params.id)}`)
     }
-    session.flash('success', 'Desactivamos el horario. Ya no aparece en la agenda.')
+    session.flash('success', 'Desactivamos la clase. Ya no aparece en la agenda.')
     return response.redirect('/admin/agenda')
   }
 
@@ -79,7 +79,7 @@ export default class AdminSchedulesController {
     if (!(await activateSchedule(tenant!.id, Number(params.id)))) {
       return this.notFound(inertia, response)
     }
-    session.flash('success', 'Activamos el horario.')
+    session.flash('success', 'Activamos la clase.')
     return response.redirect(`/admin/horarios/${Number(params.id)}`)
   }
 
@@ -105,7 +105,7 @@ export default class AdminSchedulesController {
       } else if (error.reason === 'locked') {
         session.flash(
           'error',
-          'Este horario tiene gente anotada. No se puede cambiar el día, el centro ni la actividad.'
+          'Esta clase tiene gente anotada. No se puede cambiar el día, el centro ni la actividad.'
         )
       } else {
         session.flash('error', 'Elegí una actividad y un centro de la lista.')
@@ -115,7 +115,7 @@ export default class AdminSchedulesController {
 
     session.flash(
       'success',
-      scheduleId ? 'Guardamos los cambios del horario.' : 'Creamos el horario.'
+      scheduleId ? 'Guardamos los cambios de la clase.' : 'Creamos la clase.'
     )
     const date = nextDateOn(businessDate(businessNow()), payload.weekday)
     return response.redirect(`/admin/agenda?fecha=${date}`)
@@ -124,7 +124,7 @@ export default class AdminSchedulesController {
   private notFound(inertia: HttpContext['inertia'], response: HttpContext['response']) {
     response.status(404)
     return inertia.render('errors/not_found', {
-      title: 'No encontramos ese horario',
+      title: 'No encontramos esa clase',
       message: 'Puede que no exista en este centro.',
     })
   }

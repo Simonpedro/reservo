@@ -81,7 +81,7 @@ Mobile first, con la misma gramática que el cliente. Cuatro pestañas: **Hoy**,
 - **Clase del día:** asistentes de esa fecha, marcar ausente (da una clase pendiente) y suspender la clase.
 - **Clientes** y **ficha de cliente:** plan, horario fijo, próximas clases, clases pendientes y pagos.
 - **Asignar plan y horario:** un solo flujo en pasos para alta, cambio de horario y cambio de plan: plan, horarios por cupo (los completos no se pueden elegir), desde qué fecha y confirmar.
-- **Agenda:** horarios de clase de la semana con su ocupación, crear o editar un horario, y cerrar un día (feriado o cierre) con el impacto antes de confirmar.
+- **Agenda:** horarios de clase de la semana con su ocupación, crear o editar una clase semanal, y cerrar un día (feriado o cierre) con el impacto antes de confirmar.
 - **Pagos:** comprobantes en revisión, registrar un pago, forzar pagado, estados e historial.
 - **Planes** (Ajustes): crear y editar planes con nombre, precio y cupos.
 

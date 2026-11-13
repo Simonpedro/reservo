@@ -377,7 +377,7 @@ test.group('Admin · Horarios', (group) => {
 
     response.assertFlashMessage(
       'error',
-      'Hay 2 personas con este horario fijo. Para desactivarlo, primero cambiá su horario desde su ficha.'
+      'Hay 2 personas con esta clase como horario fijo. Para desactivarla, primero cambiá su horario desde su ficha.'
     )
     await w.pilates.refresh()
     assert.isTrue(w.pilates.active)
@@ -412,7 +412,7 @@ test.group('Admin · Horarios', (group) => {
       .redirects(0)
 
     off.assertHeader('location', '/admin/agenda')
-    off.assertFlashMessage('success', 'Desactivamos el horario. Ya no aparece en la agenda.')
+    off.assertFlashMessage('success', 'Desactivamos la clase. Ya no aparece en la agenda.')
     assert.notInclude(await agenda(), spare.id)
 
     const on = await client
@@ -450,7 +450,7 @@ test.group('Admin · Horarios', (group) => {
 
     response.assertFlashMessage(
       'error',
-      'Este horario tiene gente anotada. No se puede cambiar el día, el centro ni la actividad.'
+      'Esta clase tiene gente anotada. No se puede cambiar el día, el centro ni la actividad.'
     )
     await w.pilates.refresh()
     assert.equal(w.pilates.weekday, w.weekday)

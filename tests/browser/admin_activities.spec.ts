@@ -32,7 +32,7 @@ test.group('Admin activities', (group) => {
     await page.waitForURL(`${baseUrl}/admin/ajustes/actividades`)
     await page.assertTextContains('main', 'Creamos la actividad.')
 
-    await page.getByRole('link', { name: /Kinesio.*Tarjeta verde · Sin horarios activos/ }).click()
+    await page.getByRole('link', { name: /Kinesio.*Tarjeta verde · Sin clases/ }).click()
     await page.assertInputValue(page.getByLabel('Nombre'), 'Kinesio')
     await page.getByLabel('Nombre').fill('Kinesiología')
     await page.getByRole('button', { name: 'Guardar' }).click()

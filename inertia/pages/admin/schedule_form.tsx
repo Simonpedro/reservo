@@ -136,7 +136,7 @@ export default function AdminScheduleForm({
 
   return (
     <AdminInnerLayout
-      title={schedule ? 'Editar horario' : 'Nuevo horario'}
+      title={schedule ? 'Editar clase' : 'Nueva clase'}
       backHref={backHref}
       dock={
         <Button type="submit" form="schedule-form" disabled={form.processing}>
@@ -147,7 +147,7 @@ export default function AdminScheduleForm({
       {flash?.success && <Notice icon={CircleCheck} title={flash.success} className="mt-4" />}
       {flash?.error && <Notice icon={CircleAlert} title={flash.error} className="mt-4" />}
       {schedule && !schedule.active && (
-        <Notice icon={CircleAlert} title="Este horario está desactivado." className="mt-4">
+        <Notice icon={CircleAlert} title="Esta clase está desactivada." className="mt-4">
           No aparece en la agenda y nadie lo puede reservar.
         </Notice>
       )}
@@ -182,7 +182,7 @@ export default function AdminScheduleForm({
       <form id="schedule-form" className="mt-5 grid gap-4" onSubmit={submit} noValidate>
         {locked && (
           <p className="text-sm leading-tight font-bold text-muted-foreground">
-            Este horario tiene gente anotada: el día, el centro y la actividad no se pueden cambiar.
+            Esta clase tiene gente anotada: el día, el centro y la actividad no se pueden cambiar.
           </p>
         )}
         <Field id="activityId" label="Actividad" error={errors.activityId}>
@@ -316,16 +316,16 @@ export default function AdminScheduleForm({
           {!schedule.active ? (
             <Button asChild variant="link">
               <Link href={`/admin/horarios/${schedule.id}/activar`} method="post" as="button">
-                Activar este horario
+                Activar esta clase
               </Link>
             </Button>
           ) : fixedStudents.length > 0 ? (
             <p className="text-center text-sm leading-tight font-bold text-muted-foreground">
-              {`Para desactivarlo, primero cambiá el horario fijo de ${fixedStudents.length === 1 ? 'la persona que lo tiene' : `las ${fixedStudents.length} personas que lo tienen`}.`}
+              {`Para desactivarla, primero cambiá el horario fijo de ${fixedStudents.length === 1 ? 'la persona que la tiene' : `las ${fixedStudents.length} personas que la tienen`}.`}
             </p>
           ) : (
             <Button type="button" variant="link" onClick={() => setDeactivating(true)}>
-              Desactivar este horario
+              Desactivar esta clase
             </Button>
           )}
         </div>
@@ -335,7 +335,7 @@ export default function AdminScheduleForm({
         <BottomSheet
           open={deactivating}
           onClose={() => setDeactivating(false)}
-          title="¿Desactivamos este horario?"
+          title="¿Desactivamos esta clase?"
           action={
             <Button asChild>
               <Link
@@ -349,8 +349,8 @@ export default function AdminScheduleForm({
             </Button>
           }
         >
-          Deja de aparecer en la agenda. Si alguien ya lo reservó con una clase pendiente, la
-          recupera.
+          Deja de aparecer en la agenda y no se crean más fechas. Las que ya pasaron quedan como
+          están. Si alguien la reservó con una clase pendiente, la recupera.
         </BottomSheet>
       )}
     </AdminInnerLayout>

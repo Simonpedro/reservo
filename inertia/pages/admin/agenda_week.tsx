@@ -52,8 +52,8 @@ function WeekArrow({ href, label, icon: Icon }: { href: string; label: string; i
 }
 
 function classesText(count: number) {
-  if (count === 0) return 'Sin horarios'
-  return count === 1 ? '1 horario' : `${count} horarios`
+  if (count === 0) return 'Sin clases'
+  return count === 1 ? '1 clase' : `${count} clases`
 }
 
 /**
@@ -122,7 +122,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
         <Button asChild>
           <Link href={fromWeek('/admin/horarios/nuevo', week)}>
             <Plus strokeWidth={2.6} aria-hidden="true" />
-            Nuevo horario
+            Nueva clase
           </Link>
         </Button>
       }
@@ -169,10 +169,10 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
       )}
 
       {week.total === 0 ? (
-        <EmptyState icon={CalendarDays} title="Todavía no hay horarios.">
+        <EmptyState icon={CalendarDays} title="Todavía no hay clases.">
           {week.center
-            ? `En ${week.center.name} no hay horarios activos. Probá con otro centro.`
-            : 'Creá el primero y acá vas a ver la semana con la gente de cada clase.'}
+            ? `En ${week.center.name} no hay clases. Probá con otro centro.`
+            : 'Creá la primera y acá vas a ver la semana con la gente de cada clase.'}
         </EmptyState>
       ) : (
         <>

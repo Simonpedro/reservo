@@ -250,7 +250,7 @@ export async function deactivateSchedule(
     const suspension = new SessionSuspension()
     for (const session of sessions) {
       if (classStart(session.date.toISODate()!, schedule.startTime) <= now) continue
-      await suspension.suspendWithin(trx, session, 'Horario dado de baja')
+      await suspension.suspendWithin(trx, session, 'Clase dada de baja')
     }
     return true
   })

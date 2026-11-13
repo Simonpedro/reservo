@@ -50,7 +50,7 @@ export default function AdminAgenda({ view }: { view: AgendaView }) {
         <Button asChild>
           <Link href={`/admin/horarios/nuevo?dia=${view.weekday}`}>
             <Plus strokeWidth={2.6} aria-hidden="true" />
-            Nuevo horario
+            Nueva clase
           </Link>
         </Button>
       }
@@ -110,7 +110,7 @@ export default function AdminAgenda({ view }: { view: AgendaView }) {
           </div>
         ) : (
           <EmptyState icon={CalendarDays} title="Este día no hay clases.">
-            Podés crear un horario nuevo.
+            Podés crear una clase nueva.
           </EmptyState>
         )}
       </section>

@@ -68,8 +68,8 @@ export function checkName(
 }
 
 function schedulesText(count: number) {
-  if (count === 0) return 'Sin horarios activos'
-  return count === 1 ? '1 horario activo' : `${count} horarios activos`
+  if (count === 0) return 'Sin clases'
+  return count === 1 ? '1 clase por semana' : `${count} clases por semana`
 }
 
 /**

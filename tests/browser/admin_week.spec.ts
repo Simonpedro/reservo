@@ -122,7 +122,7 @@ test.group('Admin · Agenda › Semana', (group) => {
 
     await yogaCard.click()
     await page.waitForURL(new RegExp(`/admin/horarios/${yoga.id}\\?desde=semana`))
-    await page.assertTextContains('main', 'Editar horario')
+    await page.assertTextContains('main', 'Editar clase')
     await page.getByRole('link', { name: 'Volver' }).click()
     await page.waitForURL(`${baseUrl}/admin/agenda/semana?semana=${nextMonday}&centro=ovidio-lagos`)
     await page.assertTextContains(pilatesCard, 'Tomás Gil')
