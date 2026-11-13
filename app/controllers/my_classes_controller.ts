@@ -25,18 +25,21 @@ export default class MyClassesController {
     const justCancelled =
       detail.state === 'cancelled' &&
       session.flashMessages.get('cancelled') === detail.card.bookingId
-    return inertia.render('client/class_detail', { detail, justCancelled })
+    const justBooked = session.flashMessages.get('booked') === detail.card.bookingId
+    return inertia.render('client/class_detail', { detail, justCancelled, justBooked })
   }
 
   /**
    * "No voy a ir". The 24 h rule is enforced here, not only on screen.
    */
-  async cancel({ auth, params, inertia, response, session }: HttpContext) {
+  async cancel({ auth, params, request, inertia, response, session }: HttpContext) {
     const booking = await studentBookings(auth.user!).where('id', Number(params.id)).first()
     if (!booking) return this.notFound({ inertia, response })
 
     try {
       await new Cancellation().cancel(booking, businessNow())
+      // "Deshacer" right after using a pending class: back to choosing.
+      if (request.input('volver') === 'elegir') return response.redirect().toRoute('client.choose')
       session.flash('cancelled', booking.id)
     } catch (error) {
       if (!(error instanceof CancellationError)) throw error

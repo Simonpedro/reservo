@@ -80,6 +80,18 @@ const routes = {
     tokens: [[0,"elegir-clase"]],
     types: placeholder as Registry['client.choose']['types'],
   },
+  'client.choose.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/elegir-clase/:id',
+    tokens: [[0,"elegir-clase"],[1,"id"]],
+    types: placeholder as Registry['client.choose.show']['types'],
+  },
+  'client.choose.store': {
+    methods: ["POST"],
+    pattern: '/elegir-clase/:id',
+    tokens: [[0,"elegir-clase"],[1,"id"]],
+    types: placeholder as Registry['client.choose.store']['types'],
+  },
   'client.plan': {
     methods: ["GET","HEAD"],
     pattern: '/plan',

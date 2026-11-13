@@ -16,6 +16,8 @@ export type ScannedRoutes = {
     'client.classes.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.classes.undo': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.choose': { paramsTuple?: []; params?: {} }
+    'client.choose.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.choose.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
     'client.profile': { paramsTuple?: []; params?: {} }
@@ -29,6 +31,7 @@ export type ScannedRoutes = {
     'client.classes': { paramsTuple?: []; params?: {} }
     'client.classes.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.choose': { paramsTuple?: []; params?: {} }
+    'client.choose.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
     'client.profile': { paramsTuple?: []; params?: {} }
@@ -42,6 +45,7 @@ export type ScannedRoutes = {
     'client.classes': { paramsTuple?: []; params?: {} }
     'client.classes.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.choose': { paramsTuple?: []; params?: {} }
+    'client.choose.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.plan': { paramsTuple?: []; params?: {} }
     'client.payments': { paramsTuple?: []; params?: {} }
     'client.profile': { paramsTuple?: []; params?: {} }
@@ -51,6 +55,7 @@ export type ScannedRoutes = {
     'logout': { paramsTuple?: []; params?: {} }
     'client.classes.cancel': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'client.classes.undo': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'client.choose.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

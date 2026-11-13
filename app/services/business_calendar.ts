@@ -70,6 +70,13 @@ export function dayLabel(date: IsoDate, today: IsoDate): string {
 }
 
 /**
+ * Day pill for the day strip: { weekday: 'Jue', day: 12 }.
+ */
+export function dayPill(date: IsoDate): { weekday: string; day: number } {
+  return { weekday: WEEKDAYS_SHORT[isoWeekday(date) - 1], day: parse(date).day }
+}
+
+/**
  * Weekday and day of month in lowercase, for sentences: "lunes 16".
  */
 export function dayName(date: IsoDate): string {

@@ -5,6 +5,7 @@
 
 export const controllers = {
   Access: () => import('#controllers/access_controller'),
+  ChooseClass: () => import('#controllers/choose_class_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   Home: () => import('#controllers/home_controller'),
   MyClasses: () => import('#controllers/my_classes_controller'),

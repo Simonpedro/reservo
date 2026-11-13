@@ -159,9 +159,35 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['index']>>>
+    }
+  }
+  'client.choose.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/elegir-clase/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['show']>>>
+    }
+  }
+  'client.choose.store': {
+    methods: ["POST"]
+    pattern: '/elegir-clase/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/pending_use').pendingUseValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/pending_use').pendingUseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/choose_class_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'client.plan': {

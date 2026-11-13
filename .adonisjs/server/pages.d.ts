@@ -19,6 +19,7 @@ declare module '@adonisjs/inertia/types' {
     'client/coming_soon': ExtractProps<(typeof import('../../inertia/pages/client/coming_soon.tsx'))['default']>
     'client/my_classes': ExtractProps<(typeof import('../../inertia/pages/client/my_classes.tsx'))['default']>
     'client/profile': ExtractProps<(typeof import('../../inertia/pages/client/profile.tsx'))['default']>
+    'client/session_detail': ExtractProps<(typeof import('../../inertia/pages/client/session_detail.tsx'))['default']>
     'dashboard': ExtractProps<(typeof import('../../inertia/pages/dashboard.tsx'))['default']>
     'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>

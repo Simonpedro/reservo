@@ -15,6 +15,7 @@ const SessionController = () => import('#controllers/session_controller')
 const AccessController = () => import('#controllers/access_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const MyClassesController = () => import('#controllers/my_classes_controller')
+const ChooseClassController = () => import('#controllers/choose_class_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 
@@ -65,7 +66,15 @@ router
               .post('/clases/:id/deshacer', [MyClassesController, 'undo'])
               .where('id', router.matchers.number())
               .as('client.classes.undo')
-            router.on('/elegir-clase').renderInertia('client/choose_class', {}).as('client.choose')
+            router.get('/elegir-clase', [ChooseClassController, 'index']).as('client.choose')
+            router
+              .get('/elegir-clase/:id', [ChooseClassController, 'show'])
+              .where('id', router.matchers.number())
+              .as('client.choose.show')
+            router
+              .post('/elegir-clase/:id', [ChooseClassController, 'store'])
+              .where('id', router.matchers.number())
+              .as('client.choose.store')
             router
               .on('/plan')
               .renderInertia('client/coming_soon', { tab: 'plan' })

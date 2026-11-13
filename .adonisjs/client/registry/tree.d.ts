@@ -19,7 +19,10 @@ export interface ApiDefinition {
       cancel: typeof routes['client.classes.cancel']
       undo: typeof routes['client.classes.undo']
     }
-    choose: typeof routes['client.choose']
+    choose: typeof routes['client.choose'] & {
+      show: typeof routes['client.choose.show']
+      store: typeof routes['client.choose.store']
+    }
     plan: typeof routes['client.plan']
     payments: typeof routes['client.payments']
     profile: typeof routes['client.profile']
