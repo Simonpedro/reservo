@@ -3,16 +3,28 @@ import env from '#start/env'
 
 test.group('Tenant resolution', () => {
   test('loads Kinaf from the development host', async ({ client }) => {
-    const response = await client.get('/').header('host', 'kinaf.localhost:3333').withInertia()
+    const response = await client
+      .get('/login')
+      .header('host', 'kinaf.localhost:3333')
+      .withInertia()
 
     response.assertStatus(200)
-    response.assertInertiaComponent('home')
+    response.assertInertiaComponent('auth/login')
     response.assertInertiaPropsContains({
       tenant: {
         name: 'Kinaf',
         slug: 'kinaf',
       },
     })
+  })
+
+  test('sends a visitor without a session from the tenant home to the login', async ({
+    client,
+  }) => {
+    const response = await client.get('/').header('host', 'kinaf.localhost:3333').redirects(0)
+
+    response.assertStatus(302)
+    response.assertHeader('location', '/login')
   })
 
   test('returns 404 for an unknown tenant', async ({ client }) => {
@@ -48,7 +60,7 @@ test.group('Tenant resolution / fallback tenant', () => {
   }) => {
     useTenantEnv(cleanup, { FALLBACK_TENANT_SLUG: 'kinaf', DEFAULT_TENANT_SLUG: '' })
 
-    const response = await client.get('/').header('host', 'reservo.fly.dev').withInertia()
+    const response = await client.get('/login').header('host', 'reservo.fly.dev').withInertia()
 
     response.assertStatus(200)
     response.assertInertiaPropsContains({ tenant: { name: 'Kinaf', slug: 'kinaf' } })
@@ -81,6 +93,7 @@ test.group('Tenant resolution / fallback tenant', () => {
     const response = await client.get('/').header('host', 'reservo.fit').withInertia()
 
     response.assertStatus(200)
+    response.assertInertiaComponent('home')
     response.assertInertiaPropsContains({ tenant: null })
   })
 
@@ -100,7 +113,7 @@ test.group('Tenant resolution / fallback tenant', () => {
     useTenantEnv(cleanup, { FALLBACK_TENANT_SLUG: 'inexistente', DEFAULT_TENANT_SLUG: '' })
 
     const response = await client
-      .get('/')
+      .get('/login')
       .header('host', 'reservo.fly.dev')
       .header('x-tenant', 'kinaf')
       .withInertia()
