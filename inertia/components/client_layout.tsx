@@ -41,11 +41,16 @@ export function ClientLayout({
   tab,
   title,
   dock,
+  tallDock = false,
   children,
 }: {
   tab: ClientTab
   title: string
   dock?: ReactNode
+  /**
+   * The dock carries a notice above its button.
+   */
+  tallDock?: boolean
   children: ReactNode
 }) {
   const { auth } = usePage<PageProps>().props
@@ -57,7 +62,7 @@ export function ClientLayout({
       <div
         className={cn(
           'mx-auto flex min-h-svh w-full max-w-[430px] flex-col px-5 pt-3',
-          dock ? 'pb-44' : 'pb-[104px]'
+          dock ? (tallDock ? 'pb-64' : 'pb-44') : 'pb-[104px]'
         )}
       >
         <header className="mb-2 flex min-h-12 items-center justify-between">

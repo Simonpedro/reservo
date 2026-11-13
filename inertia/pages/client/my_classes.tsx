@@ -4,6 +4,7 @@ import type { MyClassesView } from '#services/my_classes'
 import { ClassCard } from '~/components/class_card'
 import { ClientLayout } from '~/components/client_layout'
 import { EmptyState } from '~/components/empty_state'
+import { PendingDock } from '~/components/pending_notice'
 import { WhatsappButton } from '~/components/whatsapp_button'
 import type { PageProps } from '~/types'
 
@@ -30,9 +31,11 @@ export default function MyClasses({ view }: { view: MyClassesView }) {
     )
   }
 
+  const dock = view.pending ? <PendingDock pending={view.pending} /> : undefined
+
   if (view.weeks.length === 0) {
     return (
-      <ClientLayout tab="classes" title="Mis clases">
+      <ClientLayout tab="classes" title="Mis clases" dock={dock} tallDock>
         <EmptyState icon={CalendarDays} title="No tenés clases estas dos semanas.">
           Cuando haya clases de tu horario fijo, aparecen acá.
         </EmptyState>
@@ -41,7 +44,7 @@ export default function MyClasses({ view }: { view: MyClassesView }) {
   }
 
   return (
-    <ClientLayout tab="classes" title="Mis clases">
+    <ClientLayout tab="classes" title="Mis clases" dock={dock} tallDock>
       {view.weeks.map((week, index) => (
         <section key={week.title} aria-labelledby={`semana-${index}`}>
           <h2
