@@ -121,9 +121,10 @@ test.group('Admin · Agenda › Semana', (group) => {
     await page.assertNotExists(yogaCard.getByText('Tomás Gil'))
 
     await yogaCard.click()
-    await page.waitForURL(`${baseUrl}/admin/horarios/${yoga.id}?desde=semana`)
+    await page.waitForURL(new RegExp(`/admin/horarios/${yoga.id}\\?desde=semana`))
     await page.assertTextContains('main', 'Editar horario')
     await page.getByRole('link', { name: 'Volver' }).click()
-    await page.waitForURL(`${baseUrl}/admin/agenda/semana`)
+    await page.waitForURL(`${baseUrl}/admin/agenda/semana?semana=${nextMonday}&centro=ovidio-lagos`)
+    await page.assertTextContains(pilatesCard, 'Tomás Gil')
   })
 })

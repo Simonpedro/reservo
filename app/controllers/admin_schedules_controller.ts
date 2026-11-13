@@ -15,10 +15,17 @@ function peopleText(count: number) {
 }
 
 /**
- * "Volver" goes back to the week when the form was opened from it.
+ * "Volver" goes back to the week when the form was opened from it, keeping
+ * the week and the center the admin was looking at.
  */
-function backHrefOf(from: unknown) {
-  return from === 'semana' ? '/admin/agenda/semana' : '/admin/agenda'
+function backHrefOf(request: HttpContext['request']) {
+  if (request.input('desde') !== 'semana') return '/admin/agenda'
+  const query = new URLSearchParams()
+  const week = request.input('semana')
+  const center = request.input('centro')
+  if (typeof week === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(week)) query.set('semana', week)
+  if (typeof center === 'string' && /^[a-z0-9-]{1,63}$/.test(center)) query.set('centro', center)
+  return query.size ? `/admin/agenda/semana?${query}` : '/admin/agenda/semana'
 }
 
 /**
@@ -30,7 +37,7 @@ export default class AdminSchedulesController {
     return inertia.render('admin/schedule_form', {
       editor: (await scheduleEditor(tenant!.id, null))!,
       weekday: Number.isInteger(weekday) && weekday >= 1 && weekday <= 7 ? weekday : null,
-      backHref: backHrefOf(request.input('desde')),
+      backHref: backHrefOf(request),
     })
   }
 
@@ -40,7 +47,7 @@ export default class AdminSchedulesController {
     return inertia.render('admin/schedule_form', {
       editor,
       weekday: null,
-      backHref: backHrefOf(request.input('desde')),
+      backHref: backHrefOf(request),
     })
   }
 

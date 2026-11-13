@@ -188,6 +188,25 @@ test.group('Admin · Agenda › Semana', (group) => {
     fromWeek.assertInertiaComponent('admin/schedule_form')
     assert.equal(fromWeek.inertiaProps.backHref, '/admin/agenda/semana')
 
+    const fromAWeek = await client
+      .get(`/admin/horarios/${w.pilates.id}`)
+      .qs({ desde: 'semana', semana: '2026-11-23', centro: 'ovidio-lagos' })
+      .header('host', hostOf(w.catalog))
+      .loginAs(w.admin)
+      .withInertia()
+    assert.equal(
+      fromAWeek.inertiaProps.backHref,
+      '/admin/agenda/semana?semana=2026-11-23&centro=ovidio-lagos'
+    )
+
+    const tampered = await client
+      .get(`/admin/horarios/${w.pilates.id}`)
+      .qs({ desde: 'semana', semana: '//evil.example', centro: '<b>' })
+      .header('host', hostOf(w.catalog))
+      .loginAs(w.admin)
+      .withInertia()
+    assert.equal(tampered.inertiaProps.backHref, '/admin/agenda/semana')
+
     const fromDay = await client
       .get(`/admin/horarios/${w.pilates.id}`)
       .header('host', hostOf(w.catalog))

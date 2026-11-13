@@ -18,10 +18,21 @@ const WASH = {
 /**
  * The week URL, keeping the center filter.
  */
-function weekHref(week: string, center: string | null) {
+function weekQuery(week: string, center: string | null) {
   const query = new URLSearchParams({ semana: week })
   if (center) query.set('centro', center)
-  return `/admin/agenda/semana?${query}`
+  return query.toString()
+}
+
+function weekHref(week: string, center: string | null) {
+  return `/admin/agenda/semana?${weekQuery(week, center)}`
+}
+
+/**
+ * Opens a schedule from the week; its "Volver" comes back to this week.
+ */
+function fromWeek(path: string, week: WeekView) {
+  return `${path}?desde=semana&${weekQuery(week.start, week.center?.slug ?? null)}`
 }
 
 /**
@@ -60,10 +71,10 @@ function Line({ icon: Icon, children }: { icon: LucideIcon; children: string }) 
 /**
  * One weekly class with the names of its people. Opens the class to edit it.
  */
-function WeekClassCard({ item }: { item: WeekClass }) {
+function WeekClassCard({ item, href }: { item: WeekClass; href: string }) {
   return (
     <Link
-      href={`/admin/horarios/${item.scheduleId}?desde=semana`}
+      href={href}
       viewTransition
       className={cn(
         'block rounded-[28px] px-4 pt-3.5 pb-3 text-navy no-underline transition-transform active:scale-[0.98]',
@@ -109,7 +120,7 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
       wide
       dock={
         <Button asChild>
-          <Link href="/admin/horarios/nuevo?desde=semana">
+          <Link href={fromWeek('/admin/horarios/nuevo', week)}>
             <Plus strokeWidth={2.6} aria-hidden="true" />
             Nuevo horario
           </Link>
@@ -206,7 +217,11 @@ export default function AdminAgendaWeek({ week }: { week: WeekView }) {
                 {day.classes.length > 0 && (
                   <div className="grid gap-2.5">
                     {day.classes.map((item) => (
-                      <WeekClassCard key={item.scheduleId} item={item} />
+                      <WeekClassCard
+                        key={item.scheduleId}
+                        item={item}
+                        href={fromWeek(`/admin/horarios/${item.scheduleId}`, week)}
+                      />
                     ))}
                   </div>
                 )}
