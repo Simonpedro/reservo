@@ -22,6 +22,11 @@ export default defineConfig({
   },
 
   server: {
+    /**
+     * Tenant hosts reach the Vite dev middleware too (dev and tests).
+     * localhost subdomains are allowed by default.
+     */
+    allowedHosts: ['.reservo.fit', '.fly.dev'],
     watch: {
       ignored: ['**/storage/**', '**/tmp/**'],
     },

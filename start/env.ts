@@ -30,4 +30,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_SSL: Env.schema.boolean.optional(),
   APP_BASE_DOMAIN: Env.schema.string.optional(),
   DEFAULT_TENANT_SLUG: Env.schema.string.optional(),
+  FALLBACK_TENANT_SLUG: Env.schema.string.optional(),
 })

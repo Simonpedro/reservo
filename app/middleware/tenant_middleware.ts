@@ -10,7 +10,6 @@ function tenantSlugFromHost(host: string): string | null | undefined {
   if (host === baseDomain || host === `www.${baseDomain}`) return null
   if (host.endsWith('.localhost')) return host.slice(0, -'.localhost'.length)
   if (host.endsWith(`.${baseDomain}`)) return host.slice(0, -(baseDomain.length + 1))
-  if (host === 'localhost' || host === '127.0.0.1') return undefined
   return undefined
 }
 
@@ -24,8 +23,16 @@ export default class TenantMiddleware {
       return next()
     }
 
-    if (!app.inProduction && !slug) {
-      slug = ctx.request.header('x-tenant') ?? env.get('DEFAULT_TENANT_SLUG')
+    if (!slug && !app.inProduction) {
+      slug = ctx.request.header('x-tenant') || env.get('DEFAULT_TENANT_SLUG')
+    }
+
+    /**
+     * Hosts outside the tenant domains (e.g. reservo.fly.dev while there is
+     * no DNS) resolve to the fallback tenant, also in production.
+     */
+    if (!slug) {
+      slug = env.get('FALLBACK_TENANT_SLUG')
     }
 
     if (!slug || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(slug)) {
