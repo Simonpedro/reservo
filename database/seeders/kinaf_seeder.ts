@@ -1,8 +1,14 @@
+import Activity from '#models/activity'
+import Center from '#models/center'
 import Tenant from '#models/tenant'
 import User from '#models/user'
 import app from '@adonisjs/core/services/app'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
+/**
+ * Production-safe Kinaf data: the tenant, its centers and its activities.
+ * The development admin is only created outside production.
+ */
 export default class extends BaseSeeder {
   async run() {
     const tenant = await Tenant.updateOrCreate(
@@ -18,6 +24,24 @@ export default class extends BaseSeeder {
         },
       }
     )
+
+    for (const center of [
+      { slug: 'mendoza', name: 'Mendoza' },
+      { slug: 'ovidio-lagos', name: 'Ovidio Lagos' },
+    ]) {
+      await Center.updateOrCreate({ tenantId: tenant.id, slug: center.slug }, center)
+    }
+
+    for (const activity of [
+      { slug: 'gimnasio', name: 'Gimnasio', wash: 'blue' as const },
+      { slug: 'pilates', name: 'Pilates', wash: 'celeste' as const },
+      { slug: 'yoga', name: 'Yoga', wash: 'green' as const },
+    ]) {
+      await Activity.updateOrCreate(
+        { tenantId: tenant.id, slug: activity.slug },
+        { ...activity, image: `/images/activities/${activity.slug}.webp` }
+      )
+    }
 
     if (!app.inProduction) {
       await User.updateOrCreate(
