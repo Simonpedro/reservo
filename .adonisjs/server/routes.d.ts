@@ -10,7 +10,6 @@ export type ScannedRoutes = {
     'login': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
-    'dashboard': { paramsTuple?: []; params?: {} }
     'logout': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
@@ -32,6 +31,7 @@ export type ScannedRoutes = {
     'admin.payments.store': { paramsTuple?: []; params?: {} }
     'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.payments.undoApprove': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.settings': { paramsTuple?: []; params?: {} }
     'admin.plans.index': { paramsTuple?: []; params?: {} }
@@ -41,6 +41,20 @@ export type ScannedRoutes = {
     'admin.plans.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.index': { paramsTuple?: []; params?: {} }
+    'admin.activities.create': { paramsTuple?: []; params?: {} }
+    'admin.activities.store': { paramsTuple?: []; params?: {} }
+    'admin.activities.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.index': { paramsTuple?: []; params?: {} }
+    'admin.centers.create': { paramsTuple?: []; params?: {} }
+    'admin.centers.store': { paramsTuple?: []; params?: {} }
+    'admin.centers.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
@@ -67,7 +81,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'login': { paramsTuple?: []; params?: {} }
     'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
-    'dashboard': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
@@ -82,6 +95,12 @@ export type ScannedRoutes = {
     'admin.plans.index': { paramsTuple?: []; params?: {} }
     'admin.plans.create': { paramsTuple?: []; params?: {} }
     'admin.plans.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.index': { paramsTuple?: []; params?: {} }
+    'admin.activities.create': { paramsTuple?: []; params?: {} }
+    'admin.activities.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.index': { paramsTuple?: []; params?: {} }
+    'admin.centers.create': { paramsTuple?: []; params?: {} }
+    'admin.centers.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -101,7 +120,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'login': { paramsTuple?: []; params?: {} }
     'access.show': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
-    'dashboard': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
     'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
@@ -116,6 +134,12 @@ export type ScannedRoutes = {
     'admin.plans.index': { paramsTuple?: []; params?: {} }
     'admin.plans.create': { paramsTuple?: []; params?: {} }
     'admin.plans.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.index': { paramsTuple?: []; params?: {} }
+    'admin.activities.create': { paramsTuple?: []; params?: {} }
+    'admin.activities.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.index': { paramsTuple?: []; params?: {} }
+    'admin.centers.create': { paramsTuple?: []; params?: {} }
+    'admin.centers.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -143,10 +167,17 @@ export type ScannedRoutes = {
     'admin.schedules.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.store': { paramsTuple?: []; params?: {} }
     'admin.payments.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.payments.undoApprove': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.store': { paramsTuple?: []; params?: {} }
     'admin.plans.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.store': { paramsTuple?: []; params?: {} }
+    'admin.activities.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.store': { paramsTuple?: []; params?: {} }
+    'admin.centers.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
     'admin.clients.issueAccessLink': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.assign.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -158,6 +189,8 @@ export type ScannedRoutes = {
   PUT: {
     'admin.schedules.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.activities.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.centers.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

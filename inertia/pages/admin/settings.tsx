@@ -1,6 +1,6 @@
 import { Link } from '@adonisjs/inertia/react'
 import { usePage } from '@inertiajs/react'
-import { Landmark, Layers, MessageCircle } from 'lucide-react'
+import { Landmark, Layers, MapPin, MessageCircle, Shapes } from 'lucide-react'
 import { AdminInnerLayout } from '~/components/admin_layout'
 import { firstName } from '~/components/client_layout'
 import { InfoLine } from '~/components/info_line'
@@ -8,12 +8,20 @@ import { LinkRow } from '~/components/link_row'
 import { Button } from '~/components/ui/button'
 import type { PageProps } from '~/types'
 
+function count(total: number, one: string, many: string) {
+  return total === 1 ? `1 ${one}` : `${total} ${many}`
+}
+
 export default function AdminSettings({
   activePlans,
+  activeActivities,
+  activeCenters,
   whatsappPhone,
   transferAliases,
 }: {
   activePlans: number
+  activeActivities: number
+  activeCenters: number
   whatsappPhone: string | null
   transferAliases: string[]
 }) {
@@ -31,7 +39,19 @@ export default function AdminSettings({
           href="/admin/ajustes/planes"
           bubble={<Layers strokeWidth={2.2} />}
           title="Planes"
-          hint={activePlans === 1 ? '1 plan' : `${activePlans} planes`}
+          hint={count(activePlans, 'plan', 'planes')}
+        />
+        <LinkRow
+          href="/admin/ajustes/actividades"
+          bubble={<Shapes strokeWidth={2.2} />}
+          title="Actividades"
+          hint={count(activeActivities, 'actividad', 'actividades')}
+        />
+        <LinkRow
+          href="/admin/ajustes/sedes"
+          bubble={<MapPin strokeWidth={2.2} />}
+          title="Sedes"
+          hint={count(activeCenters, 'sede', 'sedes')}
         />
       </nav>
 

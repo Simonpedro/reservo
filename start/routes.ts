@@ -21,6 +21,8 @@ const InternalDailyController = () => import('#controllers/internal_daily_contro
 const AdminClientsController = () => import('#controllers/admin_clients_controller')
 const AdminSettingsController = () => import('#controllers/admin_settings_controller')
 const AdminPlansController = () => import('#controllers/admin_plans_controller')
+const AdminActivitiesController = () => import('#controllers/admin_activities_controller')
+const AdminCentersController = () => import('#controllers/admin_centers_controller')
 const AdminPaymentsController = () => import('#controllers/admin_payments_controller')
 const AdminClassesController = () => import('#controllers/admin_classes_controller')
 const AdminAgendaController = () => import('#controllers/admin_agenda_controller')
@@ -156,6 +158,62 @@ router
               .post('/admin/ajustes/planes/:id/activar', [AdminPlansController, 'activate'])
               .where('id', router.matchers.number())
               .as('admin.plans.activate')
+            router
+              .get('/admin/ajustes/actividades', [AdminActivitiesController, 'index'])
+              .as('admin.activities.index')
+            router
+              .get('/admin/ajustes/actividades/nuevo', [AdminActivitiesController, 'create'])
+              .as('admin.activities.create')
+            router
+              .post('/admin/ajustes/actividades', [AdminActivitiesController, 'store'])
+              .as('admin.activities.store')
+            router
+              .get('/admin/ajustes/actividades/:id', [AdminActivitiesController, 'edit'])
+              .where('id', router.matchers.number())
+              .as('admin.activities.edit')
+            router
+              .put('/admin/ajustes/actividades/:id', [AdminActivitiesController, 'update'])
+              .where('id', router.matchers.number())
+              .as('admin.activities.update')
+            router
+              .post('/admin/ajustes/actividades/:id/desactivar', [
+                AdminActivitiesController,
+                'deactivate',
+              ])
+              .where('id', router.matchers.number())
+              .as('admin.activities.deactivate')
+            router
+              .post('/admin/ajustes/actividades/:id/activar', [
+                AdminActivitiesController,
+                'activate',
+              ])
+              .where('id', router.matchers.number())
+              .as('admin.activities.activate')
+            router
+              .get('/admin/ajustes/sedes', [AdminCentersController, 'index'])
+              .as('admin.centers.index')
+            router
+              .get('/admin/ajustes/sedes/nuevo', [AdminCentersController, 'create'])
+              .as('admin.centers.create')
+            router
+              .post('/admin/ajustes/sedes', [AdminCentersController, 'store'])
+              .as('admin.centers.store')
+            router
+              .get('/admin/ajustes/sedes/:id', [AdminCentersController, 'edit'])
+              .where('id', router.matchers.number())
+              .as('admin.centers.edit')
+            router
+              .put('/admin/ajustes/sedes/:id', [AdminCentersController, 'update'])
+              .where('id', router.matchers.number())
+              .as('admin.centers.update')
+            router
+              .post('/admin/ajustes/sedes/:id/desactivar', [AdminCentersController, 'deactivate'])
+              .where('id', router.matchers.number())
+              .as('admin.centers.deactivate')
+            router
+              .post('/admin/ajustes/sedes/:id/activar', [AdminCentersController, 'activate'])
+              .where('id', router.matchers.number())
+              .as('admin.centers.activate')
 
             router
               .get('/admin/clientes', [AdminClientsController, 'index'])

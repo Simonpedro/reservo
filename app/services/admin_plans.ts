@@ -152,14 +152,22 @@ export async function studentsWithFixedSlots(
   return Number(rows[0].$extras.total)
 }
 
-export async function settingsOverview(tenantId: number) {
-  const tenant = await Tenant.findOrFail(tenantId)
-  const plans = await Plan.query()
-    .where('tenantId', tenantId)
+async function countActive(table: 'plans' | 'activities' | 'centers', tenantId: number) {
+  const row = await db
+    .from(table)
+    .where('tenant_id', tenantId)
     .where('active', true)
     .count('* as total')
+    .first()
+  return Number(row.total)
+}
+
+export async function settingsOverview(tenantId: number) {
+  const tenant = await Tenant.findOrFail(tenantId)
   return {
-    activePlans: Number(plans[0].$extras.total),
+    activePlans: await countActive('plans', tenantId),
+    activeActivities: await countActive('activities', tenantId),
+    activeCenters: await countActive('centers', tenantId),
     whatsappPhone: tenant.whatsappPhone,
     transferAliases: tenant.transferAliases,
   }
@@ -181,10 +189,19 @@ export async function listPlans(tenantId: number) {
 }
 
 /**
- * The tenant activities a quota can name.
+ * The tenant activities a quota can name: the active ones, plus the ones the
+ * plan already names (an inactive activity stays in the plans that have it).
  */
-async function tenantActivities(tenantId: number, client?: TransactionClientContract) {
-  return Activity.query({ client }).where('tenantId', tenantId).orderBy('id')
+async function offeredActivities(
+  tenantId: number,
+  plan: Plan | null,
+  client?: TransactionClientContract
+) {
+  const current = plan?.quotas.flatMap((quota) => quota.activities.map(({ id }) => id)) ?? []
+  return Activity.query({ client })
+    .where('tenantId', tenantId)
+    .where((offered) => offered.where('active', true).orWhereIn('id', current))
+    .orderBy('id')
 }
 
 /**
@@ -192,16 +209,12 @@ async function tenantActivities(tenantId: number, client?: TransactionClientCont
  * the plan is not in the tenant.
  */
 export async function planEditor(tenantId: number, planId: number | null, now = businessNow()) {
-  const tenantRows = await tenantActivities(tenantId)
-  const activities = tenantRows.map((activity) => ({
-    id: activity.id,
-    name: activity.name,
-  }))
+  const plan = planId === null ? null : await plansQuery(tenantId).where('id', planId).first()
+  if (planId !== null && !plan) return null
 
-  if (planId === null) return { plan: null, lockedStudents: 0, activities }
-
-  const plan = await plansQuery(tenantId).where('id', planId).first()
-  if (!plan) return null
+  const offered = await offeredActivities(tenantId, plan)
+  const activities = offered.map((activity) => ({ id: activity.id, name: activity.name }))
+  if (!plan) return { plan: null, lockedStudents: 0, activities }
 
   return {
     plan: {
@@ -235,8 +248,8 @@ export async function savePlan(
       if (!plan) return null
     }
 
-    const tenantRows = await tenantActivities(tenantId, trx)
-    const activityIds = tenantRows.map((activity) => activity.id)
+    const offered = await offeredActivities(tenantId, plan, trx)
+    const activityIds = offered.map((activity) => activity.id)
     const problem = quotasProblem(input.quotas, activityIds)
     if (problem) throw problem
 

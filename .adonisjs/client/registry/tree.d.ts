@@ -14,7 +14,6 @@ export interface ApiDefinition {
   access: {
     show: typeof routes['access.show']
   }
-  dashboard: typeof routes['dashboard']
   logout: typeof routes['logout']
   admin: {
     home: typeof routes['admin.home']
@@ -42,6 +41,7 @@ export interface ApiDefinition {
       store: typeof routes['admin.payments.store']
       show: typeof routes['admin.payments.show']
       approve: typeof routes['admin.payments.approve']
+      undoApprove: typeof routes['admin.payments.undoApprove']
       reject: typeof routes['admin.payments.reject']
     }
     settings: typeof routes['admin.settings']
@@ -53,6 +53,24 @@ export interface ApiDefinition {
       update: typeof routes['admin.plans.update']
       deactivate: typeof routes['admin.plans.deactivate']
       activate: typeof routes['admin.plans.activate']
+    }
+    activities: {
+      index: typeof routes['admin.activities.index']
+      create: typeof routes['admin.activities.create']
+      store: typeof routes['admin.activities.store']
+      edit: typeof routes['admin.activities.edit']
+      update: typeof routes['admin.activities.update']
+      deactivate: typeof routes['admin.activities.deactivate']
+      activate: typeof routes['admin.activities.activate']
+    }
+    centers: {
+      index: typeof routes['admin.centers.index']
+      create: typeof routes['admin.centers.create']
+      store: typeof routes['admin.centers.store']
+      edit: typeof routes['admin.centers.edit']
+      update: typeof routes['admin.centers.update']
+      deactivate: typeof routes['admin.centers.deactivate']
+      activate: typeof routes['admin.centers.activate']
     }
     clients: {
       index: typeof routes['admin.clients.index']

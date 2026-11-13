@@ -23,7 +23,7 @@ export type ScheduleInput = {
  * - `capacity`: the new capacity leaves people with this fixed schedule out.
  * - `locked`: day, center or activity change while people still use it.
  * - `has_fixed`: deactivating a class someone still has as fixed schedule.
- * - `unknown`: the activity or center is not of this tenant.
+ * - `unknown`: the activity or center is not of this tenant, or is inactive.
  */
 export type ScheduleFailure = 'capacity' | 'locked' | 'has_fixed' | 'unknown'
 
@@ -117,8 +117,14 @@ export async function scheduleEditor(
     if (!schedule) return null
   }
 
-  const activities = await Activity.query().where('tenantId', tenantId).orderBy('name')
-  const centers = await Center.query().where('tenantId', tenantId).orderBy('name')
+  const activities = await Activity.query()
+    .where('tenantId', tenantId)
+    .where((offered) => offered.where('active', true).orWhere('id', schedule?.activityId ?? 0))
+    .orderBy('name')
+  const centers = await Center.query()
+    .where('tenantId', tenantId)
+    .where((offered) => offered.where('active', true).orWhere('id', schedule?.centerId ?? 0))
+    .orderBy('name')
   const instructorRows = (await db
     .from('class_schedules')
     .where('tenant_id', tenantId)
@@ -168,6 +174,17 @@ export async function saveSchedule(
   const today = businessDate(now)
 
   return db.transaction(async (trx) => {
+    let schedule: ClassSchedule | null = null
+    if (scheduleId !== null) {
+      schedule = await ClassSchedule.query({ client: trx })
+        .where('tenantId', tenantId)
+        .where('id', scheduleId)
+        .forUpdate()
+        .first()
+      if (!schedule) return null
+    }
+
+    // Inactive ones are only allowed where the schedule already has them.
     const activity = await Activity.query({ client: trx })
       .where('tenantId', tenantId)
       .where('id', input.activityId)
@@ -176,18 +193,18 @@ export async function saveSchedule(
       .where('tenantId', tenantId)
       .where('id', input.centerId)
       .first()
-    if (!activity || !center) throw new ScheduleError('unknown')
-
-    if (scheduleId === null) {
-      return ClassSchedule.create({ ...input, tenantId, active: true }, { client: trx })
+    if (
+      !activity ||
+      !center ||
+      (!activity.active && activity.id !== schedule?.activityId) ||
+      (!center.active && center.id !== schedule?.centerId)
+    ) {
+      throw new ScheduleError('unknown')
     }
 
-    const schedule = await ClassSchedule.query({ client: trx })
-      .where('tenantId', tenantId)
-      .where('id', scheduleId)
-      .forUpdate()
-      .first()
-    if (!schedule) return null
+    if (!schedule) {
+      return ClassSchedule.create({ ...input, tenantId, active: true }, { client: trx })
+    }
 
     const fixed = await currentFixedSlots(tenantId, schedule.id, today, trx)
     if (input.capacity < fixed.length) {
