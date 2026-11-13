@@ -1,10 +1,4 @@
-import { Link } from '@adonisjs/inertia/react'
-import { usePage } from '@inertiajs/react'
-import { CircleAlert, CircleCheck } from 'lucide-react'
-import { Notice } from '~/components/notice'
-import { Button } from '~/components/ui/button'
-
-export const fieldClass =
+const fieldClass =
   'min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive'
 
 /**
@@ -41,58 +35,6 @@ export function NameField({
           {error}
         </p>
       )}
-    </div>
-  )
-}
-
-/**
- * The flash of the last action, at the top of the form.
- */
-export function FormFlash() {
-  const flash = usePage().flash
-  return (
-    <>
-      {flash?.success && <Notice icon={CircleCheck} title={flash.success} className="mt-4" />}
-      {flash?.error && <Notice icon={CircleAlert} title={flash.error} className="mt-4" />}
-    </>
-  )
-}
-
-/**
- * Activar / Desactivar under the form. While something uses it, it says what
- * instead of offering to deactivate.
- */
-export function ActiveAction({
-  href,
-  active,
-  inUse,
-  noun,
-}: {
-  /**
-   * The record's page: `${href}/activar` or `${href}/desactivar`.
-   */
-  href: string
-  active: boolean
-  inUse: string | null
-  /**
-   * "actividad", "sede".
-   */
-  noun: string
-}) {
-  if (active && inUse) {
-    return (
-      <p className="mt-6 text-center text-sm leading-tight font-bold text-muted-foreground">
-        {inUse}
-      </p>
-    )
-  }
-  return (
-    <div className="mt-6 flex justify-center">
-      <Button asChild variant="link">
-        <Link href={`${href}/${active ? 'desactivar' : 'activar'}`} method="post" as="button">
-          {active ? `Desactivar ${noun}` : `Activar ${noun}`}
-        </Link>
-      </Button>
     </div>
   )
 }

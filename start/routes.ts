@@ -179,20 +179,6 @@ router
               .where('id', router.matchers.number())
               .as('admin.activities.update')
             router
-              .post('/admin/ajustes/actividades/:id/desactivar', [
-                AdminActivitiesController,
-                'deactivate',
-              ])
-              .where('id', router.matchers.number())
-              .as('admin.activities.deactivate')
-            router
-              .post('/admin/ajustes/actividades/:id/activar', [
-                AdminActivitiesController,
-                'activate',
-              ])
-              .where('id', router.matchers.number())
-              .as('admin.activities.activate')
-            router
               .get('/admin/ajustes/sedes', [AdminCentersController, 'index'])
               .as('admin.centers.index')
             router
@@ -209,14 +195,6 @@ router
               .put('/admin/ajustes/sedes/:id', [AdminCentersController, 'update'])
               .where('id', router.matchers.number())
               .as('admin.centers.update')
-            router
-              .post('/admin/ajustes/sedes/:id/desactivar', [AdminCentersController, 'deactivate'])
-              .where('id', router.matchers.number())
-              .as('admin.centers.deactivate')
-            router
-              .post('/admin/ajustes/sedes/:id/activar', [AdminCentersController, 'activate'])
-              .where('id', router.matchers.number())
-              .as('admin.centers.activate')
 
             router
               .get('/admin/clientes', [AdminClientsController, 'index'])

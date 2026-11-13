@@ -1,15 +1,9 @@
-import {
-  activityEditor,
-  CatalogError,
-  listActivities,
-  saveActivity,
-  setActivityActive,
-} from '#services/admin_catalog'
+import { activityEditor, CatalogError, listActivities, saveActivity } from '#services/admin_catalog'
 import { activityValidator } from '#validators/catalog'
 import type { HttpContext } from '@adonisjs/core/http'
 
 /**
- * Ajustes › Actividades: list, create, rename and turn on or off.
+ * Ajustes › Actividades: list, create and rename.
  */
 export default class AdminActivitiesController {
   async index({ inertia, tenant }: HttpContext) {
@@ -34,36 +28,6 @@ export default class AdminActivitiesController {
 
   async update(ctx: HttpContext) {
     return this.save(ctx, Number(ctx.params.id))
-  }
-
-  async deactivate(ctx: HttpContext) {
-    return this.setActive(ctx, false)
-  }
-
-  async activate(ctx: HttpContext) {
-    return this.setActive(ctx, true)
-  }
-
-  private async setActive(
-    { inertia, params, response, session, tenant }: HttpContext,
-    active: boolean
-  ) {
-    const id = Number(params.id)
-    try {
-      if (!(await setActivityActive(tenant!.id, id, active))) {
-        return this.notFound(inertia, response)
-      }
-    } catch (error) {
-      if (!(error instanceof CatalogError)) throw error
-      session.flash('error', error.message)
-      return response.redirect(`/admin/ajustes/actividades/${id}`)
-    }
-    if (active) {
-      session.flash('success', 'Activamos la actividad.')
-      return response.redirect(`/admin/ajustes/actividades/${id}`)
-    }
-    session.flash('success', 'Desactivamos la actividad. Ya no se ofrece en horarios ni planes.')
-    return response.redirect('/admin/ajustes/actividades')
   }
 
   private async save(

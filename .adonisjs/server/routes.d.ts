@@ -47,15 +47,11 @@ export type ScannedRoutes = {
     'admin.activities.store': { paramsTuple?: []; params?: {} }
     'admin.activities.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.activities.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.activities.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.activities.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.centers.index': { paramsTuple?: []; params?: {} }
     'admin.centers.create': { paramsTuple?: []; params?: {} }
     'admin.centers.store': { paramsTuple?: []; params?: {} }
     'admin.centers.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.centers.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.centers.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.centers.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.index': { paramsTuple?: []; params?: {} }
     'admin.clients.create': { paramsTuple?: []; params?: {} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
@@ -176,11 +172,7 @@ export type ScannedRoutes = {
     'admin.plans.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.activities.store': { paramsTuple?: []; params?: {} }
-    'admin.activities.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.activities.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.centers.store': { paramsTuple?: []; params?: {} }
-    'admin.centers.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.centers.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.store': { paramsTuple?: []; params?: {} }
     'admin.clients.issueAccessLink': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.clients.assign.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

@@ -1,32 +1,21 @@
 import Activity, { type ActivityWash } from '#models/activity'
 import Center from '#models/center'
-import {
-  activeSchedulesBy,
-  activityUsage,
-  centerUsage,
-  usageMessage,
-} from '#services/catalog_usage'
 import db from '@adonisjs/lucid/services/db'
 
 /**
- * Ajustes › Actividades and Ajustes › Sedes: what the admin can name, color
- * and turn on or off. A rename keeps the record (and its slug), so
- * schedules, plans and bookings keep pointing at it.
+ * Ajustes › Actividades and Ajustes › Sedes: what the admin can name and
+ * color. A rename keeps the record (and its slug), so schedules, plans and
+ * bookings keep pointing at it.
  */
 
 export type ActivityInput = { name: string; wash: ActivityWash }
 export type CenterInput = { name: string }
 
 /**
- * A problem with the submitted name, or why it can't be deactivated.
+ * A problem with the submitted name.
  */
 export class CatalogError extends Error {
-  constructor(
-    readonly field: 'name' | 'active',
-    message: string
-  ) {
-    super(message)
-  }
+  readonly field = 'name'
 }
 
 /**
@@ -68,9 +57,9 @@ export function checkName(
   duplicate: string
 ): string {
   const base = slugify(name)
-  if (!base) throw new CatalogError('name', 'Usá letras o números en el nombre.')
+  if (!base) throw new CatalogError('Usá letras o números en el nombre.')
   if (rows.some((row) => row.id !== exceptId && slugify(row.name) === base)) {
-    throw new CatalogError('name', duplicate)
+    throw new CatalogError(duplicate)
   }
   return uniqueSlug(
     base,
@@ -83,6 +72,20 @@ function schedulesText(count: number) {
   return count === 1 ? '1 horario activo' : `${count} horarios activos`
 }
 
+/**
+ * Active weekly classes per activity or center id, for the lists.
+ */
+async function activeSchedulesBy(tenantId: number, column: 'activity_id' | 'center_id') {
+  const rows = (await db
+    .from('class_schedules')
+    .where('tenant_id', tenantId)
+    .where('active', true)
+    .groupBy(column)
+    .select(column)
+    .count('* as total')) as Array<Record<string, number | string>>
+  return new Map(rows.map((row) => [Number(row[column]), Number(row.total)]))
+}
+
 const WASH_LABELS: Record<ActivityWash, string> = {
   celeste: 'Celeste',
   green: 'Verde',
@@ -90,72 +93,48 @@ const WASH_LABELS: Record<ActivityWash, string> = {
 }
 
 export async function listActivities(tenantId: number) {
-  const activities = await Activity.query()
-    .where('tenantId', tenantId)
-    .orderBy('active', 'desc')
-    .orderBy('name')
+  const activities = await Activity.query().where('tenantId', tenantId).orderBy('name')
   const schedules = await activeSchedulesBy(tenantId, 'activity_id')
   return activities.map((activity) => ({
     id: activity.id,
     name: activity.name,
     wash: activity.wash,
-    active: activity.active,
     hint: [
       `Tarjeta ${WASH_LABELS[activity.wash].toLowerCase()}`,
       schedulesText(schedules.get(activity.id) ?? 0),
-      ...(activity.active ? [] : ['Desactivada']),
     ].join(' · '),
   }))
 }
 
 export async function listCenters(tenantId: number) {
-  const centers = await Center.query()
-    .where('tenantId', tenantId)
-    .orderBy('active', 'desc')
-    .orderBy('name')
+  const centers = await Center.query().where('tenantId', tenantId).orderBy('name')
   const schedules = await activeSchedulesBy(tenantId, 'center_id')
   return centers.map((center) => ({
     id: center.id,
     name: center.name,
-    active: center.active,
-    hint: [
-      schedulesText(schedules.get(center.id) ?? 0),
-      ...(center.active ? [] : ['Desactivada']),
-    ].join(' · '),
+    hint: schedulesText(schedules.get(center.id) ?? 0),
   }))
 }
 
 /**
- * What the activity form needs: the activity (null for a new one) and, if
- * something uses it, why it can't be deactivated. Null when it is not in
- * the tenant.
+ * What the activity form needs: the activity, or null for a new one. Null
+ * (no editor) when it is not in the tenant.
  */
 export async function activityEditor(tenantId: number, activityId: number | null) {
-  if (activityId === null) return { activity: null, inUse: null }
+  if (activityId === null) return { activity: null }
   const activity = await Activity.query()
     .where('tenantId', tenantId)
     .where('id', activityId)
     .first()
   if (!activity) return null
-  return {
-    activity: {
-      id: activity.id,
-      name: activity.name,
-      wash: activity.wash,
-      active: activity.active,
-    },
-    inUse: usageMessage(await activityUsage(tenantId, activity.id)),
-  }
+  return { activity: { id: activity.id, name: activity.name, wash: activity.wash } }
 }
 
 export async function centerEditor(tenantId: number, centerId: number | null) {
-  if (centerId === null) return { center: null, inUse: null }
+  if (centerId === null) return { center: null }
   const center = await Center.query().where('tenantId', tenantId).where('id', centerId).first()
   if (!center) return null
-  return {
-    center: { id: center.id, name: center.name, active: center.active },
-    inUse: usageMessage(await centerUsage(tenantId, center.id)),
-  }
+  return { center: { id: center.id, name: center.name } }
 }
 
 /**
@@ -199,46 +178,5 @@ export async function saveCenter(
       return center.merge({ name: input.name }).save()
     }
     return Center.create({ tenantId, name: input.name, slug, active: true }, { client: trx })
-  })
-}
-
-/**
- * Turns an activity on or off. It can't be turned off while active classes
- * or active plans use it (throws a CatalogError saying what uses it).
- * Returns false when it is not in the tenant.
- */
-export async function setActivityActive(tenantId: number, activityId: number, active: boolean) {
-  return db.transaction(async (trx) => {
-    const activity = await Activity.query({ client: trx })
-      .where('tenantId', tenantId)
-      .where('id', activityId)
-      .forUpdate()
-      .first()
-    if (!activity) return false
-    if (!active) {
-      const problem = usageMessage(await activityUsage(tenantId, activity.id, trx))
-      if (problem) throw new CatalogError('active', problem)
-    }
-    activity.useTransaction(trx)
-    await activity.merge({ active }).save()
-    return true
-  })
-}
-
-export async function setCenterActive(tenantId: number, centerId: number, active: boolean) {
-  return db.transaction(async (trx) => {
-    const center = await Center.query({ client: trx })
-      .where('tenantId', tenantId)
-      .where('id', centerId)
-      .forUpdate()
-      .first()
-    if (!center) return false
-    if (!active) {
-      const problem = usageMessage(await centerUsage(tenantId, center.id, trx))
-      if (problem) throw new CatalogError('active', problem)
-    }
-    center.useTransaction(trx)
-    await center.merge({ active }).save()
-    return true
   })
 }

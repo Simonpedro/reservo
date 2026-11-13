@@ -266,18 +266,6 @@ const routes = {
     tokens: [[0,"admin"],[0,"ajustes"],[0,"actividades"],[1,"id"]],
     types: placeholder as Registry['admin.activities.update']['types'],
   },
-  'admin.activities.deactivate': {
-    methods: ["POST"],
-    pattern: '/admin/ajustes/actividades/:id/desactivar',
-    tokens: [[0,"admin"],[0,"ajustes"],[0,"actividades"],[1,"id"],[0,"desactivar"]],
-    types: placeholder as Registry['admin.activities.deactivate']['types'],
-  },
-  'admin.activities.activate': {
-    methods: ["POST"],
-    pattern: '/admin/ajustes/actividades/:id/activar',
-    tokens: [[0,"admin"],[0,"ajustes"],[0,"actividades"],[1,"id"],[0,"activar"]],
-    types: placeholder as Registry['admin.activities.activate']['types'],
-  },
   'admin.centers.index': {
     methods: ["GET","HEAD"],
     pattern: '/admin/ajustes/sedes',
@@ -307,18 +295,6 @@ const routes = {
     pattern: '/admin/ajustes/sedes/:id',
     tokens: [[0,"admin"],[0,"ajustes"],[0,"sedes"],[1,"id"]],
     types: placeholder as Registry['admin.centers.update']['types'],
-  },
-  'admin.centers.deactivate': {
-    methods: ["POST"],
-    pattern: '/admin/ajustes/sedes/:id/desactivar',
-    tokens: [[0,"admin"],[0,"ajustes"],[0,"sedes"],[1,"id"],[0,"desactivar"]],
-    types: placeholder as Registry['admin.centers.deactivate']['types'],
-  },
-  'admin.centers.activate': {
-    methods: ["POST"],
-    pattern: '/admin/ajustes/sedes/:id/activar',
-    tokens: [[0,"admin"],[0,"ajustes"],[0,"sedes"],[1,"id"],[0,"activar"]],
-    types: placeholder as Registry['admin.centers.activate']['types'],
   },
   'admin.clients.index': {
     methods: ["GET","HEAD"],

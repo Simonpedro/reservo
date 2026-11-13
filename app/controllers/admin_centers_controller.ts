@@ -1,15 +1,9 @@
-import {
-  centerEditor,
-  CatalogError,
-  listCenters,
-  saveCenter,
-  setCenterActive,
-} from '#services/admin_catalog'
+import { centerEditor, CatalogError, listCenters, saveCenter } from '#services/admin_catalog'
 import { centerValidator } from '#validators/catalog'
 import type { HttpContext } from '@adonisjs/core/http'
 
 /**
- * Ajustes › Sedes: list, create, rename and turn on or off.
+ * Ajustes › Sedes: list, create and rename.
  */
 export default class AdminCentersController {
   async index({ inertia, tenant }: HttpContext) {
@@ -34,36 +28,6 @@ export default class AdminCentersController {
 
   async update(ctx: HttpContext) {
     return this.save(ctx, Number(ctx.params.id))
-  }
-
-  async deactivate(ctx: HttpContext) {
-    return this.setActive(ctx, false)
-  }
-
-  async activate(ctx: HttpContext) {
-    return this.setActive(ctx, true)
-  }
-
-  private async setActive(
-    { inertia, params, response, session, tenant }: HttpContext,
-    active: boolean
-  ) {
-    const id = Number(params.id)
-    try {
-      if (!(await setCenterActive(tenant!.id, id, active))) {
-        return this.notFound(inertia, response)
-      }
-    } catch (error) {
-      if (!(error instanceof CatalogError)) throw error
-      session.flash('error', error.message)
-      return response.redirect(`/admin/ajustes/sedes/${id}`)
-    }
-    if (active) {
-      session.flash('success', 'Activamos la sede.')
-      return response.redirect(`/admin/ajustes/sedes/${id}`)
-    }
-    session.flash('success', 'Desactivamos la sede. Ya no se ofrece en horarios nuevos.')
-    return response.redirect('/admin/ajustes/sedes')
   }
 
   private async save(

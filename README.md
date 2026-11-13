@@ -92,7 +92,7 @@ Sin `DAILY_RUN_TOKEN` configurado, el endpoint responde 404.
 
 ## Ajustes y agenda del admin
 
-- **Ajustes** (desde el avatar): Planes, Actividades y Sedes. Las actividades tienen nombre y color de tarjeta (celeste, verde o azul); las sedes, nombre. El slug sale del nombre y no cambia al renombrar; un nombre repetido (sin importar mayúsculas ni tildes) se rechaza. Desactivar no borra: deja de ofrecerse en horarios y planes nuevos, y se bloquea mientras la usen horarios activos (o, para actividades, planes activos) (`app/services/catalog_usage.ts`).
+- **Ajustes** (desde el avatar): Planes, Actividades y Sedes. Las actividades tienen nombre y color de tarjeta (celeste, verde o azul); las sedes, nombre. El slug sale del nombre y no cambia al renombrar; un nombre repetido (sin importar mayúsculas ni tildes) se rechaza. No se desactivan ni se borran (`app/services/admin_catalog.ts`).
 - **Agenda › Semana** (`/admin/agenda/semana`): la semana tipo, como el Excel de Kinaf. Cada horario activo con su ocupación y los nombres de quienes lo tienen como horario fijo; filtro por sede (`?sede=<slug>`) si hay más de una. En el teléfono va un día abajo del otro; en pantallas anchas, una columna por día (`app/services/admin_week.ts`).
 
 ## Scripts

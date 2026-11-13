@@ -6,7 +6,7 @@ import { EmptyState } from '~/components/empty_state'
 import { LinkRow } from '~/components/link_row'
 import { Button } from '~/components/ui/button'
 
-type CenterListItem = { id: number; name: string; active: boolean; hint: string }
+type CenterListItem = { id: number; name: string; hint: string }
 
 /**
  * Ajustes › Sedes: the places where classes happen.
@@ -45,7 +45,6 @@ export default function AdminCentersIndex({ centers }: { centers: CenterListItem
                 bubble={<MapPin strokeWidth={2.2} />}
                 title={center.name}
                 hint={center.hint}
-                muted={!center.active}
               />
             </li>
           ))}

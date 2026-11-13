@@ -7,13 +7,7 @@ import { EmptyState } from '~/components/empty_state'
 import { LinkRow } from '~/components/link_row'
 import { Button } from '~/components/ui/button'
 
-type ActivityListItem = {
-  id: number
-  name: string
-  wash: ActivityWash
-  active: boolean
-  hint: string
-}
+type ActivityListItem = { id: number; name: string; wash: ActivityWash; hint: string }
 
 /**
  * Ajustes › Actividades: the activities classes and plans can name.
@@ -52,7 +46,6 @@ export default function AdminActivitiesIndex({ activities }: { activities: Activ
                 bubble={<Shapes strokeWidth={2.2} />}
                 title={activity.name}
                 hint={activity.hint}
-                muted={!activity.active}
               />
             </li>
           ))}

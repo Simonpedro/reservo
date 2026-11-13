@@ -1,23 +1,15 @@
 import { useForm } from '@inertiajs/react'
-import { CircleAlert } from 'lucide-react'
 import type { FormEvent } from 'react'
 import { AdminInnerLayout } from '~/components/admin_layout'
-import { ActiveAction, FormFlash, NameField } from '~/components/catalog_form'
-import { Notice } from '~/components/notice'
+import { NameField } from '~/components/catalog_form'
 import { Button } from '~/components/ui/button'
 
-type EditableCenter = { id: number; name: string; active: boolean }
+type EditableCenter = { id: number; name: string }
 
 /**
  * Nueva / Editar sede: its name.
  */
-export default function AdminCenterForm({
-  center,
-  inUse,
-}: {
-  center: EditableCenter | null
-  inUse: string | null
-}) {
+export default function AdminCenterForm({ center }: { center: EditableCenter | null }) {
   const form = useForm({ name: center?.name ?? '' })
   const errors = form.errors as Record<string, string | undefined>
 
@@ -37,13 +29,6 @@ export default function AdminCenterForm({
         </Button>
       }
     >
-      <FormFlash />
-      {center && !center.active && (
-        <Notice icon={CircleAlert} title="Esta sede está desactivada." className="mt-4">
-          No se ofrece en horarios nuevos. Lo que ya la tiene la sigue mostrando.
-        </Notice>
-      )}
-
       <form id="center-form" className="mt-5 grid gap-5" onSubmit={submit} noValidate>
         <NameField
           value={form.data.name}
@@ -51,15 +36,6 @@ export default function AdminCenterForm({
           error={errors.name}
         />
       </form>
-
-      {center && (
-        <ActiveAction
-          href={`/admin/ajustes/sedes/${center.id}`}
-          active={center.active}
-          inUse={inUse}
-          noun="sede"
-        />
-      )}
     </AdminInnerLayout>
   )
 }

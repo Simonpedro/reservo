@@ -1,15 +1,13 @@
 import { useForm } from '@inertiajs/react'
-import { CircleAlert } from 'lucide-react'
 import type { FormEvent } from 'react'
 import type { ActivityWash } from '#models/activity'
 import { AdminInnerLayout } from '~/components/admin_layout'
-import { ActiveAction, FormFlash, NameField } from '~/components/catalog_form'
+import { NameField } from '~/components/catalog_form'
 import { Choice } from '~/components/choice'
-import { Notice } from '~/components/notice'
 import { Button } from '~/components/ui/button'
 import { cn } from '~/lib/utils'
 
-type EditableActivity = { id: number; name: string; wash: ActivityWash; active: boolean }
+type EditableActivity = { id: number; name: string; wash: ActivityWash }
 
 const WASHES: { value: ActivityWash; label: string; background: string }[] = [
   { value: 'celeste', label: 'Celeste', background: 'bg-wash-celeste' },
@@ -20,13 +18,7 @@ const WASHES: { value: ActivityWash; label: string; background: string }[] = [
 /**
  * Nueva / Editar actividad: name and the color of its class cards.
  */
-export default function AdminActivityForm({
-  activity,
-  inUse,
-}: {
-  activity: EditableActivity | null
-  inUse: string | null
-}) {
+export default function AdminActivityForm({ activity }: { activity: EditableActivity | null }) {
   const form = useForm({ name: activity?.name ?? '', wash: activity?.wash ?? 'celeste' })
   const errors = form.errors as Record<string, string | undefined>
   const preview = WASHES.find((wash) => wash.value === form.data.wash) ?? WASHES[0]
@@ -47,13 +39,6 @@ export default function AdminActivityForm({
         </Button>
       }
     >
-      <FormFlash />
-      {activity && !activity.active && (
-        <Notice icon={CircleAlert} title="Esta actividad está desactivada." className="mt-4">
-          No se ofrece en horarios ni planes nuevos. Lo que ya la tiene la sigue mostrando.
-        </Notice>
-      )}
-
       <form id="activity-form" className="mt-5 grid gap-5" onSubmit={submit} noValidate>
         <NameField
           value={form.data.name}
@@ -97,15 +82,6 @@ export default function AdminActivityForm({
           </div>
         </div>
       </form>
-
-      {activity && (
-        <ActiveAction
-          href={`/admin/ajustes/actividades/${activity.id}`}
-          active={activity.active}
-          inUse={inUse}
-          noun="actividad"
-        />
-      )}
     </AdminInnerLayout>
   )
 }

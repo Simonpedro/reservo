@@ -1,10 +1,9 @@
 import { ActivityFactory } from '#database/factories/catalog_factories'
 import Activity from '#models/activity'
 import Center from '#models/center'
-import ClassSchedule from '#models/class_schedule'
 import Tenant from '#models/tenant'
 import User from '#models/user'
-import { createCatalog, createPlan, createSchedule } from '#tests/support/scenario'
+import { createCatalog, createSchedule } from '#tests/support/scenario'
 import env from '#start/env'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { test } from '@japa/runner'
@@ -43,15 +42,12 @@ test.group('Admin › activities', (group) => {
     assert.equal(response.inertiaProps.activeCenters, centers.length)
   })
 
-  test('lists the activities with their color and active classes, inactive last', async ({
-    client,
-    assert,
-  }) => {
+  test('lists the activities with their color and active classes', async ({ client, assert }) => {
     const { catalog, admin } = await kinafWorld()
     await createSchedule(catalog, { activity: catalog.yoga })
     await createSchedule(catalog, { activity: catalog.yoga, center: catalog.ovidio })
     await createSchedule(catalog, { activity: catalog.yoga, active: false })
-    await catalog.pilates.merge({ name: 'Zumba', active: false }).save()
+    await catalog.pilates.merge({ name: 'Zumba' }).save()
 
     const response = await client
       .get('/admin/ajustes/actividades')
@@ -62,16 +58,20 @@ test.group('Admin › activities', (group) => {
     response.assertStatus(200)
     response.assertInertiaComponent('admin/activities/index')
     const listed = response.inertiaProps.activities as Array<{ id: number; hint: string }>
-    assert.include(
+    assert.deepEqual(
       listed.find((item) => item.id === catalog.yoga.id),
-      { name: 'Yoga', wash: 'green', active: true, hint: 'Tarjeta verde · 2 horarios activos' }
+      {
+        id: catalog.yoga.id,
+        name: 'Yoga',
+        wash: 'green',
+        hint: 'Tarjeta verde · 2 horarios activos',
+      }
     )
     assert.deepEqual(listed.at(-1), {
       id: catalog.pilates.id,
       name: 'Zumba',
       wash: 'celeste',
-      active: false,
-      hint: 'Tarjeta celeste · Sin horarios activos · Desactivada',
+      hint: 'Tarjeta celeste · Sin horarios activos',
     })
   })
 
@@ -188,204 +188,10 @@ test.group('Admin › activities', (group) => {
     assert.equal(created.slug, 'aerobica-2')
   })
 
-  test('deactivating is refused while classes use it, saying what uses it', async ({
-    client,
-    assert,
-  }) => {
-    const { catalog, admin } = await kinafWorld()
-    await createSchedule(catalog, { activity: catalog.yoga })
-    await createPlan(catalog, [{ count: 1, activities: [catalog.yoga] }])
-
-    const editor = await client
-      .get(`/admin/ajustes/actividades/${catalog.yoga.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    editor.assertInertiaComponent('admin/activities/form')
-    assert.equal(
-      editor.inertiaProps.inUse,
-      'La usan 1 horario activo y 1 plan activo. Desactivalos primero.'
-    )
-
-    const response = await client
-      .post(`/admin/ajustes/actividades/${catalog.yoga.id}/desactivar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-
-    response.assertStatus(302)
-    response.assertHeader('location', `/admin/ajustes/actividades/${catalog.yoga.id}`)
-    response.assertFlashMessage(
-      'error',
-      'La usan 1 horario activo y 1 plan activo. Desactivalos primero.'
-    )
-    await catalog.yoga.refresh()
-    assert.isTrue(catalog.yoga.active)
-  })
-
-  test('an unused activity is deactivated and activated again', async ({ client, assert }) => {
-    const { catalog, admin } = await kinafWorld()
-
-    const off = await client
-      .post(`/admin/ajustes/actividades/${catalog.gym.id}/desactivar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-    off.assertStatus(302)
-    off.assertHeader('location', '/admin/ajustes/actividades')
-    await catalog.gym.refresh()
-    assert.isFalse(catalog.gym.active)
-
-    const on = await client
-      .post(`/admin/ajustes/actividades/${catalog.gym.id}/activar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-    on.assertStatus(302)
-    on.assertHeader('location', `/admin/ajustes/actividades/${catalog.gym.id}`)
-    on.assertFlashMessage('success', 'Activamos la actividad.')
-    await catalog.gym.refresh()
-    assert.isTrue(catalog.gym.active)
-  })
-
-  test('an inactive activity is not offered for new classes or plans', async ({
-    client,
-    assert,
-  }) => {
-    const { catalog, admin } = await kinafWorld()
-    await catalog.gym.merge({ active: false }).save()
-
-    const scheduleForm = await client
-      .get('/admin/horarios/nuevo')
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    const offered = scheduleForm.inertiaProps.editor.activities.map((a: { id: number }) => a.id)
-    assert.include(offered, catalog.yoga.id)
-    assert.notInclude(offered, catalog.gym.id)
-
-    const planForm = await client
-      .get('/admin/ajustes/planes/nuevo')
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    const inPlan = planForm.inertiaProps.activities.map((a: { id: number }) => a.id)
-    assert.include(inPlan, catalog.yoga.id)
-    assert.notInclude(inPlan, catalog.gym.id)
-
-    const created = await client
-      .post('/admin/horarios')
-      .header('host', host)
-      .header('referer', `http://${host}/admin/horarios/nuevo`)
-      .loginAs(admin)
-      .json({
-        activityId: catalog.gym.id,
-        centerId: catalog.mendoza.id,
-        weekday: 2,
-        startTime: '07:00',
-        capacity: 8,
-        instructorName: 'Caro',
-      })
-      .withCsrfToken()
-      .redirects(0)
-    created.assertStatus(302)
-    created.assertFlashMessage('error', 'Elegí una actividad y un centro de la lista.')
-    const rows = await ClassSchedule.query()
-      .where('tenantId', catalog.tenant.id)
-      .where('activityId', catalog.gym.id)
-    assert.lengthOf(rows, 0)
-
-    const plan = await client
-      .post('/admin/ajustes/planes')
-      .header('host', host)
-      .header('referer', `http://${host}/admin/ajustes/planes/nuevo`)
-      .loginAs(admin)
-      .json({
-        name: 'Con gimnasio',
-        price: 1000,
-        quotas: [{ weeklyCount: 1, anyActivity: false, activityIds: [catalog.gym.id] }],
-      })
-      .withCsrfToken()
-      .redirects(0)
-    plan.assertStatus(302)
-    plan.assertFlashMessage('errors', {
-      'quotas.0.activityIds': 'Una de las actividades no existe.',
-    })
-  })
-
-  test('a class or plan that already has an inactive activity still shows it and saves', async ({
-    client,
-    assert,
-  }) => {
-    const { catalog, admin } = await kinafWorld()
-    const schedule = await createSchedule(catalog, {
-      activity: catalog.gym,
-      center: catalog.ovidio,
-      active: false,
-    })
-    const { plan } = await createPlan(catalog, [{ count: 1, activities: [catalog.gym] }])
-    await plan.merge({ active: false }).save()
-    await catalog.gym.merge({ active: false }).save()
-    await catalog.ovidio.merge({ active: false }).save()
-
-    const editor = await client
-      .get(`/admin/horarios/${schedule.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    editor.assertStatus(200)
-    const ids = (items: Array<{ id: number }>) => items.map((item) => item.id)
-    assert.include(ids(editor.inertiaProps.editor.activities), catalog.gym.id)
-    assert.include(ids(editor.inertiaProps.editor.centers), catalog.ovidio.id)
-
-    const saved = await client
-      .put(`/admin/horarios/${schedule.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .json({
-        activityId: catalog.gym.id,
-        centerId: catalog.ovidio.id,
-        weekday: schedule.weekday,
-        startTime: '19:30',
-        capacity: 12,
-        instructorName: schedule.instructorName,
-      })
-      .withCsrfToken()
-      .redirects(0)
-    saved.assertStatus(302)
-    saved.assertFlashMessage('success', 'Guardamos los cambios del horario.')
-    await schedule.refresh()
-    assert.equal(schedule.startTime, '19:30')
-
-    const planEditor = await client
-      .get(`/admin/ajustes/planes/${plan.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    assert.include(ids(planEditor.inertiaProps.activities), catalog.gym.id)
-
-    const planSaved = await client
-      .put(`/admin/ajustes/planes/${plan.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .json({
-        name: 'Renombrado',
-        price: 2000,
-        quotas: [{ weeklyCount: 1, anyActivity: false, activityIds: [catalog.gym.id] }],
-      })
-      .withCsrfToken()
-      .redirects(0)
-    planSaved.assertStatus(302)
-    planSaved.assertHeader('location', '/admin/ajustes/planes')
-  })
-
   test('the activities of another tenant are not found', async ({ client, assert }) => {
     const { admin } = await kinafWorld()
     const other = await createCatalog()
-    const request = (method: 'GET' | 'PUT' | 'POST', path: string) =>
+    const request = (method: 'GET' | 'PUT', path: string) =>
       client.request(path, method).header('host', host).loginAs(admin).withCsrfToken().redirects(0)
 
     const attempts = [
@@ -394,8 +200,6 @@ test.group('Admin › activities', (group) => {
         name: 'Robada',
         wash: 'blue',
       }),
-      request('POST', `/admin/ajustes/actividades/${other.yoga.id}/desactivar`),
-      request('POST', `/admin/ajustes/actividades/${other.yoga.id}/activar`),
     ]
     for (const attempt of attempts) {
       const response = await attempt
@@ -484,77 +288,19 @@ test.group('Admin › centers', (group) => {
     assert.deepInclude(listed.inertiaProps.centers, {
       id: center.id,
       name: 'Fisherton Norte',
-      active: true,
       hint: 'Sin horarios activos',
     })
-  })
-
-  test('a center with active classes stays on; an unused one goes off and back', async ({
-    client,
-    assert,
-  }) => {
-    const { catalog, admin } = await kinafWorld()
-    await createSchedule(catalog, { center: catalog.mendoza })
-    await createSchedule(catalog, { center: catalog.mendoza, weekday: 4 })
-
-    const editor = await client
-      .get(`/admin/ajustes/sedes/${catalog.mendoza.id}`)
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    editor.assertInertiaComponent('admin/centers/form')
-    assert.equal(editor.inertiaProps.inUse, 'La usan 2 horarios activos. Desactivalos primero.')
-
-    const refused = await client
-      .post(`/admin/ajustes/sedes/${catalog.mendoza.id}/desactivar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-    refused.assertFlashMessage('error', 'La usan 2 horarios activos. Desactivalos primero.')
-    await catalog.mendoza.refresh()
-    assert.isTrue(catalog.mendoza.active)
-
-    const off = await client
-      .post(`/admin/ajustes/sedes/${catalog.ovidio.id}/desactivar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-    off.assertHeader('location', '/admin/ajustes/sedes')
-    await catalog.ovidio.refresh()
-    assert.isFalse(catalog.ovidio.active)
-
-    const scheduleForm = await client
-      .get('/admin/horarios/nuevo')
-      .header('host', host)
-      .loginAs(admin)
-      .withInertia()
-    const offered = scheduleForm.inertiaProps.editor.centers.map((c: { id: number }) => c.id)
-    assert.include(offered, catalog.mendoza.id)
-    assert.notInclude(offered, catalog.ovidio.id)
-
-    const on = await client
-      .post(`/admin/ajustes/sedes/${catalog.ovidio.id}/activar`)
-      .header('host', host)
-      .loginAs(admin)
-      .withCsrfToken()
-      .redirects(0)
-    on.assertFlashMessage('success', 'Activamos la sede.')
-    await catalog.ovidio.refresh()
-    assert.isTrue(catalog.ovidio.active)
   })
 
   test('the centers of another tenant are not found', async ({ client, assert }) => {
     const { admin } = await kinafWorld()
     const other = await createCatalog()
-    const request = (method: 'GET' | 'PUT' | 'POST', path: string) =>
+    const request = (method: 'GET' | 'PUT', path: string) =>
       client.request(path, method).header('host', host).loginAs(admin).withCsrfToken().redirects(0)
 
     const attempts = [
       request('GET', `/admin/ajustes/sedes/${other.mendoza.id}`),
       request('PUT', `/admin/ajustes/sedes/${other.mendoza.id}`).json({ name: 'Robada' }),
-      request('POST', `/admin/ajustes/sedes/${other.mendoza.id}/desactivar`),
     ]
     for (const attempt of attempts) {
       const response = await attempt
@@ -562,5 +308,24 @@ test.group('Admin › centers', (group) => {
     }
     await other.mendoza.refresh()
     assert.include(other.mendoza.serialize(), { name: 'Mendoza', active: true })
+  })
+
+  test('activities and centers can no longer be turned off or on', async ({ client }) => {
+    const { catalog, admin } = await kinafWorld()
+
+    for (const path of [
+      `/admin/ajustes/actividades/${catalog.yoga.id}/desactivar`,
+      `/admin/ajustes/actividades/${catalog.yoga.id}/activar`,
+      `/admin/ajustes/sedes/${catalog.mendoza.id}/desactivar`,
+      `/admin/ajustes/sedes/${catalog.mendoza.id}/activar`,
+    ]) {
+      const response = await client
+        .post(path)
+        .header('host', host)
+        .loginAs(admin)
+        .withCsrfToken()
+        .redirects(0)
+      response.assertStatus(404)
+    }
   })
 })

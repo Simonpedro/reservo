@@ -567,32 +567,6 @@ export interface Registry {
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['update']>>>
     }
   }
-  'admin.activities.deactivate': {
-    methods: ["POST"]
-    pattern: '/admin/ajustes/actividades/:id/desactivar'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['deactivate']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['deactivate']>>>
-      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['deactivate']>>>
-    }
-  }
-  'admin.activities.activate': {
-    methods: ["POST"]
-    pattern: '/admin/ajustes/actividades/:id/activar'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['activate']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['activate']>>>
-      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_activities_controller').default['activate']>>>
-    }
-  }
   'admin.centers.index': {
     methods: ["GET","HEAD"]
     pattern: '/admin/ajustes/sedes'
@@ -656,32 +630,6 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['update']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['update']>>>
       rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['update']>>>
-    }
-  }
-  'admin.centers.deactivate': {
-    methods: ["POST"]
-    pattern: '/admin/ajustes/sedes/:id/desactivar'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['deactivate']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['deactivate']>>>
-      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['deactivate']>>>
-    }
-  }
-  'admin.centers.activate': {
-    methods: ["POST"]
-    pattern: '/admin/ajustes/sedes/:id/activar'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['activate']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['activate']>>>
-      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_centers_controller').default['activate']>>>
     }
   }
   'admin.clients.index': {

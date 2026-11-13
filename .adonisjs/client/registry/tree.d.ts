@@ -61,8 +61,6 @@ export interface ApiDefinition {
       store: typeof routes['admin.activities.store']
       edit: typeof routes['admin.activities.edit']
       update: typeof routes['admin.activities.update']
-      deactivate: typeof routes['admin.activities.deactivate']
-      activate: typeof routes['admin.activities.activate']
     }
     centers: {
       index: typeof routes['admin.centers.index']
@@ -70,8 +68,6 @@ export interface ApiDefinition {
       store: typeof routes['admin.centers.store']
       edit: typeof routes['admin.centers.edit']
       update: typeof routes['admin.centers.update']
-      deactivate: typeof routes['admin.centers.deactivate']
-      activate: typeof routes['admin.centers.activate']
     }
     clients: {
       index: typeof routes['admin.clients.index']
