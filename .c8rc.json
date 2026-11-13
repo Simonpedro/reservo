@@ -1,0 +1,8 @@
+{
+  "all": true,
+  "extension": [".ts"],
+  "include": ["app/**", "start/**", "database/**"],
+  "exclude": ["**/*.d.ts", "database/schema.ts", "database/schema_rules.ts"],
+  "reporter": ["text", "lcov", "json-summary"],
+  "reportsDirectory": "coverage"
+}
