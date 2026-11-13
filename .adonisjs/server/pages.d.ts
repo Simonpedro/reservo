@@ -25,7 +25,6 @@ declare module '@adonisjs/inertia/types' {
     'admin/plans/form': ExtractProps<(typeof import('../../inertia/pages/admin/plans/form.tsx'))['default']>
     'admin/plans/index': ExtractProps<(typeof import('../../inertia/pages/admin/plans/index.tsx'))['default']>
     'admin/settings': ExtractProps<(typeof import('../../inertia/pages/admin/settings.tsx'))['default']>
-    'admin/settings_placeholder': ExtractProps<(typeof import('../../inertia/pages/admin/settings_placeholder.tsx'))['default']>
     'admin/today': ExtractProps<(typeof import('../../inertia/pages/admin/today.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'client/choose_class': ExtractProps<(typeof import('../../inertia/pages/client/choose_class.tsx'))['default']>
