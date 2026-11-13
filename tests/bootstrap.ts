@@ -6,6 +6,7 @@ import { dbAssertions } from '@adonisjs/lucid/plugins/db'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { apiClient } from '@japa/api-client'
 import { browserClient } from '@japa/browser-client'
+import { authApiClient } from '@adonisjs/auth/plugins/api_client'
 import { authBrowserClient } from '@adonisjs/auth/plugins/browser_client'
 import { inertiaApiClient } from '@adonisjs/inertia/plugins/api_client'
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client'
@@ -28,6 +29,7 @@ export const plugins: Config['plugins'] = [
   inertiaApiClient(app),
   sessionApiClient(app),
   shieldApiClient(),
+  authApiClient(app),
   browserClient({ runInSuites: ['browser'] }),
   sessionBrowserClient(app),
   authBrowserClient(app),
@@ -46,12 +48,14 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
 }
 
 /**
+ * Each test group isolates its database writes with
+ * `group.each.setup(() => testUtils.db().withGlobalTransaction())`.
+ *
  * Configure suites by tapping into the test suite instance.
  * Learn more - https://japa.dev/docs/test-suites#lifecycle-hooks
  */
 export const configureSuite: Config['configureSuite'] = (suite) => {
   if (['browser', 'functional', 'e2e'].includes(suite.name)) {
     suite.setup(() => testUtils.httpServer().start())
-    suite.setup(() => testUtils.db().withGlobalTransaction())
   }
 }
