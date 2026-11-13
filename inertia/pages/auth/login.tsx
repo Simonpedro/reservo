@@ -24,7 +24,10 @@ export default function Login() {
           <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle className="text-2xl">Ingresá a {tenant?.name}</CardTitle>
-              <CardDescription>Usá el email y la contraseña de tu cuenta.</CardDescription>
+              <CardDescription>
+                Usá el email y la contraseña de tu cuenta. Si sos alumno, entrá con el link que te
+                mandó {tenant?.name}.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form className="space-y-5" onSubmit={submit}>
