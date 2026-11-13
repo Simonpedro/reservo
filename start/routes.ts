@@ -24,6 +24,8 @@ const AdminSettingsController = () => import('#controllers/admin_settings_contro
 const AdminPlansController = () => import('#controllers/admin_plans_controller')
 const AdminPaymentsController = () => import('#controllers/admin_payments_controller')
 const AdminClassesController = () => import('#controllers/admin_classes_controller')
+const AdminAgendaController = () => import('#controllers/admin_agenda_controller')
+const AdminSchedulesController = () => import('#controllers/admin_schedules_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
@@ -78,10 +80,35 @@ router
               .where('sessionId', router.matchers.number())
               .where('bookingId', router.matchers.number())
               .as('admin.classes.undoAbsent')
+            router.get('/admin/agenda', [AdminAgendaController, 'index']).as('admin.agenda')
             router
-              .on('/admin/agenda')
-              .renderInertia('admin/coming_soon', { tab: 'agenda' })
-              .as('admin.agenda')
+              .get('/admin/agenda/cerrar', [AdminAgendaController, 'closeForm'])
+              .as('admin.agenda.closeForm')
+            router
+              .post('/admin/agenda/cerrar', [AdminAgendaController, 'close'])
+              .as('admin.agenda.close')
+            router
+              .get('/admin/horarios/nuevo', [AdminSchedulesController, 'create'])
+              .as('admin.schedules.create')
+            router
+              .post('/admin/horarios', [AdminSchedulesController, 'store'])
+              .as('admin.schedules.store')
+            router
+              .get('/admin/horarios/:id', [AdminSchedulesController, 'edit'])
+              .where('id', router.matchers.number())
+              .as('admin.schedules.edit')
+            router
+              .put('/admin/horarios/:id', [AdminSchedulesController, 'update'])
+              .where('id', router.matchers.number())
+              .as('admin.schedules.update')
+            router
+              .post('/admin/horarios/:id/desactivar', [AdminSchedulesController, 'deactivate'])
+              .where('id', router.matchers.number())
+              .as('admin.schedules.deactivate')
+            router
+              .post('/admin/horarios/:id/activar', [AdminSchedulesController, 'activate'])
+              .where('id', router.matchers.number())
+              .as('admin.schedules.activate')
             router.get('/admin/pagos', [AdminPaymentsController, 'index']).as('admin.payments')
             router
               .get('/admin/pagos/registrar', [AdminPaymentsController, 'create'])

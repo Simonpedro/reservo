@@ -13,17 +13,19 @@ type ExtractProps<T> =
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
     'access/invalid': ExtractProps<(typeof import('../../inertia/pages/access/invalid.tsx'))['default']>
+    'admin/agenda': ExtractProps<(typeof import('../../inertia/pages/admin/agenda.tsx'))['default']>
     'admin/class_session': ExtractProps<(typeof import('../../inertia/pages/admin/class_session.tsx'))['default']>
     'admin/clients/assign': ExtractProps<(typeof import('../../inertia/pages/admin/clients/assign.tsx'))['default']>
     'admin/clients/index': ExtractProps<(typeof import('../../inertia/pages/admin/clients/index.tsx'))['default']>
     'admin/clients/new': ExtractProps<(typeof import('../../inertia/pages/admin/clients/new.tsx'))['default']>
     'admin/clients/show': ExtractProps<(typeof import('../../inertia/pages/admin/clients/show.tsx'))['default']>
-    'admin/coming_soon': ExtractProps<(typeof import('../../inertia/pages/admin/coming_soon.tsx'))['default']>
+    'admin/close_day': ExtractProps<(typeof import('../../inertia/pages/admin/close_day.tsx'))['default']>
     'admin/payments/index': ExtractProps<(typeof import('../../inertia/pages/admin/payments/index.tsx'))['default']>
     'admin/payments/receipt': ExtractProps<(typeof import('../../inertia/pages/admin/payments/receipt.tsx'))['default']>
     'admin/payments/register': ExtractProps<(typeof import('../../inertia/pages/admin/payments/register.tsx'))['default']>
     'admin/plans/form': ExtractProps<(typeof import('../../inertia/pages/admin/plans/form.tsx'))['default']>
     'admin/plans/index': ExtractProps<(typeof import('../../inertia/pages/admin/plans/index.tsx'))['default']>
+    'admin/schedule_form': ExtractProps<(typeof import('../../inertia/pages/admin/schedule_form.tsx'))['default']>
     'admin/settings': ExtractProps<(typeof import('../../inertia/pages/admin/settings.tsx'))['default']>
     'admin/today': ExtractProps<(typeof import('../../inertia/pages/admin/today.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>

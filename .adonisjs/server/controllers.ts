@@ -5,10 +5,12 @@
 
 export const controllers = {
   Access: () => import('#controllers/access_controller'),
+  AdminAgenda: () => import('#controllers/admin_agenda_controller'),
   AdminClasses: () => import('#controllers/admin_classes_controller'),
   AdminClients: () => import('#controllers/admin_clients_controller'),
   AdminPayments: () => import('#controllers/admin_payments_controller'),
   AdminPlans: () => import('#controllers/admin_plans_controller'),
+  AdminSchedules: () => import('#controllers/admin_schedules_controller'),
   AdminSettings: () => import('#controllers/admin_settings_controller'),
   ChooseClass: () => import('#controllers/choose_class_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),

@@ -19,7 +19,24 @@ export interface ApiDefinition {
   admin: {
     home: typeof routes['admin.home']
     today: typeof routes['admin.today']
-    agenda: typeof routes['admin.agenda']
+    classes: {
+      show: typeof routes['admin.classes.show']
+      suspend: typeof routes['admin.classes.suspend']
+      absent: typeof routes['admin.classes.absent']
+      undoAbsent: typeof routes['admin.classes.undoAbsent']
+    }
+    agenda: typeof routes['admin.agenda'] & {
+      closeForm: typeof routes['admin.agenda.closeForm']
+      close: typeof routes['admin.agenda.close']
+    }
+    schedules: {
+      create: typeof routes['admin.schedules.create']
+      store: typeof routes['admin.schedules.store']
+      edit: typeof routes['admin.schedules.edit']
+      update: typeof routes['admin.schedules.update']
+      deactivate: typeof routes['admin.schedules.deactivate']
+      activate: typeof routes['admin.schedules.activate']
+    }
     payments: typeof routes['admin.payments'] & {
       create: typeof routes['admin.payments.create']
       store: typeof routes['admin.payments.store']

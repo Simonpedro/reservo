@@ -133,9 +133,61 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['today']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['today']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['today']>>>
+    }
+  }
+  'admin.classes.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/clases/:sessionId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { sessionId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['show']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['show']>>>
+    }
+  }
+  'admin.classes.suspend': {
+    methods: ["POST"]
+    pattern: '/admin/clases/:sessionId/suspender'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { sessionId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['suspend']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['suspend']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['suspend']>>>
+    }
+  }
+  'admin.classes.absent': {
+    methods: ["POST"]
+    pattern: '/admin/clases/:sessionId/reservas/:bookingId/ausente'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { sessionId: ParamValue; bookingId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['absent']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['absent']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['absent']>>>
+    }
+  }
+  'admin.classes.undoAbsent': {
+    methods: ["POST"]
+    pattern: '/admin/clases/:sessionId/reservas/:bookingId/deshacer'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { sessionId: ParamValue; bookingId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['undoAbsent']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['undoAbsent']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_classes_controller').default['undoAbsent']>>>
     }
   }
   'admin.agenda': {
@@ -146,9 +198,113 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
-      rawResponse: ExtractRawResponse<unknown>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['index']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['index']>>>
+    }
+  }
+  'admin.agenda.closeForm': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/agenda/cerrar'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['closeForm']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['closeForm']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['closeForm']>>>
+    }
+  }
+  'admin.agenda.close': {
+    methods: ["POST"]
+    pattern: '/admin/agenda/cerrar'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/closure').closureValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/closure').closureValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['close']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['close']>>> | { status: 422; response: { errors: SimpleError[] } }
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_agenda_controller').default['close']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.schedules.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/horarios/nuevo'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['create']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['create']>>>
+    }
+  }
+  'admin.schedules.store': {
+    methods: ["POST"]
+    pattern: '/admin/horarios'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['store']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['store']>>>
+    }
+  }
+  'admin.schedules.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/horarios/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['edit']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['edit']>>>
+    }
+  }
+  'admin.schedules.update': {
+    methods: ["PUT"]
+    pattern: '/admin/horarios/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['update']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['update']>>>
+    }
+  }
+  'admin.schedules.deactivate': {
+    methods: ["POST"]
+    pattern: '/admin/horarios/:id/desactivar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['deactivate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['deactivate']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['deactivate']>>>
+    }
+  }
+  'admin.schedules.activate': {
+    methods: ["POST"]
+    pattern: '/admin/horarios/:id/activar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['activate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['activate']>>>
+      rawResponse: ExtractRawResponse<Awaited<ReturnType<import('#controllers/admin_schedules_controller').default['activate']>>>
     }
   }
   'admin.payments': {

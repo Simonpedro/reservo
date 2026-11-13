@@ -63,8 +63,10 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
         }
       | undefined = session?.flashMessages.get('accessLink')
     const assigned: { startsOn: string } | undefined = session?.flashMessages.get('assigned')
+    const capacityBlocked: { fixed: number; requested: number } | undefined =
+      session?.flashMessages.get('capacityBlocked')
 
-    return { success, error, accessLink, assigned }
+    return { success, error, accessLink, assigned, capacityBlocked }
   }
 
   async handle(ctx: HttpContext, next: NextFn) {

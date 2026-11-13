@@ -14,7 +14,19 @@ export type ScannedRoutes = {
     'logout': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
+    'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
+    'admin.classes.suspend': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
+    'admin.classes.absent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
+    'admin.classes.undoAbsent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
+    'admin.agenda.close': { paramsTuple?: []; params?: {} }
+    'admin.schedules.create': { paramsTuple?: []; params?: {} }
+    'admin.schedules.store': { paramsTuple?: []; params?: {} }
+    'admin.schedules.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.schedules.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.schedules.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.schedules.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments': { paramsTuple?: []; params?: {} }
     'admin.payments.create': { paramsTuple?: []; params?: {} }
     'admin.payments.store': { paramsTuple?: []; params?: {} }
@@ -58,7 +70,11 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
+    'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
+    'admin.schedules.create': { paramsTuple?: []; params?: {} }
+    'admin.schedules.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments': { paramsTuple?: []; params?: {} }
     'admin.payments.create': { paramsTuple?: []; params?: {} }
     'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -88,7 +104,11 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
     'admin.home': { paramsTuple?: []; params?: {} }
     'admin.today': { paramsTuple?: []; params?: {} }
+    'admin.classes.show': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'admin.agenda': { paramsTuple?: []; params?: {} }
+    'admin.agenda.closeForm': { paramsTuple?: []; params?: {} }
+    'admin.schedules.create': { paramsTuple?: []; params?: {} }
+    'admin.schedules.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments': { paramsTuple?: []; params?: {} }
     'admin.payments.create': { paramsTuple?: []; params?: {} }
     'admin.payments.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -114,6 +134,13 @@ export type ScannedRoutes = {
     'internal.dailyRun': { paramsTuple?: []; params?: {} }
     'session.store': { paramsTuple?: []; params?: {} }
     'logout': { paramsTuple?: []; params?: {} }
+    'admin.classes.suspend': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
+    'admin.classes.absent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
+    'admin.classes.undoAbsent': { paramsTuple: [ParamValue,ParamValue]; params: {'sessionId': ParamValue,'bookingId': ParamValue} }
+    'admin.agenda.close': { paramsTuple?: []; params?: {} }
+    'admin.schedules.store': { paramsTuple?: []; params?: {} }
+    'admin.schedules.deactivate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.schedules.activate': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.store': { paramsTuple?: []; params?: {} }
     'admin.payments.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.payments.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -129,6 +156,7 @@ export type ScannedRoutes = {
     'client.payments.receipt.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
+    'admin.schedules.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.plans.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
