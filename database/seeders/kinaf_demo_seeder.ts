@@ -464,25 +464,35 @@ export default class extends BaseSeeder {
       )
     }
 
+    // This month goes back to its demo status even after a demo run paid it
+    // or reviewed its receipt.
     const current = await ensureFee(subscription, thisMonth.toISODate()!)
     if (fee === 'paid') {
       const paidAt = DateTime.min(thisMonth.plus({ days: 3 }), now)
       await current.merge(this.paid(subscription, plan, paidAt, true, admin)).save()
+      return
+    }
+    await Receipt.query()
+      .where('tenantId', user.tenantId)
+      .where('monthlyFeeId', current.id)
+      .delete()
+    const unpaid = { paidAt: null, method: null, recordedById: null }
+    if (fee === 'pending' || fee === 'overdue') {
+      await current.merge({ ...unpaid, status: 'pending' }).save()
     }
     if (fee === 'in_review') {
-      await current.merge({ status: 'in_review' }).save()
+      await current.merge({ ...unpaid, status: 'in_review' }).save()
       const png = receiptPng()
-      await Receipt.firstOrCreate(
-        { tenantId: user.tenantId, monthlyFeeId: current.id },
-        {
-          userId: user.id,
-          filename: 'comprobante-transferencia.png',
-          mime: 'image/png',
-          size: png.length,
-          data: png,
-          status: 'in_review',
-        }
-      )
+      await Receipt.create({
+        tenantId: user.tenantId,
+        monthlyFeeId: current.id,
+        userId: user.id,
+        filename: 'comprobante-transferencia.png',
+        mime: 'image/png',
+        size: png.length,
+        data: png,
+        status: 'in_review',
+      })
     }
   }
 

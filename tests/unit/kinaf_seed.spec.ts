@@ -3,6 +3,7 @@ import KinafSeeder from '#database/seeders/kinaf_seeder'
 import FixedSlot from '#models/fixed_slot'
 import MonthlyFee from '#models/monthly_fee'
 import Plan from '#models/plan'
+import Receipt from '#models/receipt'
 import Tenant from '#models/tenant'
 import User from '#models/user'
 import { businessDate, businessNow } from '#services/business_calendar'
@@ -172,6 +173,53 @@ test.group('Kinaf seed | demo', (group) => {
 
     assert.includeMembers([...statuses], ['in_review', 'paid', 'overdue'])
   })
+
+  test('seeding again puts this month back in its demo status after a demo run', async ({
+    assert,
+  }) => {
+    const tenant = await kinaf()
+    const sofi = await User.findByOrFail({ tenantId: tenant.id, email: 'sofi@kinaf.test' })
+    const ana = await User.findByOrFail({ tenantId: tenant.id, email: 'ana.gomez@kinaf.test' })
+    const period = businessNow().startOf('month').toISODate()!
+    const feeOf = (user: User) =>
+      MonthlyFee.query()
+        .where('tenantId', tenant.id)
+        .where('userId', user.id)
+        .where('period', period)
+        .preload('receipts')
+        .firstOrFail()
+
+    // A demo run: Sofi uploads a receipt that gets approved, Ana's is rejected.
+    const sofiFee = await feeOf(sofi)
+    await Receipt.create({
+      tenantId: tenant.id,
+      monthlyFeeId: sofiFee.id,
+      userId: sofi.id,
+      filename: 'comprobante.png',
+      mime: 'image/png',
+      size: 3,
+      data: Buffer.from('png'),
+      status: 'approved',
+    })
+    await sofiFee.merge({ status: 'paid', method: 'transfer', paidAt: businessNow() }).save()
+    const anaFee = await feeOf(ana)
+    await Receipt.query().where('monthlyFeeId', anaFee.id).update({ status: 'rejected' })
+    await anaFee.merge({ status: 'pending' }).save()
+
+    await new KinafDemoSeeder(db.connection()).run()
+
+    const sofiAfter = await feeOf(sofi)
+    assert.equal(sofiAfter.status, 'pending')
+    assert.isNull(sofiAfter.paidAt)
+    assert.isNull(sofiAfter.method)
+    assert.lengthOf(sofiAfter.receipts, 0)
+    const anaAfter = await feeOf(ana)
+    assert.equal(anaAfter.status, 'in_review')
+    assert.deepEqual(
+      anaAfter.receipts.map((receipt) => receipt.status),
+      ['in_review']
+    )
+  }).timeout(30000)
 
   test('Sofi has the demo plan, fixed slots and a pending class from a cancellation', async ({
     assert,
