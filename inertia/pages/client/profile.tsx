@@ -5,7 +5,7 @@ import { BackButton } from '~/components/back_button'
 import { Dock } from '~/components/client_layout'
 import { InfoLine } from '~/components/info_line'
 import { Button } from '~/components/ui/button'
-import { WhatsappButton } from '~/components/whatsapp_button'
+import { useTenantWhatsapp, WhatsappButton } from '~/components/whatsapp_button'
 import type { PageProps } from '~/types'
 
 /**
@@ -15,6 +15,7 @@ export default function Profile() {
   const { auth, tenant } = usePage<PageProps>().props
   const user = auth.user
   const center = tenant?.name ?? 'Kinaf'
+  const whatsapp = useTenantWhatsapp()
 
   return (
     <>
@@ -31,7 +32,9 @@ export default function Profile() {
           {user?.phone && <InfoLine icon={Phone}>{user.phone}</InfoLine>}
         </div>
         <p className="mt-[18px] text-base leading-snug font-bold text-muted-foreground">
-          {`¿Necesitás cambiar algo de tu plan o avisar que no venís con menos de 24 h? Escribile a ${center}.`}
+          {whatsapp.href
+            ? `¿Necesitás cambiar algo de tu plan o avisar que no venís con menos de 24 h? Escribile a ${center}.`
+            : `¿Necesitás cambiar algo de tu plan o avisar que no venís con menos de 24 h? Avisale a ${center} por WhatsApp o en recepción.`}
         </p>
         <Dock withNav={false}>
           <WhatsappButton />

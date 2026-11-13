@@ -77,4 +77,32 @@ test.group('No voy a ir', (group) => {
     await page.assertNotExists('text=No voy a ir')
     await page.assertVisible(page.getByRole('link', { name: 'Escribir a Kinaf' }))
   })
+
+  test('without a center WhatsApp, the detail and Perfil say how to tell it', async ({
+    browserContext,
+    visit,
+  }) => {
+    const tenant = await Tenant.findByOrFail('slug', 'kinaf')
+    await tenant.merge({ whatsappPhone: null }).save()
+    const catalog = await createCatalog(tenant)
+    const start = businessNow().plus({ hours: 2 })
+    const date = start.startOf('day')
+    const schedule = await createSchedule(catalog, {
+      weekday: isoWeekday(date.toISODate()!),
+      startTime: start.toFormat('HH:mm'),
+    })
+    const sofi = await createStudent(catalog, { schedules: [schedule] })
+    const booking = await createBooking(catalog, sofi, schedule, date)
+    await signIn(browserContext, sofi.user)
+
+    const page = await visit(`${origin()}/clases/${booking.id}`)
+
+    await page.assertVisible(page.getByText(/avisale a Kinaf por WhatsApp o en recepción\.$/))
+    await page.assertNotExists('text=Escribir a Kinaf')
+
+    await page.goto(`${origin()}/perfil`)
+    await page.assertVisible(page.getByText(/Avisale a Kinaf por WhatsApp o en recepción\.$/))
+    await page.assertNotExists('text=Escribir a Kinaf')
+    await page.assertVisible(page.getByRole('button', { name: 'Cerrar sesión' }))
+  })
 })

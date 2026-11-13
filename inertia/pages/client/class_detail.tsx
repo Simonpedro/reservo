@@ -22,7 +22,7 @@ import { Notice } from '~/components/notice'
 import { pendingCountUntil } from '#services/pending_text'
 import { ChooseClassButton } from '~/components/pending_notice'
 import { Button } from '~/components/ui/button'
-import { WhatsappButton } from '~/components/whatsapp_button'
+import { useTenantWhatsapp, WhatsappButton } from '~/components/whatsapp_button'
 import { cn } from '~/lib/utils'
 import type { PageProps } from '~/types'
 
@@ -45,6 +45,7 @@ export default function ClassDetail({
   const { card, state, pending } = detail
   const page = usePage<PageProps>()
   const tenantName = page.props.tenant?.name ?? 'tu centro'
+  const whatsapp = useTenantWhatsapp()
   const error = (page.flash as { error?: string } | undefined)?.error
   const heading = useRef<HTMLHeadingElement>(null)
   const [confirming, setConfirming] = useState(false)
@@ -108,7 +109,7 @@ export default function ClassDetail({
   } else if (state === 'too_late') {
     notice = (
       <Notice icon={Info} title="Faltan menos de 24 h.">
-        {`Desde la app ya no se puede cancelar. Si no podés venir, avisale a ${tenantName}.`}
+        {`Desde la app ya no se puede cancelar. Si no podés venir, avisale a ${tenantName}${whatsapp.href ? '' : ' por WhatsApp o en recepción'}.`}
       </Notice>
     )
   }
@@ -143,7 +144,7 @@ export default function ClassDetail({
         No voy a ir
       </Button>
     )
-  } else if (state === 'too_late') {
+  } else if (state === 'too_late' && whatsapp.href) {
     dock = <WhatsappButton />
   } else if ((cancelled || suspended) && pending) {
     dock = <ChooseClassButton />
