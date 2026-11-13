@@ -2,3 +2,8 @@
 node_modules
 build
 coverage
+
+# Product and design documents are authored outside the code workflow
+docs
+PRD.md
+DESIGN.md
