@@ -142,4 +142,18 @@ test.group('Access links', (group) => {
 
     assert.equal(url, `https://${other.slug}.reservo.fit/acceso/${token}`)
   })
+
+  test('issues the link on the tenant domain when APP_URL is the fly.dev fallback', async ({
+    assert,
+    cleanup,
+  }) => {
+    const previous = env.get('APP_URL')
+    env.set('APP_URL', 'https://reservo.fly.dev')
+    cleanup(() => env.set('APP_URL', previous))
+
+    const { user } = await kinafStudent()
+    const { url, token } = await new AccessLinks().issue(user)
+
+    assert.equal(url, `https://kinaf.reservo.fit/acceso/${token}`)
+  })
 })

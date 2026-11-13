@@ -20,8 +20,8 @@ export default class TenantMiddleware {
     }
 
     /**
-     * Hosts outside the tenant domains (e.g. reservo.fly.dev while there is
-     * no DNS) resolve to the fallback tenant, also in production.
+     * Hosts outside the tenant domains (e.g. reservo.fly.dev) resolve to
+     * the fallback tenant, also in production.
      */
     if (!slug) {
       slug = env.get('FALLBACK_TENANT_SLUG')

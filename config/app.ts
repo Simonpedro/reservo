@@ -14,6 +14,13 @@ export const appUrl = env.get('APP_URL')
  */
 export const http = defineConfig({
   /**
+   * Trust the platform proxy (Fly terminates TLS and sits in front of
+   * every public request) so HTTPS and client IPs are read from
+   * X-Forwarded-* headers.
+   */
+  trustProxy: true,
+
+  /**
    * Generate a unique request id for each incoming request.
    * Useful to correlate logs and debug a request flow.
    */

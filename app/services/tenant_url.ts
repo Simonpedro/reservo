@@ -14,15 +14,16 @@ export function tenantSlugFromHost(host: string): string | null | undefined {
 }
 
 /**
- * Absolute origin where a tenant is served. APP_URL wins when it already
- * resolves to that tenant (local `kinaf.localhost`, or `reservo.fly.dev`
- * through FALLBACK_TENANT_SLUG); otherwise `https://<slug>.<base domain>`.
+ * Absolute origin where a tenant is served. APP_URL wins only when its
+ * host is already that tenant (local `kinaf.localhost`, or
+ * `kinaf.reservo.fit` in production). Hosts that reach a tenant through
+ * FALLBACK_TENANT_SLUG (for example reservo.fly.dev) do not win, so
+ * admin-issued links always use `https://<slug>.<base domain>`.
  */
 export function tenantBaseUrl(slug: string): string {
   const appUrl = new URL(env.get('APP_URL'))
-  const hostSlug = tenantSlugFromHost(appUrl.hostname.toLowerCase())
-  const resolved = hostSlug === undefined ? env.get('FALLBACK_TENANT_SLUG') : hostSlug
-
-  if (resolved === slug) return appUrl.origin
+  if (tenantSlugFromHost(appUrl.hostname.toLowerCase()) === slug) {
+    return appUrl.origin
+  }
   return `https://${slug}.${env.get('APP_BASE_DOMAIN', 'reservo.fit')}`
 }

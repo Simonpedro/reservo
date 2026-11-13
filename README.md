@@ -31,7 +31,7 @@ Abrí `http://kinaf.localhost:3333`. Si el navegador no resuelve ese host, usá 
 
 - Horarios de lunes a sábado en los dos centros: Gimnasio a la mañana y a la tarde, Pilates y Yoga.
 - Admin: `admin@kinaf.test` / `KinafDev2026!` en `/login`.
-- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf` (en producción, `https://reservo.fly.dev/acceso/demo-sofi-kinaf`). Plan "2 Gym + 1 Pilates" (precio estimado, ver arriba) con horario fijo miércoles 20:00 y viernes 18:00 Gimnasio, y lunes 18:00 Pilates, todos en Mendoza. Tiene una clase pendiente por cancelación y tres meses pagos.
+- Alumna demo Sofi Ortiz (`sofi@kinaf.test`): entra sin contraseña con su link de acceso, `http://kinaf.localhost:3333/acceso/demo-sofi-kinaf` (en producción, `https://kinaf.reservo.fit/acceso/demo-sofi-kinaf`; `https://reservo.fly.dev/acceso/demo-sofi-kinaf` sigue funcionando). Plan "2 Gym + 1 Pilates" (precio estimado, ver arriba) con horario fijo miércoles 20:00 y viernes 18:00 Gimnasio, y lunes 18:00 Pilates, todos en Mendoza. Tiene una clase pendiente por cancelación y tres meses pagos.
 - Otros 11 alumnos (`<nombre>.<apellido>@kinaf.test`, sin link) con distintos planes: algunos sin horario fijo, Fede Paz sin plan, Mati Ruiz con una pendiente por ausencia.
 - Cuotas del mes en todos los estados: pendiente, en revisión (con un comprobante PNG de ejemplo), pagada y atrasada (Mati y Flor deben el mes anterior). Después del día 10, las pendientes del mes también se ven atrasadas.
 - Un cierre de todos los centros: el próximo feriado nacional dentro de las 4 semanas, o un "Cierre por mantenimiento" de ejemplo a 10 días.
@@ -131,8 +131,10 @@ El tenant se resuelve desde `<slug>.reservo.fit` o `<slug>.localhost`. El apex y
 Cualquier otro host (por ejemplo `reservo.fly.dev`) resuelve así:
 
 1. En desarrollo y tests, el header `x-tenant` o `DEFAULT_TENANT_SLUG`. Nunca en producción.
-2. `FALLBACK_TENANT_SLUG`, si está definida, también en producción. Sirve mientras no haya DNS propio.
+2. `FALLBACK_TENANT_SLUG`, si está definida, también en producción. Así `reservo.fly.dev` sigue mostrando Kinaf.
 3. Si no, 404.
+
+Los links de acceso que genera el admin van siempre a `https://<slug>.reservo.fit`, no al host de fallback.
 
 El tema vive en `tenants.theme` como JSON y se convierte a variables CSS de shadcn en el layout raíz. Toda tabla de negocio futura debe incluir `tenant_id`, y toda consulta debe estar limitada al tenant del request.
 
@@ -148,7 +150,7 @@ La misma URL se usa para la app y el `release_command`, por lo que debe permitir
 
 ## Producción
 
-- URL: <https://reservo.fly.dev> (app `reservo` en Fly, región `gru`). Muestra Kinaf vía `FALLBACK_TENANT_SLUG = "kinaf"` en `fly.toml`.
+- URL de Kinaf: <https://kinaf.reservo.fit> (app `reservo` en Fly, región `gru`). <https://reservo.fly.dev> sigue mostrando Kinaf vía `FALLBACK_TENANT_SLUG = "kinaf"` en `fly.toml`.
 - Base: Supabase, proyecto `reservo` en `sa-east-1`, conectado por el session pooler (Supavisor, puerto 5432).
 - Secretos en Fly (`fly secrets set`): `DATABASE_URL`, `APP_KEY`, `APP_URL`, `DB_SSL=true` y opcionalmente `DAILY_RUN_TOKEN` para el cron del proceso diario. El resto de las variables está en `[env]` de `fly.toml`.
 - Cada release corre `node ace migration:run --force` (`release_command`).
