@@ -2,7 +2,14 @@ import type Booking from '#models/booking'
 import ClassSession from '#models/class_session'
 import PendingClass from '#models/pending_class'
 import type { PendingClassReason } from '#models/pending_class'
-import { addDays, BUSINESS_ZONE, endOfWeek, type IsoDate } from '#services/business_calendar'
+import {
+  addDays,
+  BUSINESS_ZONE,
+  businessDate,
+  businessNow,
+  endOfWeek,
+  type IsoDate,
+} from '#services/business_calendar'
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database'
 import { DateTime } from 'luxon'
 
@@ -24,6 +31,22 @@ export type PendingSummary = {
  */
 export function expiryFor(missedOn: IsoDate): IsoDate {
   return addDays(endOfWeek(missedOn), 7)
+}
+
+/**
+ * Marks `available` pending classes past `expiresOn` as `expired` for one tenant.
+ * Idempotent; returns how many rows were updated.
+ */
+export async function expirePendingClasses(
+  tenantId: number,
+  today: IsoDate = businessDate(businessNow())
+): Promise<number> {
+  const [count] = await PendingClass.query()
+    .where('tenantId', tenantId)
+    .where('status', 'available')
+    .where('expiresOn', '<', today)
+    .update({ status: 'expired' })
+  return Number(count)
 }
 
 export default class PendingClasses {
