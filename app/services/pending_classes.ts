@@ -16,13 +16,24 @@ import { DateTime } from 'luxon'
 type StudentRef = { id: number; tenantId: number }
 
 /**
+ * Pending classes that share where they can be used and their expiry:
+ * "2 de Gimnasio o Pilates, hasta el domingo 22". `activities` null = any
+ * activity of the plan.
+ */
+export type PendingGroup = {
+  count: number
+  activities: string[] | null
+  expiresOn: IsoDate
+}
+
+/**
  * What the student sees about their pending classes: how many, the earliest
- * expiry and where they can be used (`null` = any activity of the plan).
+ * expiry and one group per activities and expiry, the soonest first.
  */
 export type PendingSummary = {
   count: number
   expiresOn: IsoDate
-  activities: string[] | null
+  groups: PendingGroup[]
 }
 
 /**
@@ -93,6 +104,7 @@ export default class PendingClasses {
       .where('status', 'available')
       .where('expiresOn', '>=', today)
       .orderBy('expiresOn', 'asc')
+      .orderBy('id', 'asc')
   }
 
   async summaryFor(student: StudentRef, today: IsoDate): Promise<PendingSummary | null> {
@@ -101,17 +113,25 @@ export default class PendingClasses {
     )
     if (pendings.length === 0) return null
 
-    const anyActivity = pendings.some((pending) => pending.planQuota.anyActivity)
-    const activities = [
-      ...new Set(
-        pendings.flatMap((pending) => pending.planQuota.activities.map((activity) => activity.name))
-      ),
-    ].sort((a, b) => a.localeCompare(b, 'es'))
+    const groups = new Map<string, PendingGroup>()
+    for (const pending of pendings) {
+      const quota = pending.planQuota
+      const names = quota.activities.map((activity) => activity.name)
+      const activities =
+        quota.anyActivity || names.length === 0
+          ? null
+          : names.sort((a, b) => a.localeCompare(b, 'es'))
+      const expiresOn = pending.expiresOn.toISODate()!
+      const key = `${expiresOn}:${activities?.join('|') ?? '*'}`
+      const group = groups.get(key)
+      if (group) group.count++
+      else groups.set(key, { count: 1, activities, expiresOn })
+    }
 
     return {
       count: pendings.length,
       expiresOn: pendings[0].expiresOn.toISODate()!,
-      activities: anyActivity || activities.length === 0 ? null : activities,
+      groups: [...groups.values()],
     }
   }
 }

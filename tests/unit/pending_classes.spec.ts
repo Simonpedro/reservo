@@ -6,6 +6,8 @@ import PendingClasses, { expiryFor } from '#services/pending_classes'
 import {
   createBooking,
   createCatalog,
+  createPendingClass,
+  createQuota,
   createSchedule,
   createStudent,
 } from '#tests/support/scenario'
@@ -92,7 +94,14 @@ test.group('PendingClasses', (group) => {
 
     const summary = await pendings.summaryFor(student.user, '2026-11-22')
 
-    assert.deepEqual(summary, { count: 2, expiresOn: '2026-11-22', activities: null })
+    assert.deepEqual(summary, {
+      count: 2,
+      expiresOn: '2026-11-22',
+      groups: [
+        { count: 1, activities: null, expiresOn: '2026-11-22' },
+        { count: 1, activities: null, expiresOn: '2026-11-29' },
+      ],
+    })
     assert.isNull(await pendings.summaryFor(student.user, '2026-11-30'))
   })
 
@@ -120,7 +129,36 @@ test.group('PendingClasses', (group) => {
 
     const summary = await pendings.summaryFor(student.user, '2026-11-20')
 
-    assert.deepEqual(summary?.activities, ['Pilates', 'Yoga'])
+    assert.deepEqual(summary?.groups, [
+      { count: 1, activities: ['Pilates', 'Yoga'], expiresOn: '2026-11-29' },
+    ])
+  })
+
+  test('groups them by activities and expiry, the soonest first', async ({ assert }) => {
+    const catalog = await createCatalog()
+    const student = await createStudent(catalog)
+    const schedule = await createSchedule(catalog)
+    const yoga = await createQuota(catalog, student, [catalog.yoga])
+    const gymOrPilates = await createQuota(catalog, student, [catalog.pilates, catalog.gym])
+    const pending = (quota: typeof yoga, missedOn: string, expiresOn: string) =>
+      createPendingClass(catalog, student, {
+        schedule,
+        missedOn: day(missedOn),
+        expiresOn: day(expiresOn),
+        quota,
+      })
+    await pending(yoga, '2026-11-16', '2026-11-29')
+    await pending(gymOrPilates, '2026-11-12', '2026-11-22')
+    await pending(gymOrPilates, '2026-11-13', '2026-11-22')
+
+    const summary = await pendings.summaryFor(student.user, '2026-11-20')
+
+    assert.equal(summary?.count, 3)
+    assert.equal(summary?.expiresOn, '2026-11-22')
+    assert.deepEqual(summary?.groups, [
+      { count: 2, activities: ['Gimnasio', 'Pilates'], expiresOn: '2026-11-22' },
+      { count: 1, activities: ['Yoga'], expiresOn: '2026-11-29' },
+    ])
   })
 
   test("never counts another student's pending classes", async ({ assert }) => {

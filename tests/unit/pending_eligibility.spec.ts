@@ -6,6 +6,7 @@ import Cancellation from '#services/cancellation'
 import { findOrCreateSession } from '#services/class_sessions'
 import PendingEligibility, {
   fits,
+  pick,
   PendingUseError,
   type PendingRules,
   type SessionOption,
@@ -61,6 +62,27 @@ test.group('A pending class fits a class', () => {
     assert.isFalse(fits(rules, { ...pilates, date: '2026-11-20' }))
     assert.isFalse(fits(rules, { ...pilates, date: '2026-11-23' }))
     assert.isTrue(fits(rules, { ...pilates, date: '2026-11-23', centerId: 8 }))
+  })
+})
+
+test.group('The pending class a class uses', () => {
+  const base = { today: '2026-11-12', now, closed: new Set<string>() }
+  const yoga = { id: 'yoga', rules: { ...base, activities: new Set([3]), expiresOn: '2026-11-22' } }
+  const free = { id: 'free', rules: { ...base, activities: null, expiresOn: '2026-11-29' } }
+  const gymOrPilates = {
+    id: 'gym-pilates',
+    rules: { ...base, activities: new Set([1, 2]), expiresOn: '2026-11-15' },
+  }
+  const pilates = { date: '2026-11-13', startTime: '18:00', activityId: 1, centerId: 7 }
+
+  test('is the one that fits and expires first', ({ assert }) => {
+    assert.equal(pick([free, yoga, gymOrPilates], pilates)?.id, 'gym-pilates')
+    assert.equal(pick([free, yoga, gymOrPilates], { ...pilates, activityId: 3 })?.id, 'yoga')
+  })
+
+  test('skips one whose window ends before the class', ({ assert }) => {
+    assert.equal(pick([gymOrPilates, free], { ...pilates, date: '2026-11-19' })?.id, 'free')
+    assert.isNull(pick([gymOrPilates, yoga], { ...pilates, date: '2026-11-19' }))
   })
 })
 
@@ -245,7 +267,32 @@ test.group('Where a pending class can be used', (group) => {
     assert.deepEqual(await eligibility.options(pending, now), [])
   })
 
-  test('the next pending class is the one that expires first', async ({ assert }) => {
+  test('with several pending classes, offers every class at least one fits', async ({ assert }) => {
+    const w = await world()
+    // Yoga until Sunday 29 and Pilates until Sunday 22.
+    await pendingFor(w, await createQuota(w.catalog, w.student, [w.catalog.yoga]))
+    await createPendingClass(w.catalog, w.student, {
+      schedule: w.pilates,
+      missedOn: at('2026-11-12'),
+      expiresOn: at('2026-11-22'),
+      quota: await createQuota(w.catalog, w.student, [w.catalog.pilates]),
+    })
+    const pendings = await eligibility.available(w.student.user, '2026-11-12')
+
+    const options = names(await eligibility.eligible(pendings, now))
+
+    // No Pilates on Thursday 26: only the Yoga one lasts until then.
+    assert.deepEqual(options, [
+      'Pilates 2026-11-12 18:00',
+      'Yoga 2026-11-16 19:00',
+      'Pilates 2026-11-19 18:00',
+      'Yoga 2026-11-23 19:00',
+    ])
+  })
+
+  test('the available pending classes expire first first, and expired ones are gone', async ({
+    assert,
+  }) => {
     const w = await world()
     const later = await pendingFor(w)
     const sooner = await createPendingClass(w.catalog, w.student, {
@@ -254,11 +301,17 @@ test.group('Where a pending class can be used', (group) => {
       expiresOn: at('2026-11-15'),
     })
 
-    const first = await eligibility.next(w.student.user, '2026-11-12')
-    const afterItExpires = await eligibility.next(w.student.user, '2026-11-16')
+    const today = await eligibility.available(w.student.user, '2026-11-12')
+    const afterOneExpires = await eligibility.available(w.student.user, '2026-11-16')
 
-    assert.equal(first?.id, sooner.id)
-    assert.equal(afterItExpires?.id, later.id)
+    assert.deepEqual(
+      today.map((pending) => pending.id),
+      [sooner.id, later.id]
+    )
+    assert.deepEqual(
+      afterOneExpires.map((pending) => pending.id),
+      [later.id]
+    )
   })
 })
 
@@ -276,7 +329,7 @@ test.group('Using a pending class', (group) => {
     const pending = await pendingFor(w)
     const session = await sessionOf(w.pilates, '2026-11-19')
 
-    const booking = await eligibility.use(w.student.user, pending.id, session.id, now)
+    const booking = await eligibility.use(w.student.user, session.id, now)
 
     assert.equal(booking.source, 'pending')
     assert.equal(booking.status, 'active')
@@ -292,7 +345,7 @@ test.group('Using a pending class', (group) => {
     const w = await world()
     const pending = await pendingFor(w)
     const session = await sessionOf(w.pilates, '2026-11-19')
-    const booking = await eligibility.use(w.student.user, pending.id, session.id, now)
+    const booking = await eligibility.use(w.student.user, session.id, now)
 
     await new Cancellation().cancel(booking, now.plus({ hours: 1 }))
 
@@ -303,12 +356,68 @@ test.group('Using a pending class', (group) => {
     assert.lengthOf(await PendingClass.query().where('userId', w.student.user.id), 1)
   })
 
+  test('uses the pending class that fits and expires first', async ({ assert }) => {
+    const w = await world()
+    const later = await pendingFor(w)
+    const sooner = await createPendingClass(w.catalog, w.student, {
+      schedule: w.pilates,
+      missedOn: at('2026-11-12'),
+      expiresOn: at('2026-11-22'),
+    })
+
+    const session = await sessionOf(w.pilates, '2026-11-19')
+    const first = await eligibility.use(w.student.user, session.id, now)
+    await sooner.refresh()
+    await later.refresh()
+
+    assert.equal(first.pendingClassId, sooner.id)
+    assert.equal(sooner.status, 'used')
+    assert.equal(later.status, 'available')
+  })
+
+  test('skips a pending class that expires first but is for another activity', async ({
+    assert,
+  }) => {
+    const w = await world()
+    const yogaSooner = await createPendingClass(w.catalog, w.student, {
+      schedule: w.yoga,
+      missedOn: at('2026-11-09'),
+      expiresOn: at('2026-11-22'),
+      quota: await createQuota(w.catalog, w.student, [w.catalog.yoga]),
+    })
+    const pilatesQuota = await createQuota(w.catalog, w.student, [w.catalog.pilates])
+    const pilatesLater = await pendingFor(w, pilatesQuota)
+
+    const session = await sessionOf(w.pilates, '2026-11-19')
+    const booking = await eligibility.use(w.student.user, session.id, now)
+
+    assert.equal(booking.pendingClassId, pilatesLater.id)
+    assert.equal(booking.planQuotaId, pilatesQuota.id)
+    await yogaSooner.refresh()
+    assert.equal(yogaSooner.status, 'available')
+  })
+
+  test('uses the later pending class past the expiry of the sooner one', async ({ assert }) => {
+    const w = await world()
+    const later = await pendingFor(w)
+    await createPendingClass(w.catalog, w.student, {
+      schedule: w.pilates,
+      missedOn: at('2026-11-12'),
+      expiresOn: at('2026-11-22'),
+    })
+
+    const session = await sessionOf(w.pilates, '2026-11-26')
+    const booking = await eligibility.use(w.student.user, session.id, now)
+
+    assert.equal(booking.pendingClassId, later.id)
+  })
+
   test('refuses an activity outside the quota', async ({ assert }) => {
     const w = await world()
     const pending = await pendingFor(w, await createQuota(w.catalog, w.student, [w.catalog.yoga]))
     const session = await sessionOf(w.pilates, '2026-11-19')
 
-    const error = await eligibility.use(w.student.user, pending.id, session.id, now).catch((e) => e)
+    const error = await eligibility.use(w.student.user, session.id, now).catch((e) => e)
 
     assert.instanceOf(error, PendingUseError)
     assert.equal(error.reason, 'not_allowed')
@@ -320,10 +429,10 @@ test.group('Using a pending class', (group) => {
     const w = await world()
     await w.pilates.merge({ capacity: 1 }).save()
     await fill(w.catalog, w.pilates, '2026-11-19', 1)
-    const pending = await pendingFor(w)
+    await pendingFor(w)
     const session = await sessionOf(w.pilates, '2026-11-19')
 
-    const error = await eligibility.use(w.student.user, pending.id, session.id, now).catch((e) => e)
+    const error = await eligibility.use(w.student.user, session.id, now).catch((e) => e)
 
     assert.equal(error.reason, 'full')
     const active = await Booking.query()
@@ -334,38 +443,36 @@ test.group('Using a pending class', (group) => {
 
   test('refuses a class the student already has', async ({ assert }) => {
     const w = await world()
-    const pending = await pendingFor(w)
+    await pendingFor(w)
     const session = await sessionOf(w.yoga, '2026-11-23')
     await createBooking(w.catalog, w.student, w.yoga, at('2026-11-23'))
 
-    const error = await eligibility.use(w.student.user, pending.id, session.id, now).catch((e) => e)
+    const error = await eligibility.use(w.student.user, session.id, now).catch((e) => e)
 
     assert.equal(error.reason, 'already_booked')
   })
 
   test('refuses past classes and classes after the expiry', async ({ assert }) => {
     const w = await world()
-    const pending = await pendingFor(w)
+    await pendingFor(w)
     const past = await sessionOf(w.pilates, '2026-11-05')
     const late = await sessionOf(w.pilates, '2026-12-03')
 
     for (const session of [past, late]) {
-      const error = await eligibility
-        .use(w.student.user, pending.id, session.id, now)
-        .catch((e) => e)
+      const error = await eligibility.use(w.student.user, session.id, now).catch((e) => e)
       assert.equal(error.reason, 'unavailable')
     }
   })
 
   test('refuses an expired pending class or one of another student', async ({ assert }) => {
     const w = await world()
-    const pending = await pendingFor(w)
+    await pendingFor(w)
     const session = await sessionOf(w.pilates, '2026-11-19')
     const other = await createStudent(w.catalog)
 
-    const foreign = await eligibility.use(other.user, pending.id, session.id, now).catch((e) => e)
+    const foreign = await eligibility.use(other.user, session.id, now).catch((e) => e)
     const expired = await eligibility
-      .use(w.student.user, pending.id, session.id, at('2026-11-30T08:00'))
+      .use(w.student.user, session.id, at('2026-11-30T08:00'))
       .catch((e) => e)
 
     assert.equal(foreign.reason, 'pending_unavailable')

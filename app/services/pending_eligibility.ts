@@ -73,6 +73,18 @@ export function fits(rules: PendingRules, candidate: Candidate): boolean {
 }
 
 /**
+ * The pending class a class uses: among those that fit it, the one that
+ * expires first (ties keep the given order).
+ */
+export function pick<T extends { rules: PendingRules }>(
+  pendings: T[],
+  candidate: Candidate
+): T | null {
+  const sorted = [...pendings].sort((a, b) => a.rules.expiresOn.localeCompare(b.rules.expiresOn))
+  return sorted.find((pending) => fits(pending.rules, candidate)) ?? null
+}
+
+/**
  * The dates a pending class can still be used: today until its expiry.
  */
 export function window(rules: Pick<PendingRules, 'today' | 'expiresOn'>): IsoDate[] {
@@ -81,16 +93,30 @@ export function window(rules: Pick<PendingRules, 'today' | 'expiresOn'>): IsoDat
   return days
 }
 
+type Ruled = { pending: PendingClass; rules: PendingRules }
+
+function candidateOf(session: ClassSession, schedule: ClassSchedule): Candidate {
+  return {
+    date: session.date.toISODate()!,
+    startTime: schedule.startTime,
+    activityId: schedule.activityId,
+    centerId: schedule.centerId,
+  }
+}
+
 /**
- * Where a pending class can be used, and using it: booking a class by hand
- * inside the activities of the quota it came from, until it expires.
+ * Where a student's pending classes can be used, and using them: booking a
+ * class by hand inside the activities of the quota each came from, until it
+ * expires. With several, a class is offered when at least one fits it, and
+ * booking it uses the one that fits and expires first.
  */
 export default class PendingEligibility {
   /**
-   * The pending class to use first: the available one that expires first.
+   * The student's pending classes that can still be used, the soonest to
+   * expire first, with their quota activities.
    */
-  next(student: StudentRef, today: IsoDate) {
-    return PendingClass.query()
+  available(student: StudentRef, today: IsoDate, client?: TransactionClientContract) {
+    return PendingClass.query({ client })
       .where('tenantId', student.tenantId)
       .where('userId', student.id)
       .where('status', 'available')
@@ -98,30 +124,41 @@ export default class PendingEligibility {
       .preload('planQuota', (quota) => quota.preload('activities'))
       .orderBy('expiresOn', 'asc')
       .orderBy('id', 'asc')
-      .first()
   }
 
   /**
-   * Every class the pending class fits from now until it expires, full ones
-   * included (the list shows them as "Cupo completo"), minus those the
-   * student already has. Sessions are created as needed.
+   * Every class at least one of the pending classes fits, from now until the
+   * last one expires, full ones included (the list shows them as "Cupo
+   * completo"), minus those the student already has. Sessions are created
+   * as needed.
    */
-  async options(pending: PendingClass, now: DateTime = businessNow()): Promise<SessionOption[]> {
-    const rules = await this.rules(pending, now)
-    if (!rules) return []
+  async options(
+    pendings: PendingClass | PendingClass[],
+    now: DateTime = businessNow()
+  ): Promise<SessionOption[]> {
+    const ruled = await this.ruled([pendings].flat(), now)
+    if (ruled.length === 0) return []
 
+    const { tenantId, userId } = ruled[0].pending
+    const anyActivity = ruled.some(({ rules }) => rules.activities === null)
+    const activityIds = new Set(ruled.flatMap(({ rules }) => [...(rules.activities ?? [])]))
     const schedules = await ClassSchedule.query()
-      .where('tenantId', pending.tenantId)
+      .where('tenantId', tenantId)
       .where('active', true)
-      .if(rules.activities, (query) => query.whereIn('activityId', [...rules.activities!]))
+      .if(!anyActivity, (query) => query.whereIn('activityId', [...activityIds]))
       .preload('activity')
       .preload('center')
 
-    const candidates = window(rules).flatMap((date) =>
+    const today = ruled[0].rules.today
+    const expiresOn = ruled
+      .map(({ rules }) => rules.expiresOn)
+      .sort()
+      .at(-1)!
+    const candidates = window({ today, expiresOn }).flatMap((date) =>
       schedules
         .filter((schedule) => schedule.weekday === isoWeekday(date))
         .filter((schedule) =>
-          fits(rules, {
+          pick(ruled, {
             date,
             startTime: schedule.startTime,
             activityId: schedule.activityId,
@@ -132,7 +169,7 @@ export default class PendingEligibility {
     )
 
     const sessions = await findOrCreateSessions(
-      pending.tenantId,
+      tenantId,
       candidates.map(({ schedule, date }) => ({ scheduleId: schedule.id, date }))
     )
     const options = candidates
@@ -143,66 +180,59 @@ export default class PendingEligibility {
       }))
       .filter((option) => option.session.status === 'scheduled')
 
-    return this.withPlaces(pending, options)
+    return this.withPlaces({ tenantId, id: userId }, options)
   }
 
   /**
-   * The classes where the pending class can be used right now: with room.
+   * The classes where the pending classes can be used right now: with room.
    */
-  async eligible(pending: PendingClass, now: DateTime = businessNow()) {
-    const options = await this.options(pending, now)
+  async eligible(pendings: PendingClass | PendingClass[], now: DateTime = businessNow()) {
+    const options = await this.options(pendings, now)
     return options.filter((option) => option.freeSpots > 0)
   }
 
   /**
-   * One session as an option for the pending class, or null when it does
-   * not fit (other activity, out of the window, past, suspended, closed or
+   * One session as an option for the pending classes, or null when none fits
+   * it (other activity, out of the window, past, suspended, closed or
    * already booked by the student).
    */
   async option(
-    pending: PendingClass,
+    pendings: PendingClass | PendingClass[],
     sessionId: number,
     now: DateTime = businessNow()
   ): Promise<SessionOption | null> {
-    const rules = await this.rules(pending, now)
-    if (!rules) return null
+    const ruled = await this.ruled([pendings].flat(), now)
+    if (ruled.length === 0) return null
 
+    const { tenantId, userId } = ruled[0].pending
     const session = await ClassSession.query()
-      .where('tenantId', pending.tenantId)
+      .where('tenantId', tenantId)
       .where('id', sessionId)
       .preload('classSchedule', (schedule) => schedule.preload('activity').preload('center'))
       .first()
-    if (!session || !this.open(rules, session)) return null
+    if (!session || !this.openFor(ruled, session)) return null
 
-    const [option] = await this.withPlaces(pending, [
+    const [option] = await this.withPlaces({ tenantId, id: userId }, [
       { session, schedule: session.classSchedule, freeSpots: 0 },
     ])
     return option ?? null
   }
 
   /**
-   * Books the session with the student's pending class: a `pending` booking
-   * and the pending class marked as used. The session row is locked so two
-   * students cannot take its last place at the same time.
+   * Books the session with one of the student's pending classes: among those
+   * that fit it, the one that expires first. Creates a `pending` booking and
+   * marks that pending class as used. The pending classes and the session
+   * row are locked so neither can be used twice at the same time.
    */
   async use(
     student: StudentRef,
-    pendingId: number,
     sessionId: number,
     now: DateTime = businessNow()
   ): Promise<Booking> {
     return db.transaction(async (trx) => {
-      const pending = await PendingClass.query({ client: trx })
-        .where('tenantId', student.tenantId)
-        .where('userId', student.id)
-        .where('id', pendingId)
-        .forUpdate()
-        .first()
-      if (!pending) throw new PendingUseError('pending_unavailable')
-      await pending.load('planQuota', (quota) => quota.preload('activities'))
-
-      const rules = await this.rules(pending, now, trx)
-      if (!rules) throw new PendingUseError('pending_unavailable')
+      const pendings = await this.available(student, businessDate(now), trx).forUpdate()
+      const ruled = await this.ruled(pendings, now, trx)
+      if (ruled.length === 0) throw new PendingUseError('pending_unavailable')
 
       const session = await ClassSession.query({ client: trx })
         .where('tenantId', student.tenantId)
@@ -213,10 +243,13 @@ export default class PendingEligibility {
       await session.load('classSchedule')
       const schedule = session.classSchedule
 
-      if (rules.activities && !rules.activities.has(schedule.activityId)) {
-        throw new PendingUseError('not_allowed')
-      }
-      if (!this.open(rules, session)) throw new PendingUseError('unavailable')
+      const allowed = ruled.filter(
+        ({ rules }) => !rules.activities || rules.activities.has(schedule.activityId)
+      )
+      if (allowed.length === 0) throw new PendingUseError('not_allowed')
+      const chosen = this.openFor(allowed, session)
+      if (!chosen) throw new PendingUseError('unavailable')
+      const pending = chosen.pending
 
       const taken = await Booking.query({ client: trx })
         .where('tenantId', student.tenantId)
@@ -242,6 +275,7 @@ export default class PendingEligibility {
         },
         { client: trx }
       )
+      pending.useTransaction(trx)
       pending.status = 'used'
       pending.usedBookingId = booking.id
       await pending.save()
@@ -250,58 +284,68 @@ export default class PendingEligibility {
   }
 
   /**
-   * The rules of an available, unexpired pending class (null otherwise).
-   * Expects `planQuota.activities` loaded.
+   * The rules of each available, unexpired pending class (the rest are left
+   * out). Expects `planQuota.activities` loaded or loads it.
    */
-  private async rules(
-    pending: PendingClass,
+  private async ruled(
+    pendings: PendingClass[],
     now: DateTime,
     client?: TransactionClientContract
-  ): Promise<PendingRules | null> {
+  ): Promise<Ruled[]> {
     const today = businessDate(now)
-    const expiresOn = pending.expiresOn.toISODate()!
-    if (pending.status !== 'available' || expiresOn < today) return null
+    const usable = pendings.filter(
+      (pending) => pending.status === 'available' && pending.expiresOn.toISODate()! >= today
+    )
+    if (usable.length === 0) return []
 
-    if (!pending.planQuota) await pending.load('planQuota', (q) => q.preload('activities'))
-    const quota = pending.planQuota
-    const closures = await Closure.query({ client })
-      .where('tenantId', pending.tenantId)
-      .whereBetween('date', [today, expiresOn])
-
-    return {
-      activities: quota.anyActivity
-        ? null
-        : new Set(quota.activities.map((activity) => activity.id)),
-      today,
-      expiresOn,
-      now,
-      closed: new Set(
-        closures.map((closure) => `${closure.date.toISODate()}:${closure.centerId ?? '*'}`)
-      ),
+    for (const pending of usable) {
+      if (!pending.planQuota) await pending.load('planQuota', (q) => q.preload('activities'))
     }
+    const until = usable
+      .map((pending) => pending.expiresOn.toISODate()!)
+      .sort()
+      .at(-1)!
+    const closures = await Closure.query({ client })
+      .where('tenantId', usable[0].tenantId)
+      .whereBetween('date', [today, until])
+    const closed = new Set(
+      closures.map((closure) => `${closure.date.toISODate()}:${closure.centerId ?? '*'}`)
+    )
+
+    return usable.map((pending) => {
+      const quota = pending.planQuota
+      return {
+        pending,
+        rules: {
+          activities: quota.anyActivity
+            ? null
+            : new Set(quota.activities.map((activity) => activity.id)),
+          today,
+          expiresOn: pending.expiresOn.toISODate()!,
+          now,
+          closed,
+        },
+      }
+    })
   }
 
-  private open(rules: PendingRules, session: ClassSession & { classSchedule: ClassSchedule }) {
+  /**
+   * The pending class that would book the session, or null when the session
+   * cannot be booked (suspended, inactive schedule) or none fits it.
+   */
+  private openFor(ruled: Ruled[], session: ClassSession & { classSchedule: ClassSchedule }) {
     const schedule = session.classSchedule
-    return (
-      session.status === 'scheduled' &&
-      schedule.active &&
-      fits(rules, {
-        date: session.date.toISODate()!,
-        startTime: schedule.startTime,
-        activityId: schedule.activityId,
-        centerId: schedule.centerId,
-      })
-    )
+    if (session.status !== 'scheduled' || !schedule.active) return null
+    return pick(ruled, candidateOf(session, schedule))
   }
 
   /**
    * Fills the free places and drops the sessions the student already has.
    */
-  private async withPlaces(pending: PendingClass, options: SessionOption[]) {
+  private async withPlaces(student: StudentRef, options: SessionOption[]) {
     if (options.length === 0) return []
     const bookings = await Booking.query()
-      .where('tenantId', pending.tenantId)
+      .where('tenantId', student.tenantId)
       .whereIn(
         'classSessionId',
         options.map((option) => option.session.id)
@@ -313,7 +357,7 @@ export default class PendingEligibility {
     const mine = new Set<number>()
     for (const booking of bookings) {
       taken.set(booking.classSessionId, (taken.get(booking.classSessionId) ?? 0) + 1)
-      if (booking.userId === pending.userId) mine.add(booking.classSessionId)
+      if (booking.userId === student.id) mine.add(booking.classSessionId)
     }
 
     return options

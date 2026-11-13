@@ -65,7 +65,6 @@ export default function SessionDetail({ detail }: { detail: SessionDetailView })
                 route="client.choose.store"
                 routeParams={{ id: card.sessionId }}
                 method="post"
-                data={{ pendingId: detail.pendingId }}
                 as="button"
               >
                 Usar clase pendiente

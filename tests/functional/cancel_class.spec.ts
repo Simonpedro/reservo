@@ -157,11 +157,13 @@ test.group('No voy a ir', (group) => {
       .withInertia()
 
     const { view } = response.inertiaProps
+    const expiresOn = expiryFor(start.toISODate()!)
+    const expiresLabel = dayName(expiresOn)
     assert.deepEqual(view.pending, {
       count: 1,
-      expiresOn: expiryFor(start.toISODate()!),
-      expiresLabel: dayName(expiryFor(start.toISODate()!)),
-      activities: null,
+      expiresOn,
+      expiresLabel,
+      groups: [{ count: 1, activities: null, expiresOn, expiresLabel }],
     })
     assert.lengthOf(
       view.weeks.flatMap((week: { classes: unknown[] }) => week.classes),

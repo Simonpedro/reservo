@@ -2,12 +2,13 @@ import { Head, router, usePage } from '@inertiajs/react'
 import { CalendarDays, CalendarOff, CircleAlert, Clock, MapPin, Ticket, Users } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import type { ChooseClassView } from '#services/choose_class'
+import type { PendingNotice } from '#services/my_classes'
+import { pendingCountText, pendingLines } from '#services/pending_text'
 import { BackButton } from '~/components/back_button'
 import { ClassCard } from '~/components/class_card'
 import { EmptyState } from '~/components/empty_state'
 import { DetailLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
-import { activitiesText, pendingCountText } from '~/components/pending_notice'
 import { cn } from '~/lib/utils'
 import type { PageProps } from '~/types'
 
@@ -29,8 +30,31 @@ function Title() {
 }
 
 /**
+ * "Tenés 1 clase pendiente. Vale para Yoga. Usala hasta el domingo 29.", or
+ * with several of different activities or expiry, one line each.
+ */
+function PendingSubtitle({ pending }: { pending: PendingNotice }) {
+  const lines = pendingLines(pending.groups)
+  const className = 'mt-1.5 text-sm leading-[1.3] font-bold text-navy/72'
+  if (lines.length === 1) {
+    return <p className={className}>{`${pendingCountText(pending.count)}. ${lines[0]}`}</p>
+  }
+  return (
+    <div className={className}>
+      <p>{`${pendingCountText(pending.count)}:`}</p>
+      <ul>
+        {lines.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/**
  * Elegir clase (inner page, opened from the pending notice): the days until
- * the pending class expires and the classes it can be used in.
+ * the last pending class expires and the classes where at least one can be
+ * used. The server picks which one when booking.
  */
 export default function ChooseClass({ view }: { view: ChooseClassView }) {
   const page = usePage<PageProps>()
@@ -115,9 +139,7 @@ export default function ChooseClass({ view }: { view: ChooseClassView }) {
   return (
     <main className="mx-auto min-h-svh w-full max-w-[430px] px-5 pt-3 pb-10">
       <Title />
-      <p className="mt-1.5 text-sm leading-[1.3] font-bold text-navy/72">
-        {`${pendingCountText(pending.count)}. ${activitiesText(pending.activities)} Usala hasta el ${pending.expiresLabel}.`}
-      </p>
+      <PendingSubtitle pending={pending} />
       {error && <Notice icon={CircleAlert} title={error} className="mt-4" />}
       <div
         ref={strip}

@@ -19,7 +19,8 @@ import { ClassHero } from '~/components/class_hero'
 import { Dock } from '~/components/client_layout'
 import { InfoLine } from '~/components/info_line'
 import { Notice } from '~/components/notice'
-import { ChooseClassButton, pendingCountText } from '~/components/pending_notice'
+import { pendingCountUntil } from '#services/pending_text'
+import { ChooseClassButton } from '~/components/pending_notice'
 import { Button } from '~/components/ui/button'
 import { WhatsappButton } from '~/components/whatsapp_button'
 import { cn } from '~/lib/utils'
@@ -101,9 +102,7 @@ export default function ClassDetail({
           )
         }
       >
-        {pending
-          ? `${pendingCountText(pending.count)} hasta el ${pending.expiresLabel}.`
-          : undefined}
+        {pending ? pendingCountUntil(pending.groups) : undefined}
       </Notice>
     )
   } else if (state === 'too_late') {

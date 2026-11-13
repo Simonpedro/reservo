@@ -64,9 +64,11 @@ test.group('Elegir clase', (group) => {
     const view = response.inertiaProps.view as any
     assert.equal(view.state, 'ready')
     assert.equal(view.selected, w.inTwoDays)
-    assert.equal(view.pending.id, w.pending.id)
     assert.equal(view.pending.count, 1)
-    assert.isNull(view.pending.activities)
+    assert.deepEqual(
+      view.pending.groups.map((g: any) => g.activities),
+      [null]
+    )
     // Kinaf's seeded classes are there too: look only at this world's.
     const ours = [w.pilatesSession.id, w.yogaSession.id]
     const day = view.classes.filter((card: any) => ours.includes(card.sessionId))
@@ -92,7 +94,7 @@ test.group('Elegir clase', (group) => {
     response.assertInertiaPropsContains({ view: { state: 'none' } })
   })
 
-  test('the detail offers "Usar clase pendiente" with the pending to use', async ({ client }) => {
+  test('the detail offers "Usar clase pendiente"', async ({ client }) => {
     const w = await world()
 
     const response = await client
@@ -104,7 +106,7 @@ test.group('Elegir clase', (group) => {
     response.assertStatus(200)
     response.assertInertiaComponent('client/session_detail')
     response.assertInertiaPropsContains({
-      detail: { pendingId: w.pending.id, card: { sessionId: w.pilatesSession.id, freeSpots: 2 } },
+      detail: { card: { sessionId: w.pilatesSession.id, freeSpots: 2 } },
     })
   })
 
@@ -132,7 +134,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .redirects(0)
 
     const booking = await Booking.query()
@@ -156,7 +157,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .withInertia()
 
     response.assertInertiaComponent('client/class_detail')
@@ -174,7 +174,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .redirects(0)
 
     response.assertHeader('location', '/elegir-clase')
@@ -203,7 +202,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .withInertia()
 
     response.assertInertiaComponent('client/session_detail')
@@ -223,17 +221,16 @@ test.group('Usar clase pendiente', (group) => {
       missedOn: businessNow().minus({ days: 2 }).startOf('day'),
       expiresOn: businessNow().plus({ days: 9 }).startOf('day'),
     })
-    const use = (pendingId: number) =>
+    const use = () =>
       client
         .post(`/elegir-clase/${w.pilatesSession.id}`)
         .header('host', kinafHost)
         .loginAs(w.sofi.user)
         .withCsrfToken()
-        .json({ pendingId })
         .redirects(0)
 
-    await use(w.pending.id)
-    const response = await use(second.id)
+    await use()
+    const response = await use()
 
     response.assertFlashMessage('error', 'Ya tenés lugar en esta clase.')
     const mine = await Booking.query()
@@ -253,7 +250,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .redirects(0)
 
     response.assertFlashMessage('error', 'Esa clase pendiente ya no está disponible.')
@@ -269,7 +265,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(juan.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .redirects(0)
 
     response.assertFlashMessage('error', 'Esa clase pendiente ya no está disponible.')
@@ -288,7 +283,6 @@ test.group('Usar clase pendiente', (group) => {
       .header('host', kinafHost)
       .loginAs(w.sofi.user)
       .withCsrfToken()
-      .json({ pendingId: w.pending.id })
       .redirects(0)
     await w.pending.refresh()
 
@@ -304,5 +298,86 @@ test.group('Usar clase pendiente', (group) => {
     await w.pending.refresh()
     assert.equal(w.pending.status, 'available')
     assert.isNull(w.pending.usedBookingId)
+  })
+})
+
+test.group('Elegir clase with several pending classes', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
+  /**
+   * Sofi also has a Pilates pending class that expires before the Yoga one.
+   */
+  async function twoKinds() {
+    const w = await world({ quota: 'yoga' })
+    const pilates = await createPendingClass(w.catalog, w.sofi, {
+      schedule: w.pilates,
+      missedOn: businessNow().minus({ days: 1 }).startOf('day'),
+      expiresOn: businessNow().plus({ days: 5 }).startOf('day'),
+      quota: await createQuota(w.catalog, w.sofi, [w.catalog.pilates]),
+    })
+    return { ...w, pilatesPending: pilates }
+  }
+
+  test('lists the classes of both and describes each', async ({ client, assert }) => {
+    const w = await twoKinds()
+
+    const response = await client
+      .get(`/elegir-clase?dia=${w.inTwoDays}`)
+      .header('host', kinafHost)
+      .loginAs(w.sofi.user)
+      .withInertia()
+
+    const view = response.inertiaProps.view as any
+    const ids = view.classes.map((card: any) => card.sessionId)
+    assert.includeMembers(ids, [w.pilatesSession.id, w.yogaSession.id])
+    assert.equal(view.pending.count, 2)
+    assert.deepEqual(
+      view.pending.groups.map((g: any) => [g.activities, g.count]),
+      [
+        [['Pilates'], 1],
+        [['Yoga'], 1],
+      ]
+    )
+    // The strip lasts until the later expiry (the Yoga one, in 9 days).
+    assert.equal(view.days.at(-1).date, w.pending.expiresOn.toISODate())
+  })
+
+  test('booking picks the pending class of that activity', async ({ client, assert }) => {
+    const w = await twoKinds()
+
+    await client
+      .post(`/elegir-clase/${w.yogaSession.id}`)
+      .header('host', kinafHost)
+      .loginAs(w.sofi.user)
+      .withCsrfToken()
+      .redirects(0)
+
+    const booking = await Booking.query()
+      .where('userId', w.sofi.user.id)
+      .where('classSessionId', w.yogaSession.id)
+      .firstOrFail()
+    assert.equal(booking.pendingClassId, w.pending.id)
+    await w.pilatesPending.refresh()
+    assert.equal(w.pilatesPending.status, 'available')
+  })
+
+  test('a pending id sent by the client is ignored', async ({ client, assert }) => {
+    const w = await twoKinds()
+
+    await client
+      .post(`/elegir-clase/${w.pilatesSession.id}`)
+      .header('host', kinafHost)
+      .loginAs(w.sofi.user)
+      .withCsrfToken()
+      .json({ pendingId: w.pending.id })
+      .redirects(0)
+
+    const booking = await Booking.query()
+      .where('userId', w.sofi.user.id)
+      .where('classSessionId', w.pilatesSession.id)
+      .firstOrFail()
+    assert.equal(booking.pendingClassId, w.pilatesPending.id)
+    await w.pending.refresh()
+    assert.equal(w.pending.status, 'available')
   })
 })

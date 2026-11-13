@@ -4,7 +4,6 @@ import PendingEligibility, {
   PendingUseError,
   type PendingUseFailure,
 } from '#services/pending_eligibility'
-import { pendingUseValidator } from '#validators/pending_use'
 import type { HttpContext } from '@adonisjs/core/http'
 
 const FAILURES: Record<PendingUseFailure, string> = {
@@ -38,19 +37,14 @@ export default class ChooseClassController {
   }
 
   /**
-   * "Usar clase pendiente". Every rule is checked again on the server.
+   * "Usar clase pendiente". The server picks which pending class to use and
+   * checks every rule again.
    */
-  async store({ auth, params, request, response, session }: HttpContext) {
-    const { pendingId } = await request.validateUsing(pendingUseValidator)
+  async store({ auth, params, response, session }: HttpContext) {
     const sessionId = Number(params.id)
 
     try {
-      const booking = await new PendingEligibility().use(
-        auth.user!,
-        pendingId,
-        sessionId,
-        businessNow()
-      )
+      const booking = await new PendingEligibility().use(auth.user!, sessionId, businessNow())
       session.flash('booked', booking.id)
       return response.redirect().toRoute('client.classes.show', { id: booking.id })
     } catch (error) {

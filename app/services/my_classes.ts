@@ -15,7 +15,11 @@ import {
   type IsoDate,
 } from '#services/business_calendar'
 import { bookingStart, canCancel } from '#services/cancellation'
-import PendingClasses, { expiryFor, type PendingSummary } from '#services/pending_classes'
+import PendingClasses, {
+  expiryFor,
+  type PendingGroup,
+  type PendingSummary,
+} from '#services/pending_classes'
 import type { DateTime } from 'luxon'
 
 /**
@@ -43,9 +47,12 @@ export type MyClassesView =
   | { state: 'classes'; weeks: WeekGroup[]; pending: PendingNotice | null }
 
 /**
- * The pending classes notice, with its expiry already as "domingo 29".
+ * The pending classes notice, with each expiry already as "domingo 29".
  */
-export type PendingNotice = PendingSummary & { expiresLabel: string }
+export type PendingNotice = Omit<PendingSummary, 'groups'> & {
+  expiresLabel: string
+  groups: (PendingGroup & { expiresLabel: string })[]
+}
 
 /**
  * What the class detail can offer:
@@ -134,7 +141,16 @@ export async function pendingNotice(
   today: IsoDate
 ): Promise<PendingNotice | null> {
   const summary = await new PendingClasses().summaryFor(student, today)
-  return summary && { ...summary, expiresLabel: dayName(summary.expiresOn) }
+  return (
+    summary && {
+      ...summary,
+      expiresLabel: dayName(summary.expiresOn),
+      groups: summary.groups.map((group) => ({
+        ...group,
+        expiresLabel: dayName(group.expiresOn),
+      })),
+    }
+  )
 }
 
 export function detailState(booking: Booking, now: DateTime): ClassDetailState {
