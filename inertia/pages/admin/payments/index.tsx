@@ -49,7 +49,18 @@ function Section({
  * Pagos (admin tab): receipts to check and overdue fees.
  */
 export default function AdminPayments({ overview }: { overview: PaymentsOverview }) {
-  const flash = (usePage().flash ?? {}) as { success?: string; error?: string }
+  const flash = (usePage().flash ?? {}) as {
+    success?: string
+    error?: string
+    approvedFeeId?: number
+  }
+  const undo = flash.approvedFeeId ? (
+    <Button asChild variant="link" className="-my-2.5 h-11 px-0">
+      <Link href={`/admin/pagos/${flash.approvedFeeId}/deshacer`} method="post" as="button">
+        Deshacer
+      </Link>
+    </Button>
+  ) : undefined
 
   return (
     <AdminLayout
@@ -62,7 +73,9 @@ export default function AdminPayments({ overview }: { overview: PaymentsOverview
         </Button>
       }
     >
-      {flash.success && <Notice icon={CircleCheck} title={flash.success} className="mt-5" />}
+      {flash.success && (
+        <Notice icon={CircleCheck} title={flash.success} action={undo} className="mt-5" />
+      )}
       {flash.error && <Notice icon={CircleAlert} title={flash.error} className="mt-5" />}
 
       <Section

@@ -14,7 +14,11 @@ const origin = () => `http://kinaf.localhost:${env.get('PORT')}`
 test.group('Admin pagos', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
 
-  test('the admin reviews a receipt and approves it', async ({ assert, browserContext, visit }) => {
+  test('the admin reviews a receipt, approves it and undoes it', async ({
+    assert,
+    browserContext,
+    visit,
+  }) => {
     const kinaf = await Tenant.findByOrFail('slug', 'kinaf')
     const admin = await User.findByOrFail({ tenantId: kinaf.id, email: 'admin@kinaf.test' })
     const catalog = await createCatalog(kinaf)
@@ -57,6 +61,14 @@ test.group('Admin pagos', (group) => {
     assert.equal(fee.recordedById, admin.id)
     await receipt.refresh()
     assert.equal(receipt.status, 'approved')
+
+    await page.getByRole('button', { name: 'Deshacer' }).click()
+    await page.assertVisible(page.getByRole('link', { name: /Ana Gómez Prueba/ }))
+    await page.assertNotExists(page.getByRole('button', { name: 'Deshacer' }))
+    await fee.refresh()
+    assert.equal(fee.status, 'in_review')
+    await receipt.refresh()
+    assert.equal(receipt.status, 'in_review')
   })
 
   test('the admin rejects a receipt after confirming', async ({

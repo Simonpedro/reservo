@@ -123,6 +123,10 @@ router
               .where('id', router.matchers.number())
               .as('admin.payments.approve')
             router
+              .post('/admin/pagos/:id/deshacer', [AdminPaymentsController, 'undoApprove'])
+              .where('id', router.matchers.number())
+              .as('admin.payments.undoApprove')
+            router
               .post('/admin/pagos/:id/rechazar', [AdminPaymentsController, 'reject'])
               .where('id', router.matchers.number())
               .as('admin.payments.reject')

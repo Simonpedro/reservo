@@ -3,10 +3,7 @@ import env from '#start/env'
 
 test.group('Tenant resolution', () => {
   test('loads Kinaf from the development host', async ({ client }) => {
-    const response = await client
-      .get('/login')
-      .header('host', 'kinaf.localhost:3333')
-      .withInertia()
+    const response = await client.get('/login').header('host', 'kinaf.localhost:3333').withInertia()
 
     response.assertStatus(200)
     response.assertInertiaComponent('auth/login')

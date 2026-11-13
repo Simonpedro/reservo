@@ -11,6 +11,7 @@ import {
   registerForm,
   registerPayment,
   rejectReceipt,
+  undoApproval,
   uploadedWhen,
 } from '#services/admin_payments'
 import { BUSINESS_ZONE } from '#services/business_calendar'
@@ -212,6 +213,59 @@ test.group('Admin payments › approve and reject', (group) => {
     assert.isNull(monthlyFee.paidAt)
     await sent.refresh()
     assert.equal(sent.status, 'rejected')
+  })
+
+  test('undoing an approval puts the fee and its receipt back in review', async ({ assert }) => {
+    const catalog = await createCatalog()
+    const admin = await UserFactory.merge({ tenantId: catalog.tenant.id, role: 'admin' }).create()
+    const ana = await student(catalog, 'Ana Gómez', 38000)
+    const monthlyFee = await fee(catalog, ana, '2026-11-01', { status: 'in_review' })
+    const sent = await receipt(catalog, monthlyFee)
+    await approveReceipt(catalog.tenant.id, monthlyFee.id, admin.id, NOW)
+
+    await undoApproval(catalog.tenant.id, monthlyFee.id)
+
+    await monthlyFee.refresh()
+    assert.equal(monthlyFee.status, 'in_review')
+    assert.isNull(monthlyFee.method)
+    assert.isNull(monthlyFee.paidAt)
+    assert.isNull(monthlyFee.recordedById)
+    await sent.refresh()
+    assert.equal(sent.status, 'in_review')
+    assert.isNotNull(await receiptReview(catalog.tenant.id, monthlyFee.id, NOW))
+  })
+
+  test('only a fee paid by approving its receipt can be undone', async ({ assert }) => {
+    const catalog = await createCatalog()
+    const other = await createCatalog()
+    const admin = await UserFactory.merge({ tenantId: catalog.tenant.id, role: 'admin' }).create()
+    const ana = await student(catalog, 'Ana Gómez', 38000)
+    const approved = await fee(catalog, ana, '2026-11-01', { status: 'in_review' })
+    await receipt(catalog, approved)
+    await approveReceipt(catalog.tenant.id, approved.id, admin.id, NOW)
+    const frontDesk = await registerPayment(
+      catalog.tenant.id,
+      admin.id,
+      { userId: ana.user.id, period: '2026-10-01', amount: 38000, method: 'transfer' },
+      NOW
+    )
+    const inReview = await fee(catalog, ana, '2026-09-01', { status: 'in_review' })
+    await receipt(catalog, inReview)
+
+    const reasons = []
+    for (const [tenantId, feeId] of [
+      [other.tenant.id, approved.id],
+      [catalog.tenant.id, frontDesk.id],
+      [catalog.tenant.id, inReview.id],
+    ]) {
+      reasons.push(await undoApproval(tenantId, feeId).catch((error) => error.reason))
+    }
+
+    assert.deepEqual(reasons, ['not_found', 'not_approved', 'not_approved'])
+    await approved.refresh()
+    assert.equal(approved.status, 'paid')
+    await frontDesk.refresh()
+    assert.equal(frontDesk.status, 'paid')
   })
 
   test('a fee that is not in review cannot be approved or rejected twice', async ({ assert }) => {

@@ -134,6 +134,51 @@ test.group('Admin › Pagos', (group) => {
     assert.equal(receipt.status, 'approved')
   })
 
+  test('"Deshacer" right after approving sends the receipt back to Para revisar', async ({
+    client,
+    assert,
+  }) => {
+    const { catalog, admin } = await kinafWorld()
+    const { fee, receipt } = await feeInReview(catalog)
+
+    const approve = await client
+      .post(`/admin/pagos/${fee.id}/aprobar`)
+      .header('host', host)
+      .loginAs(admin)
+      .withCsrfToken()
+      .redirects(0)
+    approve.assertFlashMessage('approvedFeeId', fee.id)
+
+    const undo = await client
+      .post(`/admin/pagos/${fee.id}/deshacer`)
+      .header('host', host)
+      .loginAs(admin)
+      .withCsrfToken()
+      .redirects(0)
+
+    undo.assertStatus(302)
+    undo.assertHeader('location', '/admin/pagos')
+    await fee.refresh()
+    assert.equal(fee.status, 'in_review')
+    assert.isNull(fee.paidAt)
+    await receipt.refresh()
+    assert.equal(receipt.status, 'in_review')
+
+    const list = await client.get('/admin/pagos').header('host', host).loginAs(admin).withInertia()
+    assert.include(
+      list.inertiaProps.overview.review.map((row: { feeId: number }) => row.feeId),
+      fee.id
+    )
+
+    const again = await client
+      .post(`/admin/pagos/${fee.id}/deshacer`)
+      .header('host', host)
+      .loginAs(admin)
+      .withCsrfToken()
+      .redirects(0)
+    again.assertFlashMessage('error', 'Ese pago ya no se puede deshacer.')
+  })
+
   test('rejecting a receipt voids it and the student can upload another', async ({
     client,
     assert,

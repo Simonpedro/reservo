@@ -63,7 +63,7 @@ export type RegisterForm = {
   defaults: { userId: number | null; period: IsoDate }
 }
 
-export type PaymentFailure = 'not_found' | 'not_in_review' | 'paid' | 'no_plan'
+export type PaymentFailure = 'not_found' | 'not_in_review' | 'not_approved' | 'paid' | 'no_plan'
 
 export class PaymentError extends Error {
   constructor(readonly reason: PaymentFailure) {
@@ -223,6 +223,42 @@ export async function approveReceipt(
 
     fee.useTransaction(trx)
     fee.merge({ status: 'paid', method: 'transfer', paidAt: now, recordedById: adminId })
+    await fee.save()
+    await fee.load('user')
+    return fee
+  })
+}
+
+/**
+ * The admin approved by mistake: the fee and its receipt go back to review,
+ * as before the approval. Only a fee paid by approving a receipt qualifies;
+ * cash, forced or front-desk transfers are not undone here.
+ */
+export async function undoApproval(tenantId: number, feeId: number): Promise<MonthlyFee> {
+  return db.transaction(async (trx) => {
+    const fee = await MonthlyFee.query({ client: trx })
+      .where('tenantId', tenantId)
+      .where('id', feeId)
+      .forUpdate()
+      .first()
+    if (!fee) throw new PaymentError('not_found')
+
+    const receipt = await Receipt.query({ client: trx })
+      .where('tenantId', tenantId)
+      .where('monthlyFeeId', fee.id)
+      .orderBy('createdAt', 'desc')
+      .orderBy('id', 'desc')
+      .first()
+    if (fee.status !== 'paid' || fee.method !== 'transfer' || receipt?.status !== 'approved') {
+      throw new PaymentError('not_approved')
+    }
+
+    receipt.useTransaction(trx)
+    receipt.status = 'in_review'
+    await receipt.save()
+
+    fee.useTransaction(trx)
+    fee.merge({ status: 'in_review', method: null, paidAt: null, recordedById: null })
     await fee.save()
     await fee.load('user')
     return fee
