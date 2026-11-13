@@ -1,3 +1,4 @@
+import { PendingClassFactory } from '#database/factories/booking_factories'
 import ClassSession from '#models/class_session'
 import PendingClass from '#models/pending_class'
 import { BUSINESS_ZONE } from '#services/business_calendar'
@@ -79,6 +80,42 @@ test.group('Attendance', (group) => {
     assert.equal(juan.booking.status, 'absent')
     const pending = await PendingClass.query().where('userId', juan.user.id).firstOrFail()
     assert.equal(pending.status, 'available')
+  })
+  test('a booking made with a pending class gives that same pending back, and undo uses it again', async ({
+    assert,
+  }) => {
+    const { catalog, schedule } = await yogaClass()
+    const student = await createStudent(catalog, { schedules: [schedule], fullName: 'Juan Ponce' })
+    const origin = await createBooking(catalog, student, schedule, wednesday.minus({ weeks: 1 }))
+    const used = await PendingClassFactory.merge({
+      tenantId: catalog.tenant.id,
+      userId: student.user.id,
+      planQuotaId: student.quota.id,
+      originBookingId: origin.id,
+      expiresOn: wednesday.plus({ days: 4 }),
+      status: 'used',
+    }).create()
+    const booking = await createBooking(catalog, student, schedule, wednesday, {
+      source: 'pending',
+      pendingClassId: used.id,
+    })
+    await used.merge({ usedBookingId: booking.id }).save()
+
+    await new Attendance().markAbsent(booking)
+
+    await used.refresh()
+    assert.equal(used.status, 'available')
+    assert.isNull(used.usedBookingId)
+    assert.equal(used.expiresOn.toISODate(), '2026-11-15')
+    assert.lengthOf(await PendingClass.query().where('originBookingId', booking.id), 0)
+
+    await new Attendance().undoAbsent(booking)
+
+    await used.refresh()
+    await booking.refresh()
+    assert.equal(booking.status, 'active')
+    assert.equal(used.status, 'used')
+    assert.equal(used.usedBookingId, booking.id)
   })
 })
 

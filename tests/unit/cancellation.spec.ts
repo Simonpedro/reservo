@@ -191,4 +191,36 @@ test.group('Cancellation', (group) => {
 
     assert.equal(error.reason, 'too_late')
   })
+
+  test('undoing the cancellation of a booking made with a pending class uses it again', async ({
+    assert,
+  }) => {
+    const { catalog, schedule, student, booking: origin } = await world()
+    const used = await PendingClassFactory.merge({
+      tenantId: catalog.tenant.id,
+      userId: student.user.id,
+      planQuotaId: student.quota.id,
+      originBookingId: origin.id,
+      expiresOn: at('2026-11-29'),
+      status: 'used',
+    }).create()
+    const extra = await createBooking(catalog, student, schedule, at('2026-11-23'), {
+      source: 'pending',
+      pendingClassId: used.id,
+    })
+    await used.merge({ usedBookingId: extra.id }).save()
+    await cancellation.cancel(extra, onTime)
+
+    await cancellation.undo(extra, onTime.plus({ minutes: 1 }))
+
+    await extra.refresh()
+    await used.refresh()
+    assert.equal(extra.status, 'active')
+    assert.equal(used.status, 'used')
+    assert.equal(used.usedBookingId, extra.id)
+    assert.lengthOf(
+      await PendingClass.query().where('userId', student.user.id).where('status', 'available'),
+      0
+    )
+  })
 })
