@@ -18,7 +18,7 @@ export default function InvalidAccess({ reason }: { reason: keyof typeof TITLES 
     <>
       <Head title="Link de acceso" />
       <main className="mx-auto flex min-h-svh w-full max-w-[430px] flex-col justify-center px-5 pb-32">
-        <EmptyState icon={Link2Off} title={TITLES[reason]}>
+        <EmptyState icon={Link2Off} title={TITLES[reason]} titleAs="h1">
           {`Pedile a ${center} un link nuevo y entrá desde ahí.`}
         </EmptyState>
       </main>

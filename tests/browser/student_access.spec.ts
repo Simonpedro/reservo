@@ -32,7 +32,9 @@ test.group('Student access', (group) => {
   test('a broken link explains what to do', async ({ visit }) => {
     const page = await visit(`${origin()}/acceso/no-sirve`)
 
-    await page.assertTextContains('h2', 'Este link no funciona.')
+    await page.assertVisible(
+      page.getByRole('heading', { level: 1, name: 'Este link no funciona.' })
+    )
     await page.assertTextContains('main', 'Pedile a Kinaf un link nuevo')
   })
 })

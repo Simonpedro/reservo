@@ -4,19 +4,24 @@ export function EmptyState({
   icon: Icon,
   title,
   children,
+  titleAs: Title = 'h2',
 }: {
   icon: LucideIcon
   title: string
   children: string
+  /**
+   * `h1` when the empty state is the whole page.
+   */
+  titleAs?: 'h1' | 'h2'
 }) {
   return (
     <section className="flex flex-col items-center px-3 pt-10 pb-6 text-center">
       <div className="mb-4 grid size-16 place-items-center rounded-full bg-wash-celeste">
         <Icon className="size-[30px]" strokeWidth={2.2} aria-hidden="true" />
       </div>
-      <h2 className="max-w-[290px] text-[22px] leading-[1.1] font-black tracking-[-0.04em]">
+      <Title className="max-w-[290px] text-[22px] leading-[1.1] font-black tracking-[-0.04em]">
         {title}
-      </h2>
+      </Title>
       <p className="mt-2.5 max-w-[290px] text-base leading-[1.35] font-bold">{children}</p>
     </section>
   )
