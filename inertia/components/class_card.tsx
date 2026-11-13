@@ -110,21 +110,10 @@ export function ClassCard({
   }, [returning])
   const names = (name: string) => (returning ? { viewTransitionName: name } : undefined)
 
-  const label = [
-    card.activity.name,
-    `${card.dayLabel} ${card.startTime}`,
-    card.instructorName,
-    card.centerName,
-    card.suspended ? 'suspendida' : null,
-  ]
-    .filter(Boolean)
-    .join(', ')
-
   return (
     <Link
       href={href}
       viewTransition
-      aria-label={label}
       onClick={(event) => markForTransition(event.currentTarget as HTMLElement)}
       style={names(TRANSITION_NAMES.background)}
       className={cn(

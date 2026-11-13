@@ -20,7 +20,7 @@ test.group('Student access', (group) => {
       })
     )
 
-    const firstClass = page.getByRole('link', { name: /^(Pilates|Yoga), / }).first()
+    const firstClass = page.getByRole('link', { name: /^(Pilates|Yoga)/ }).first()
     await page.assertVisible(firstClass)
 
     await firstClass.click()
