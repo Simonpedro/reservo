@@ -8,6 +8,7 @@ export const controllers = {
   ChooseClass: () => import('#controllers/choose_class_controller'),
   Dashboard: () => import('#controllers/dashboard_controller'),
   Home: () => import('#controllers/home_controller'),
+  InternalDaily: () => import('#controllers/internal_daily_controller'),
   MyClasses: () => import('#controllers/my_classes_controller'),
   MyPlan: () => import('#controllers/my_plan_controller'),
   Payments: () => import('#controllers/payments_controller'),

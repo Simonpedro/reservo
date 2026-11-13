@@ -34,4 +34,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   // Seeds the demo student and her access link outside development/test.
   DEMO_SEED: Env.schema.boolean.optional(),
+
+  // Bearer token for POST /internal/daily-run (unset → route 404).
+  DAILY_RUN_TOKEN: Env.schema.string.optional(),
 })

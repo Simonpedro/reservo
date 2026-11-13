@@ -18,8 +18,10 @@ const MyClassesController = () => import('#controllers/my_classes_controller')
 const ChooseClassController = () => import('#controllers/choose_class_controller')
 const MyPlanController = () => import('#controllers/my_plan_controller')
 const PaymentsController = () => import('#controllers/payments_controller')
+const InternalDailyController = () => import('#controllers/internal_daily_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
+router.post('/internal/daily-run', [InternalDailyController, 'run']).as('internal.dailyRun')
 
 router
   .group(() => {
