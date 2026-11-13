@@ -4,7 +4,7 @@ export function roleHome(role: UserRole) {
   const paths: Record<UserRole, string> = {
     admin: '/admin',
     instructor: '/instructor',
-    client: '/portal',
+    client: '/clases',
   }
 
   return paths[role]

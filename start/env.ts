@@ -31,4 +31,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   APP_BASE_DOMAIN: Env.schema.string.optional(),
   DEFAULT_TENANT_SLUG: Env.schema.string.optional(),
   FALLBACK_TENANT_SLUG: Env.schema.string.optional(),
+
+  // Seeds the demo student and her access link outside development/test.
+  DEMO_SEED: Env.schema.boolean.optional(),
 })

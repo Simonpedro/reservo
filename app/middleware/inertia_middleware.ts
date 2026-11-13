@@ -27,6 +27,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
               name: tenant.name,
               slug: tenant.slug,
               theme: tenant.theme,
+              whatsappPhone: tenant.whatsappPhone,
               themeCss: tenantThemeCss(tenant.theme),
             }
           : null
@@ -38,6 +39,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
               email: auth.user.email,
               fullName: auth.user.fullName,
               role: auth.user.role,
+              phone: auth.user.phone,
             }
           : null,
       }),

@@ -10,14 +10,17 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
+const HomeController = () => import('#controllers/home_controller')
 const SessionController = () => import('#controllers/session_controller')
+const AccessController = () => import('#controllers/access_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
+const MyClassesController = () => import('#controllers/my_classes_controller')
 
 router.get('/health', () => ({ status: 'ok' })).as('health')
 
 router
   .group(() => {
-    router.on('/').renderInertia('home', {}).as('home')
+    router.get('/', [HomeController, 'index']).as('home')
 
     router
       .group(() => {
@@ -26,6 +29,11 @@ router
       })
       .use(middleware.requireTenant())
       .use(middleware.guest())
+
+    router
+      .get('/acceso/:token', [AccessController, 'show'])
+      .as('access.show')
+      .use(middleware.requireTenant())
 
     router
       .group(() => {
@@ -43,8 +51,22 @@ router
           .use(middleware.role({ roles: ['instructor'] }))
 
         router
-          .on('/portal')
-          .renderInertia('dashboard', { section: 'client' })
+          .group(() => {
+            router.get('/clases', [MyClassesController, 'index']).as('client.classes')
+            router
+              .get('/clases/:id', [MyClassesController, 'show'])
+              .where('id', router.matchers.number())
+              .as('client.classes.show')
+            router
+              .on('/plan')
+              .renderInertia('client/coming_soon', { tab: 'plan' })
+              .as('client.plan')
+            router
+              .on('/pagos')
+              .renderInertia('client/coming_soon', { tab: 'payments' })
+              .as('client.payments')
+            router.on('/perfil').renderInertia('client/profile', {}).as('client.profile')
+          })
           .use(middleware.role({ roles: ['client'] }))
       })
       .use(middleware.requireTenant())

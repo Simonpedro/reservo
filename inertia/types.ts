@@ -18,6 +18,7 @@ export type TenantProps = {
     logoUrl?: string
   }
   themeCss: string
+  whatsappPhone: string | null
 }
 
 export type SharedProps = Record<string, unknown> & {
@@ -28,6 +29,7 @@ export type SharedProps = Record<string, unknown> & {
       email: string
       fullName: string
       role: UserRole
+      phone: string | null
     } | null
   }
   errors?: Record<string, string>
