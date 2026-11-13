@@ -42,7 +42,7 @@ export default function NewAdminClient() {
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.fullName && (
-            <p role="status" className="text-sm font-bold text-destructive">
+            <p role="status" className="text-sm font-extrabold text-foreground">
               {form.errors.fullName}
             </p>
           )}
@@ -64,7 +64,7 @@ export default function NewAdminClient() {
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.email && (
-            <p role="status" className="text-sm font-bold text-destructive">
+            <p role="status" className="text-sm font-extrabold text-foreground">
               {form.errors.email}
             </p>
           )}
@@ -85,7 +85,7 @@ export default function NewAdminClient() {
             className="min-h-12 w-full rounded-full border-2 border-transparent bg-input px-4 text-base font-bold outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           />
           {form.errors.phone && (
-            <p role="status" className="text-sm font-bold text-destructive">
+            <p role="status" className="text-sm font-extrabold text-foreground">
               {form.errors.phone}
             </p>
           )}

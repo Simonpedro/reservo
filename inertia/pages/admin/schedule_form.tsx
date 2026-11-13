@@ -46,7 +46,7 @@ function Field({
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="text-sm font-bold text-destructive">
+        <p id={`${id}-error`} className="text-sm font-extrabold text-foreground">
           {error}
         </p>
       )}

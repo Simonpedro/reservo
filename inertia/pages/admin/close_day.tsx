@@ -70,7 +70,7 @@ export default function AdminCloseDay({ view }: { view: CloseDayView }) {
             className={fieldClass}
           />
           {errors.reason && (
-            <p id="reason-error" className="text-sm font-bold text-destructive">
+            <p id="reason-error" className="text-sm font-extrabold text-foreground">
               {errors.reason}
             </p>
           )}

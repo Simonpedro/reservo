@@ -24,7 +24,7 @@ function formatAmount(digits: string) {
 function FieldError({ message }: { message?: string }) {
   if (!message) return null
   return (
-    <p role="status" className="text-sm font-bold text-destructive">
+    <p role="status" className="text-sm font-extrabold text-foreground">
       {message}
     </p>
   )
